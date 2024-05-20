@@ -26,7 +26,7 @@ export default function GroupsForYou() {
 
   return (
     <div>
-      <div className="flex flex-col center-items">
+      <div className="flex flex-col mt-3 center-items">
         <div className="flex flex-col">
           <div className="text-subTitle">Groups for you</div>
           <Group />

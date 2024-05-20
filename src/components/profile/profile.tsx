@@ -1,12 +1,41 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
+import { useState } from "react";
 
 import userIcon from "../../../public/userIcon.svg";
 import locationIcon from "../../../public/locationIcon.svg";
 import editProfileIcon from "../../../public/editProfileIcon.svg";
 import permanentJobIcon from "../../../public/permanentJobIcon.svg";
+import ProfilePosts from "./profilePosts";
+import ProfileReplies from "./profileReplies";
+import ProfileLikes from "./profileLikes";
+
+export interface ProfileProps {
+  onClick: void;
+}
 
 export default function Profile() {
+  const [activeProfileMenu, setActiveProfileMenu] = useState("Posts");
+
+  const onActiveProfileMenuChange = (menu: string) => {
+    setActiveProfileMenu(menu);
+  };
+
+  const renderContent = () => {
+    switch (activeProfileMenu) {
+      case "Likes":
+        return;
+        <ProfileLikes />;
+      case "Replies":
+        return <ProfileReplies />;
+
+      default:
+        return <ProfilePosts />;
+    }
+  };
+
   return (
     <div>
       <div className="text-subTitle">Your Profile</div>
@@ -81,6 +110,41 @@ export default function Profile() {
             Learn More about Dimitar
           </button>
         </div>
+      </div>
+      <div className="flex flex-col mt-8">
+        <div className="flex flex-row text-subTitle space-x-4  ">
+          <button
+            className={`p-2 pl-4 pr-4 ${
+              activeProfileMenu === "Posts"
+                ? "bg-componentBackground rounded-md"
+                : ""
+            }`}
+            onClick={() => onActiveProfileMenuChange("Posts")}
+          >
+            Posts
+          </button>
+          <button
+            className={`p-2 pl-4 pr-4 ${
+              activeProfileMenu === "Likes"
+                ? "bg-componentBackground rounded-md"
+                : ""
+            }`}
+            onClick={() => onActiveProfileMenuChange("Likes")}
+          >
+            Likes
+          </button>
+          <button
+            className={`p-2 pl-4 pr-4 ${
+              activeProfileMenu === "Replies"
+                ? "bg-componentBackground rounded-md"
+                : ""
+            }`}
+            onClick={() => onActiveProfileMenuChange("Replies")}
+          >
+            Replies
+          </button>
+        </div>
+        {renderContent()}
       </div>
     </div>
   );

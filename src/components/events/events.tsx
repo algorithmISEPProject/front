@@ -26,7 +26,7 @@ export default function Events() {
 
   return (
     <div>
-      <div className="flex flex-col center-items">
+      <div className="flex flex-col mt-3 center-items">
         <div className="flex flex-col">
           <div className="text-subTitle">Events for you</div>
           <Event />
