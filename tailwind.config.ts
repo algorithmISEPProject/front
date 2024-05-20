@@ -26,6 +26,7 @@ const config: Config = {
         subTitle: "#A0A0A0",
         subtileText: "#3E3E3E",
         iconInactive: "#717171",
+        hobbies: "#72FFD5",
         error: "#FF7272",
         success: "#72FFD5",
       },

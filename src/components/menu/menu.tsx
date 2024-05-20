@@ -15,11 +15,14 @@ import calendarIcon from "../../../public/calendarIcon.svg";
 import userIcon from "../../../public/userIcon.svg";
 import searchIcon from "../../../public/searchIcon.svg";
 
-export default function Menu() {
-  const [activeMenu, setActiveMenu] = useState("Home");
+interface MenuProps {
+  activeMenu: string;
+  onChangeMenu: (menu: string) => void;
+}
 
+export default function Menu({ activeMenu, onChangeMenu }: MenuProps) {
   return (
-    <div>
+    <div className="">
       <div className="columns-1 flex flex-col h-screen mx-auto bg-componentBackground pt-7 pl-6 text-subTitle items-center">
         <div className="space-y-4 mr-6">
           <div className="flex flex-row space-x-32">
@@ -46,7 +49,7 @@ export default function Menu() {
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
             }`}
-            onClick={() => setActiveMenu("Home")}
+            onClick={() => onChangeMenu("Home")}
           >
             <div className="mr-5">
               <Image alt="homeIcon" src={homeIcon} height={25} width={25} />
@@ -60,7 +63,7 @@ export default function Menu() {
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
             }`}
-            onClick={() => setActiveMenu("Notifications")}
+            onClick={() => onChangeMenu("Notifications")}
           >
             <div className="mr-5 ">
               <Image
@@ -78,7 +81,7 @@ export default function Menu() {
                 ? "bg-btn-background rounded-md text-white"
                 : ""
             }`}
-            onClick={() => setActiveMenu("Messages")}
+            onClick={() => onChangeMenu("Messages")}
           >
             <div className="mr-5">
               <Image
@@ -96,7 +99,7 @@ export default function Menu() {
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
             }`}
-            onClick={() => setActiveMenu("Groups")}
+            onClick={() => onChangeMenu("Groups")}
           >
             <div className="mr-5">
               <Image alt="groupsIcon" src={groupIcon} height={25} width={25} />
@@ -109,7 +112,7 @@ export default function Menu() {
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
             }`}
-            onClick={() => setActiveMenu("Events")}
+            onClick={() => onChangeMenu("Events")}
           >
             <div className="mr-5">
               <Image alt="eventsIcon" src={groupIcon} height={25} width={25} />
@@ -122,7 +125,7 @@ export default function Menu() {
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
             }`}
-            onClick={() => setActiveMenu("Profile")}
+            onClick={() => onChangeMenu("Profile")}
           >
             <div className="mr-5">
               <Image alt="profile" src={userIcon} height={25} width={25} />
@@ -135,7 +138,7 @@ export default function Menu() {
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
             }`}
-            onClick={() => setActiveMenu("Settings")}
+            onClick={() => onChangeMenu("Settings")}
           >
             <div className="mr-5">
               <Image alt="settings" src={settingsIcon} height={25} width={25} />
