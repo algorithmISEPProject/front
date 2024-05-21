@@ -11,6 +11,8 @@ import permanentJobIcon from "../../../public/permanentJobIcon.svg";
 import ProfilePosts from "./profilePosts";
 import ProfileReplies from "./profileReplies";
 import ProfileLikes from "./profileLikes";
+import ProfileEditModal from "./profileEditModal";
+import ProfileInfoEditModal from "./profileInfoEditModal";
 
 export interface ProfileProps {
   onClick: void;
@@ -18,16 +20,43 @@ export interface ProfileProps {
 
 export default function Profile() {
   const [activeProfileMenu, setActiveProfileMenu] = useState("Posts");
+  const [userPseudo, setUserPseudo] = useState(""); //will later allow to fetch only the tweets, likes and replies from the connected user
+  const [activeProfileEdit, setActiveProfileEdit] = useState(false);
+  const [activeInfoEdit, setActiveInfoEdit] = useState(false);
 
   const onActiveProfileMenuChange = (menu: string) => {
     setActiveProfileMenu(menu);
+  };
+  const onEditProfile = () => {
+    setActiveProfileEdit(!activeProfileEdit);
+  };
+
+  const onEditInfo = () => {
+    setActiveInfoEdit(!activeInfoEdit);
+  };
+
+  const renderContentEditProfile = () => {
+    switch (activeProfileEdit) {
+      case true:
+        return <ProfileEditModal />;
+      case false:
+        return <div>Bonjour</div>;
+    }
+  };
+
+  const renderContentEditInfo = () => {
+    switch (activeInfoEdit) {
+      case true:
+        return <ProfileInfoEditModal />;
+      case false:
+        return;
+    }
   };
 
   const renderContent = () => {
     switch (activeProfileMenu) {
       case "Likes":
-        return;
-        <ProfileLikes />;
+        return <ProfileLikes />;
       case "Replies":
         return <ProfileReplies />;
 
@@ -49,15 +78,18 @@ export default function Profile() {
               <div>@didmitroweb</div>
             </div>
           </div>
-
-          <div className="flex flex-row items-center">
-            <div>Edit Profile</div>
+          <button
+            className="flex flex-row items-center"
+            onClick={onEditProfile}
+          >
+            Edit Profile
             <Image
               className="ml-3"
               alt="editProfileIcon"
               src={editProfileIcon}
             />
-          </div>
+            {renderContentEditProfile()}
+          </button>
         </div>
         <div className="flex flex-col">
           <div className="text-white text-lg">This is a test description</div>
@@ -94,10 +126,11 @@ export default function Profile() {
       <div className="flex flex-col bg-componentBackground my-2 p-2 rounded-md border-2 border-componentOutline text-subTitle">
         <div className="flex flex-row w-full space-x-96 mt-3">
           <div>Hobbies</div>
-          <div className="flex flex-row">
+          <button className="flex flex-row items-center" onClick={onEditInfo}>
             <div className="mr-3">Edit Info</div>
             <Image alt="editInfoIcon" src={editProfileIcon} />
-          </div>
+            {renderContentEditInfo()}
+          </button>
         </div>
         <div className="flex flex-row mt-3 w-full text-background items-center">
           <div className="bg-hobbies p-1.5 rounded-md mr-2">Video Games</div>

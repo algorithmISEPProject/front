@@ -4,6 +4,15 @@ import textModif from "../../../public/textModif.svg";
 
 import Image from "next/image";
 
+export interface PostProps {
+  userImage: string;
+  userPseudo: string;
+  userName: string;
+  content: string;
+  numberLikes: number;
+  numberComments: number;
+}
+
 export default function Post() {
   return (
     <div>

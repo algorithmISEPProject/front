@@ -1,5 +1,12 @@
 import React from "react";
+import Feed from "../feed/feed";
 
 export default function ProfileLikes() {
-  return <div>Likes</div>;
+  return (
+    <div>
+      <Feed />
+      <Feed />
+      <Feed />
+    </div>
+  );
 }
