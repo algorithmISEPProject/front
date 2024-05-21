@@ -1,19 +1,34 @@
 import userIcon from "../../../public/userIcon.svg";
 
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 import React from "react";
 
-export default function Suggestions() {
+export interface SuggestionsProps {
+  userName: string;
+  userImage?: StaticImageData | undefined;
+  hobby: string;
+}
+
+export default function Suggestions(props: SuggestionsProps) {
   const Suggestion = () => {
     return (
       <div className=" flex flex-row my-1 bg-inputField-background rounded-md border-2 border-componentOutline w-5/6 h-24  justify-center items-center">
         <div className="flex flex-row  w-full p-1 ">
-          <Image alt="userIcon" src={userIcon} height={40} width={40} />
+          {props.userImage ? (
+            <Image
+              alt="userIcon"
+              src={props.userImage}
+              height={45}
+              width={45}
+            />
+          ) : (
+            <Image alt="userIcon" src={userIcon} height={40} width={40} />
+          )}
           <div className="flex flex-col text-subTitle items-left">
-            <div className="ml-2 text-white">Victor</div>
+            <div className="ml-2 text-white">{props.userName}</div>
             <div className="flex flex-row ml-2">
-              Loves <div className="text-green-500">Hiking</div> like you
+              Loves <div className="text-green-500">{props.hobby}</div> like you
             </div>
           </div>
         </div>
