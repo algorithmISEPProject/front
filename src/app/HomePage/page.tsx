@@ -45,7 +45,37 @@ export default function HomePage() {
       case "Messages":
         return <div>Messages Component</div>;
       case "Groups":
-        return <GroupsForYou />;
+        return (
+          <div>
+            <div className="flex flex-col mt-3 center-items">
+              <div className="flex flex-col">
+                <div className="text-subTitle">Groups for you</div>
+
+                <GroupsForYou
+                  groupsName="Video Games"
+                  groupsNumber={300}
+                  groupImage={kingWhale}
+                />
+                <GroupsForYou
+                  groupsName="Tennis"
+                  groupsNumber={10000}
+                  groupImage={kingWhale}
+                />
+                <GroupsForYou
+                  groupsName="Climbing"
+                  groupsNumber={300}
+                  groupImage={kingWhale}
+                />
+
+                <div className="bg-background text-subTitle w-5/6 mt-2">
+                  <button className="pl-2 pr-4 py-2 border w-full rounded-lg">
+                    See More
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
       case "Events":
         return (
           <Events
@@ -92,7 +122,12 @@ export default function HomePage() {
   return (
     <div className="flex flex-row bg-background h-screen  space-x-32 ">
       <div className="columns-1 w-1/6 bg-white ">
-        <Menu onChangeMenu={onChangeMenu} activeMenu={activeMenu} />
+        <Menu
+          onChangeMenu={onChangeMenu}
+          activeMenu={activeMenu}
+          userName="Dimitar Dimitrov"
+          userPseudo="dimitroweb"
+        />
       </div>
       <div className="columns-2 flex flex-col w-4/6 pt-10 h-screen center-items">
         <div className=" flex flex-col w-full">{renderContent()}</div>
@@ -110,6 +145,16 @@ export default function HomePage() {
         />
         <GroupsForYou
           groupsName="Video Games"
+          groupsNumber={300}
+          groupImage={kingWhale}
+        />
+        <GroupsForYou
+          groupsName="Tennis"
+          groupsNumber={10000}
+          groupImage={kingWhale}
+        />
+        <GroupsForYou
+          groupsName="Climbing"
           groupsNumber={300}
           groupImage={kingWhale}
         />

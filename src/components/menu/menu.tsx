@@ -18,9 +18,11 @@ import searchIcon from "../../../public/searchIcon.svg";
 interface MenuProps {
   activeMenu: string;
   onChangeMenu: (menu: string) => void;
+  userName: string;
+  userPseudo: string;
 }
 
-export default function Menu({ activeMenu, onChangeMenu }: MenuProps) {
+export default function Menu(props: MenuProps) {
   return (
     <div className="">
       <div className="columns-1 flex flex-col h-screen mx-auto bg-componentBackground pt-7 pl-6 text-subTitle items-center">
@@ -45,11 +47,11 @@ export default function Menu({ activeMenu, onChangeMenu }: MenuProps) {
           </div>
           <div
             className={`flex flex-row items-center p-2 ${
-              activeMenu === "Home"
+              props.activeMenu === "Home"
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
             }`}
-            onClick={() => onChangeMenu("Home")}
+            onClick={() => props.onChangeMenu("Home")}
           >
             <div className="mr-5">
               <Image alt="homeIcon" src={homeIcon} height={25} width={25} />
@@ -59,11 +61,11 @@ export default function Menu({ activeMenu, onChangeMenu }: MenuProps) {
 
           <div
             className={`flex flex-row items-center p-2 ${
-              activeMenu === "Notifications"
+              props.activeMenu === "Notifications"
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
             }`}
-            onClick={() => onChangeMenu("Notifications")}
+            onClick={() => props.onChangeMenu("Notifications")}
           >
             <div className="mr-5 ">
               <Image
@@ -77,11 +79,11 @@ export default function Menu({ activeMenu, onChangeMenu }: MenuProps) {
           </div>
           <div
             className={`flex flex-row items-center p-2 ${
-              activeMenu === "Messages"
+              props.activeMenu === "Messages"
                 ? "bg-btn-background rounded-md text-white"
                 : ""
             }`}
-            onClick={() => onChangeMenu("Messages")}
+            onClick={() => props.onChangeMenu("Messages")}
           >
             <div className="mr-5">
               <Image
@@ -95,11 +97,11 @@ export default function Menu({ activeMenu, onChangeMenu }: MenuProps) {
           </div>
           <div
             className={`flex flex-row items-center p-2 ${
-              activeMenu === "Groups"
+              props.activeMenu === "Groups"
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
             }`}
-            onClick={() => onChangeMenu("Groups")}
+            onClick={() => props.onChangeMenu("Groups")}
           >
             <div className="mr-5">
               <Image alt="groupsIcon" src={groupIcon} height={25} width={25} />
@@ -108,11 +110,11 @@ export default function Menu({ activeMenu, onChangeMenu }: MenuProps) {
           </div>
           <div
             className={`flex flex-row items-center p-2 ${
-              activeMenu === "Events"
+              props.activeMenu === "Events"
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
             }`}
-            onClick={() => onChangeMenu("Events")}
+            onClick={() => props.onChangeMenu("Events")}
           >
             <div className="mr-5">
               <Image alt="eventsIcon" src={groupIcon} height={25} width={25} />
@@ -121,11 +123,11 @@ export default function Menu({ activeMenu, onChangeMenu }: MenuProps) {
           </div>
           <div
             className={`flex flex-row items-center p-2 ${
-              activeMenu === "Profile"
+              props.activeMenu === "Profile"
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
             }`}
-            onClick={() => onChangeMenu("Profile")}
+            onClick={() => props.onChangeMenu("Profile")}
           >
             <div className="mr-5">
               <Image alt="profile" src={userIcon} height={25} width={25} />
@@ -134,11 +136,11 @@ export default function Menu({ activeMenu, onChangeMenu }: MenuProps) {
           </div>
           <div
             className={`flex flex-row items-center p-2 ${
-              activeMenu === "Settings"
+              props.activeMenu === "Settings"
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
             }`}
-            onClick={() => onChangeMenu("Settings")}
+            onClick={() => props.onChangeMenu("Settings")}
           >
             <div className="mr-5">
               <Image alt="settings" src={settingsIcon} height={25} width={25} />
@@ -151,8 +153,8 @@ export default function Menu({ activeMenu, onChangeMenu }: MenuProps) {
             <Image alt="profile" src={userIcon} height={32} width={32} />
           </div>
           <div>
-            <div className="text-white">Dimitar Dimitrov</div>
-            <div>@dimitroweb</div>
+            <div className="text-white">{props.userName}</div>
+            <div>@{props.userPseudo}</div>
           </div>
         </div>
       </div>
