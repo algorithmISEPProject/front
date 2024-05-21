@@ -3,10 +3,13 @@ import Image from "next/image";
 import userIcon from "../../../../public/userIcon.svg";
 import editProfileIcon from "../../../../public/editProfileIcon.svg";
 import closeIcon from "../../../../public/closeIcon.svg";
+import { ProfileYouProps } from "./profileYou";
 
 interface ProfileEditModalProps {
   activeProfileEdit: boolean;
   onEditProfile: (activeProfileEdit: boolean) => void;
+
+  onSave: () => void;
 }
 
 export default function ProfileEditModal({

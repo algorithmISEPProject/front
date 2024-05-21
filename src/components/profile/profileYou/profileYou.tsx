@@ -47,6 +47,8 @@ export default function ProfileYou(props: ProfileYouProps) {
     setActiveInfoProfileEdit(!activeInfoProfileEdit);
   };
 
+  const onSave = () => {};
+
   const renderContentEditProfile = () => {
     switch (activeProfileEdit) {
       case true:
@@ -54,6 +56,7 @@ export default function ProfileYou(props: ProfileYouProps) {
           <ProfileEditModal
             activeProfileEdit={activeProfileEdit}
             onEditProfile={onEditProfile}
+            onSave={onSave}
           />
         );
       case false:

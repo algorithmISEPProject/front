@@ -47,7 +47,13 @@ export default function HomePage() {
       case "Groups":
         return <GroupsForYou />;
       case "Events":
-        return <Events />;
+        return (
+          <Events
+            eventImage={kingWhale}
+            eventName="Highschool Gathering"
+            date="3rd June"
+          />
+        );
       case "Settings":
         return <Settings />;
 
@@ -97,7 +103,11 @@ export default function HomePage() {
           userImage={kingWhale}
           hobby="Hiking"
         />
-        <Events />
+        <Events
+          eventImage={kingWhale}
+          eventName="Highschool Gathering"
+          date="3rd June"
+        />
         <GroupsForYou />
       </div>
     </div>
