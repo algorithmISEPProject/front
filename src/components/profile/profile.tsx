@@ -40,7 +40,7 @@ export default function Profile() {
       case true:
         return <ProfileEditModal />;
       case false:
-        return <div>Bonjour</div>;
+        return;
     }
   };
 
