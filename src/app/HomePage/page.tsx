@@ -14,6 +14,7 @@ import ProfileYou from "@/components/profile/profileYou/profileYou";
 import Settings from "@/components/settings/settings";
 import Notifications from "@/components/notifications/notifications";
 import ProfileSomeoneElse from "@/components/profile/profileSomeoneElse/profileSomeoneElse";
+import Groups from "@/components/groupsForYou/groups";
 
 export default function HomePage() {
   const [activeMenu, setActiveMenu] = useState("Home");
@@ -49,29 +50,22 @@ export default function HomePage() {
           <div>
             <div className="flex flex-col mt-3 center-items">
               <div className="flex flex-col">
-                <div className="text-subTitle">Groups for you</div>
+                <div className="text-subtileText mb-2">Create</div>
+                <button className="text-subTitle bg-inputField-background mb-2 pl-2 pr-4 py-2 border border-inputField-outline w-full rounded-lg">
+                  + Create a new group
+                </button>
+                <div className="text-subtileText mb-2">Groups</div>
 
-                <GroupsForYou
-                  groupsName="Video Games"
-                  groupsNumber={300}
-                  groupImage={kingWhale}
+                <Groups
+                  profileGroupName="Video Games"
+                  profileGroupMembersNumber={300}
+                  profileJoinedGroup={true}
                 />
-                <GroupsForYou
-                  groupsName="Tennis"
-                  groupsNumber={10000}
-                  groupImage={kingWhale}
+                <Groups
+                  profileGroupName="Pet Walking"
+                  profileGroupMembersNumber={300}
+                  profileJoinedGroup={false}
                 />
-                <GroupsForYou
-                  groupsName="Climbing"
-                  groupsNumber={300}
-                  groupImage={kingWhale}
-                />
-
-                <div className="bg-background text-subTitle w-5/6 mt-2">
-                  <button className="pl-2 pr-4 py-2 border w-full rounded-lg">
-                    See More
-                  </button>
-                </div>
               </div>
             </div>
           </div>
@@ -145,16 +139,6 @@ export default function HomePage() {
         />
         <GroupsForYou
           groupsName="Video Games"
-          groupsNumber={300}
-          groupImage={kingWhale}
-        />
-        <GroupsForYou
-          groupsName="Tennis"
-          groupsNumber={10000}
-          groupImage={kingWhale}
-        />
-        <GroupsForYou
-          groupsName="Climbing"
           groupsNumber={300}
           groupImage={kingWhale}
         />

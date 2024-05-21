@@ -44,6 +44,13 @@ export default function GroupsForYou(props: GroupsForYouProps) {
   return (
     <div>
       <Group />
+      <Group />
+      <Group />
+      <div className="bg-background text-subTitle w-5/6 mt-2">
+        <button className="pl-2 pr-4 py-2 border w-full rounded-lg">
+          See More
+        </button>
+      </div>
     </div>
   );
 }
