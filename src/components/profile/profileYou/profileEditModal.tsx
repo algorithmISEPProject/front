@@ -12,10 +12,7 @@ interface ProfileEditModalProps {
   onSave: () => void;
 }
 
-export default function ProfileEditModal({
-  activeProfileEdit,
-  onEditProfile,
-}: ProfileEditModalProps) {
+export default function ProfileEditModal(props: ProfileEditModalProps) {
   const onEditProfilePicture = () => {};
 
   return (
@@ -23,7 +20,7 @@ export default function ProfileEditModal({
       <div className="flex flex-col bg-componentBackground  my-2 p-2 rounded-md border-2 border-componentOutline text-subTitle">
         <div className="flex flex-row w-full ml-2 space-x-96">
           <div className="text-white">Edit Your Profile</div>
-          <button onClick={() => onEditProfile(activeProfileEdit)}>
+          <button onClick={() => props.onEditProfile(props.activeProfileEdit)}>
             <Image className="" alt="closeIcon" src={closeIcon} />
           </button>
         </div>

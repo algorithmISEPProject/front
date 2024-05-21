@@ -34,7 +34,7 @@ export default function ProfileYou(props: ProfileYouProps) {
   const [activeProfileMenu, setActiveProfileMenu] = useState("Posts");
   const [userPseudo, setUserPseudo] = useState(""); //will later allow to fetch only the tweets, likes and replies from the connected user
   const [activeProfileEdit, setActiveProfileEdit] = useState(false);
-  const [activeInfoProfileEdit, setActiveInfoProfileEdit] = useState(false);
+  const [activeProfileInfoEdit, setActiveProfileInfoEdit] = useState(false);
 
   const onActiveProfileMenuChange = (menu: string) => {
     setActiveProfileMenu(menu);
@@ -43,8 +43,8 @@ export default function ProfileYou(props: ProfileYouProps) {
     setActiveProfileEdit(!activeProfileEdit);
   };
 
-  const onEditInfo = () => {
-    setActiveInfoProfileEdit(!activeInfoProfileEdit);
+  const onEditInfoProfile = () => {
+    setActiveProfileInfoEdit(!activeProfileInfoEdit);
   };
 
   const onSave = () => {};
@@ -65,12 +65,16 @@ export default function ProfileYou(props: ProfileYouProps) {
   };
 
   const renderContentEditInfo = () => {
-    switch (activeInfoProfileEdit) {
+    switch (activeProfileInfoEdit) {
       case true:
         return (
           <ProfileInfoEditModal
-            activeProfileInfoEdit={activeInfoProfileEdit}
-            onEditInfoProfile={onEditProfile}
+            activeProfileInfoEdit={activeProfileInfoEdit}
+            onEditInfoProfile={onEditInfoProfile}
+            hobbies={["Video Games", "Sports", "Hiking", "Design"]}
+            loves={["Video Games", "Sports", "Hiking", "Design"]}
+            latestProjects={["Video Games", "Sports"]}
+            education={["Video Games", "Sports"]}
           />
         );
       case false:
@@ -176,11 +180,14 @@ export default function ProfileYou(props: ProfileYouProps) {
       <div className="flex flex-col bg-componentBackground my-2 p-2 rounded-md border-2 border-componentOutline text-subTitle">
         <div className="flex flex-row w-full space-x-96 mt-3">
           <div>Hobbies</div>
-          <button className="flex flex-row items-center" onClick={onEditInfo}>
+          <button
+            className="flex flex-row items-center"
+            onClick={onEditInfoProfile}
+          >
             <div className="mr-3">Edit Info</div>
             <Image alt="editInfoIcon" src={editProfileIcon} />
-            {renderContentEditInfo()}
           </button>
+          {renderContentEditInfo()}
         </div>
         <div className="flex flex-row mt-3 w-full text-background items-center">
           {renderContentHobbies()}

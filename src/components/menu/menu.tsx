@@ -45,8 +45,8 @@ export default function Menu(props: MenuProps) {
               className="pl-10 pr-4 py-2 border bg-btn-background rounded-lg"
             />
           </div>
-          <div
-            className={`flex flex-row items-center p-2 ${
+          <button
+            className={`flex flex-row w-full items-center p-2 ${
               props.activeMenu === "Home"
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
@@ -57,10 +57,10 @@ export default function Menu(props: MenuProps) {
               <Image alt="homeIcon" src={homeIcon} height={25} width={25} />
             </div>
             <div>Home</div>
-          </div>
+          </button>
 
-          <div
-            className={`flex flex-row items-center p-2 ${
+          <button
+            className={`flex flex-row w-full items-center p-2 ${
               props.activeMenu === "Notifications"
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
@@ -76,9 +76,9 @@ export default function Menu(props: MenuProps) {
               />
             </div>
             <div>Notifications</div>
-          </div>
-          <div
-            className={`flex flex-row items-center p-2 ${
+          </button>
+          <button
+            className={`flex flex-row w-full items-center p-2 ${
               props.activeMenu === "Messages"
                 ? "bg-btn-background rounded-md text-white"
                 : ""
@@ -94,9 +94,9 @@ export default function Menu(props: MenuProps) {
               />
             </div>
             <div>Messages</div>
-          </div>
-          <div
-            className={`flex flex-row items-center p-2 ${
+          </button>
+          <button
+            className={`flex flex-row w-full items-center p-2 ${
               props.activeMenu === "Groups"
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
@@ -107,9 +107,9 @@ export default function Menu(props: MenuProps) {
               <Image alt="groupsIcon" src={groupIcon} height={25} width={25} />
             </div>
             <div>Groups</div>
-          </div>
-          <div
-            className={`flex flex-row items-center p-2 ${
+          </button>
+          <button
+            className={`flex flex-row w-full items-center p-2 ${
               props.activeMenu === "Events"
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
@@ -120,9 +120,9 @@ export default function Menu(props: MenuProps) {
               <Image alt="eventsIcon" src={groupIcon} height={25} width={25} />
             </div>
             <div>Events</div>
-          </div>
-          <div
-            className={`flex flex-row items-center p-2 ${
+          </button>
+          <button
+            className={`flex flex-row w-full items-center p-2 ${
               props.activeMenu === "Profile"
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
@@ -133,9 +133,9 @@ export default function Menu(props: MenuProps) {
               <Image alt="profile" src={userIcon} height={25} width={25} />
             </div>
             <div>Profil</div>
-          </div>
-          <div
-            className={`flex flex-row items-center p-2 ${
+          </button>
+          <button
+            className={`flex flex-row w-full items-center p-2 ${
               props.activeMenu === "Settings"
                 ? "bg-btn-background rounded-md  text-white"
                 : ""
@@ -146,9 +146,9 @@ export default function Menu(props: MenuProps) {
               <Image alt="settings" src={settingsIcon} height={25} width={25} />
             </div>
             <div>Settings</div>
-          </div>
+          </button>
         </div>
-        <div className="flex flex-row mr-6 items-center p-2 bg-btn-background rounded-md my-24 w-full">
+        <button className="flex flex-row mr-6 items-center p-2 bg-btn-background rounded-md my-24 w-full">
           <div className="mr-5">
             <Image alt="profile" src={userIcon} height={32} width={32} />
           </div>
@@ -156,7 +156,7 @@ export default function Menu(props: MenuProps) {
             <div className="text-white">{props.userName}</div>
             <div>@{props.userPseudo}</div>
           </div>
-        </div>
+        </button>
       </div>
     </div>
   );
