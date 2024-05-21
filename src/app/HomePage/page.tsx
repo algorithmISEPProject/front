@@ -92,7 +92,11 @@ export default function HomePage() {
         <div className=" flex flex-col w-full">{renderContent()}</div>
       </div>
       <div className="columns-3 w-3/6 flex flex-col h-screen center-items pt-10">
-        <Suggestions />
+        <Suggestions
+          userName="Victor Dubrana"
+          userImage={kingWhale}
+          hobby="Hiking"
+        />
         <Events />
         <GroupsForYou />
       </div>
