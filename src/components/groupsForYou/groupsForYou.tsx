@@ -1,18 +1,35 @@
 import React from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 import userIcon from "../../../public/userIcon.svg";
 import groupNumberIcon from "../../../public/groupNumberIcon.svg";
 
-export default function GroupsForYou() {
+export interface GroupsForYouProps {
+  groupsName?: string;
+  groupsNumber?: number;
+  groupImage?: StaticImageData | undefined;
+}
+
+export default function GroupsForYou(props: GroupsForYouProps) {
   const Group = () => {
     return (
       <div className=" flex flex-row my-1 bg-inputField-background rounded-md border-2 border-componentOutline w-5/6 h-24  justify-center items-center">
         <div className="flex flex-row  w-full p-1 ">
-          <Image alt="userIcon" src={userIcon} height={40} width={40} />
+          {props.groupImage ? (
+            <Image
+              alt="userIcon"
+              src={props.groupImage}
+              height={40}
+              width={40}
+            />
+          ) : (
+            <Image alt="userIcon" src={userIcon} height={40} width={40} />
+          )}
           <div className="flex flex-col text-subTitle items-left">
-            <div className="ml-2 text-white">Video Games</div>
-            <div className="flex flex-row ml-2">Join 3M+ members</div>
+            <div className="ml-2 text-white">{props.groupsName}</div>
+            <div className="flex flex-row ml-2">
+              Join {props.groupsNumber} members
+            </div>
           </div>
         </div>
         <div className="bg-btn-background text-subTitle m-2 w-3/6">

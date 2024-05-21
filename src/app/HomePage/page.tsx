@@ -108,7 +108,11 @@ export default function HomePage() {
           eventName="Highschool Gathering"
           date="3rd June"
         />
-        <GroupsForYou />
+        <GroupsForYou
+          groupsName="Video Games"
+          groupsNumber={300}
+          groupImage={kingWhale}
+        />
       </div>
     </div>
   );
