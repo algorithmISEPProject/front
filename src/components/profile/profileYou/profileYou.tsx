@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { useState } from "react";
 
 import userIcon from "../../../../public/userIcon.svg";
@@ -15,42 +15,79 @@ import ProfileEditModal from "./profileEditModal";
 import ProfileInfoEditModal from "./profileInfoEditModal";
 
 export interface ProfileYouProps {
-  onClick: void;
+  userBanner?: string;
+  userImage?: StaticImageData | undefined;
+  userPseudo: string;
+  userName: string;
+  description?: string | "";
+  job?: string | "";
+  location?: string | "";
+  friendsNumber?: number | 0;
+  followersNumber?: number | 0;
+  followingNumber?: number | 0;
+  hobbies?: Array<string>;
+  link1?: string | undefined;
+  link2?: string | undefined;
 }
 
-export default function ProfileYou() {
+export default function ProfileYou(props: ProfileYouProps) {
   const [activeProfileMenu, setActiveProfileMenu] = useState("Posts");
   const [userPseudo, setUserPseudo] = useState(""); //will later allow to fetch only the tweets, likes and replies from the connected user
   const [activeProfileEdit, setActiveProfileEdit] = useState(false);
-  const [activeInfoEdit, setActiveInfoEdit] = useState(false);
+  const [activeInfoProfileEdit, setActiveInfoProfileEdit] = useState(false);
 
   const onActiveProfileMenuChange = (menu: string) => {
     setActiveProfileMenu(menu);
   };
-  const onEditProfile = () => {
+  const onEditProfile = (activeProfileEdit: boolean) => {
     setActiveProfileEdit(!activeProfileEdit);
   };
 
   const onEditInfo = () => {
-    setActiveInfoEdit(!activeInfoEdit);
+    setActiveInfoProfileEdit(!activeInfoProfileEdit);
   };
 
   const renderContentEditProfile = () => {
     switch (activeProfileEdit) {
       case true:
-        return <ProfileEditModal />;
+        return (
+          <ProfileEditModal
+            activeProfileEdit={activeProfileEdit}
+            onEditProfile={onEditProfile}
+          />
+        );
       case false:
         return;
     }
   };
 
   const renderContentEditInfo = () => {
-    switch (activeInfoEdit) {
+    switch (activeInfoProfileEdit) {
       case true:
-        return <ProfileInfoEditModal />;
+        return (
+          <ProfileInfoEditModal
+            activeProfileInfoEdit={activeInfoProfileEdit}
+            onEditInfoProfile={onEditProfile}
+          />
+        );
       case false:
         return;
     }
+  };
+
+  const renderContentHobbies = () => {
+    if (!props.hobbies || props.hobbies.length === 0) {
+      return <div>No hobbies listed</div>;
+    }
+    const hobbyElements = [];
+    for (let i = 0; i < props.hobbies.length; i++) {
+      hobbyElements.push(
+        <div className="bg-hobbies p-1.5 rounded-md mr-2">
+          {props.hobbies[i]}
+        </div>
+      );
+    }
+    return hobbyElements;
   };
 
   const renderContent = () => {
@@ -72,15 +109,25 @@ export default function ProfileYou() {
         <div className="w-full bg-btn-background h-36 rounded-md"></div>
         <div className="flex flex-row w-full space-x-60 mb-4">
           <div className="flex flex-row">
-            <Image alt="userIcon" src={userIcon} height={40} width={40} />
+            {props.userImage ? (
+              <Image
+                alt="userIcon"
+                src={props.userImage}
+                height={40}
+                width={40}
+              />
+            ) : (
+              <Image alt="userIcon" src={userIcon} height={40} width={40} />
+            )}
+
             <div className="flex flex-col">
-              <div className="text-white text-xl">Dimitar Dimitrov</div>
-              <div>@didmitroweb</div>
+              <div className="text-white text-xl">{props.userName}</div>
+              <div>@{props.userPseudo}</div>
             </div>
           </div>
           <button
             className="flex flex-row items-center"
-            onClick={onEditProfile}
+            onClick={() => onEditProfile(activeProfileEdit)}
           >
             Edit Profile
             <Image
@@ -88,36 +135,36 @@ export default function ProfileYou() {
               alt="editProfileIcon"
               src={editProfileIcon}
             />
-            {renderContentEditProfile()}
           </button>
+          {renderContentEditProfile()}
         </div>
         <div className="flex flex-col">
-          <div className="text-white text-lg">This is a test description</div>
+          <div className="text-white text-lg">{props.description}</div>
           <div>
-            Check out this link: <a>link to promote</a>
+            Check out this link: <a>{props.link1}</a>
           </div>
         </div>
         <div className="flex flex-row w-3/4 space-x-8 mt-2  mt-4">
           <div className="flex flex-row">
             <Image className="mr-1" alt="commentIcon" src={permanentJobIcon} />
-            <div>Product Designer</div>
+            <div>{props.job}</div>
           </div>
           <div className="flex flex-row">
             <Image className="mr-1" alt="likeIcon" src={locationIcon} />
-            <div>Paris, France</div>
+            <div>{props.location}</div>
           </div>
         </div>
         <div className="flex flex-row w-3/4 space-x-8 mt-3 text-lg">
           <div className="flex flex-row">
-            <div className="text-white mr-1">80</div>
+            <div className="text-white mr-1">{props.friendsNumber}</div>
             <div>Friends</div>
           </div>
           <div className="flex flex-row">
-            <div className="text-white mr-1">123</div>
+            <div className="text-white mr-1">{props.followersNumber}</div>
             <div>Followers</div>
           </div>
           <div className="flex flex-row">
-            <div className="text-white mr-1">34</div>
+            <div className="text-white mr-1">{props.followingNumber}</div>
             <div>Following</div>
           </div>
         </div>
@@ -133,14 +180,12 @@ export default function ProfileYou() {
           </button>
         </div>
         <div className="flex flex-row mt-3 w-full text-background items-center">
-          <div className="bg-hobbies p-1.5 rounded-md mr-2">Video Games</div>
-          <div className="bg-hobbies p-1.5 rounded-md mr-2">Sports</div>
-          <div className="bg-hobbies p-1.5 rounded-md mr-2">Hiking</div>
-          <div className="bg-hobbies p-1.5 rounded-md mr-2">Design</div>
+          {renderContentHobbies()}
         </div>
         <div className="flex flex-row text-subTitle w-full mt-4">
-          <button className="pl-2 pr-4 py-2 border w-full rounded-lg">
-            Learn More about Dimitar
+          <button className="pl-2 flex flex-row justify-center pr-4 py-2 border w-full rounded-lg">
+            Learn More about{" "}
+            <div className="ml-1 text-white">{props.userName}</div>
           </button>
         </div>
       </div>

@@ -37,7 +37,7 @@ export default function Register() {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="w-1/3 h-full p-8 rounded-2xl bg-componentBackground">
+      <div className="w-1/3 h-full p-8 rounded-xl bg-componentBackground">
         <div className="flex flex-col w-full items-center justify-center">
           <Image
             className="mb-4 border border-btn-outline rounded-2xl "

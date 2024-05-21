@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import kingWhale from "../../../public/kingWhale.png";
 
 import Menu from "../../components/menu/menu";
 import Suggestions from "@/components/suggestions/suggestions";
@@ -26,7 +27,21 @@ export default function HomePage() {
       case "Notifications":
         return <Notifications />;
       case "Profile":
-        return <ProfileYou />;
+        return (
+          <ProfileYou
+            userImage={kingWhale}
+            userName="Victor Dubrana"
+            userPseudo="victorDubrana"
+            location="Paris, France"
+            job="Product Designer"
+            description="j'ai créer mon only fan, donnez moi de la force"
+            friendsNumber={15}
+            followersNumber={130}
+            followingNumber={100}
+            hobbies={["Video Games", "Sports", "Hiking", "Design"]}
+            link1="google.com"
+          />
+        );
       case "Messages":
         return <div>Messages Component</div>;
       case "Groups":
@@ -42,9 +57,27 @@ export default function HomePage() {
             <Post />
             <div className="my-6">
               <div className="text-subTitle">Feed</div>
-              <Feed />
-              <Feed />
-              <Feed />
+              <Feed
+                userName="Victor"
+                userPseudo="victor"
+                content="j'ai créer mon only fan, donnez moi de la force"
+                numberComments={10}
+                numberLikes={10}
+              />
+              <Feed
+                userName="Victor"
+                userPseudo="victor"
+                content="j'ai créer mon only fan, donnez moi de la force"
+                numberComments={10}
+                numberLikes={10}
+              />
+              <Feed
+                userName="Victor"
+                userPseudo="victor"
+                content="j'ai créer mon only fan, donnez moi de la force"
+                numberComments={10}
+                numberLikes={10}
+              />
             </div>
           </div>
         );

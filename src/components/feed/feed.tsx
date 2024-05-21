@@ -6,15 +6,24 @@ import moreIcon from "../../../public/moreIcon.svg";
 import commentIcon from "../../../public/commentIcon.svg";
 import likeIcon from "../../../public/likeIcon.svg";
 
-export default function Feed() {
+export interface FeedProps {
+  userImage?: string | undefined;
+  userPseudo: string;
+  userName: string;
+  content: string;
+  numberLikes: number | 0;
+  numberComments: number | 0;
+}
+
+export default function Feed(props: FeedProps) {
   return (
     <div>
       <div className="flex flex-col bg-componentBackground my-2 p-2 rounded-md border-2 border-componentOutline text-subTitle">
         <div className="flex flex-row items-center">
           <div className="flex flex-row space-x-2 items-center w-full">
             <Image alt="userIcon" src={userIcon} height={40} width={40} />
-            <div className="text-white">Victor</div>
-            <div>@vicdub</div>
+            <div className="text-white">{props.userPseudo}</div>
+            <div>{props.userName}</div>
             <div>-</div>
             <div>1h</div>
           </div>
@@ -24,16 +33,16 @@ export default function Feed() {
         </div>
 
         <div className="m-4 text-white text-xl">
-          <div>j'ai ouvert mon only fan, donnez moi de la force</div>
+          <div>{props.content}</div>
         </div>
         <div className="flex flex-row w-1/2 space-x-8 mt-2">
           <div className="flex flex-row">
             <Image alt="commentIcon" src={commentIcon} />
-            <div>32</div>
+            <div>{props.numberComments}</div>
           </div>
           <div className="flex flex-row">
             <Image alt="likeIcon" src={likeIcon} />
-            <div>123</div>
+            <div>{props.numberLikes}</div>
           </div>
         </div>
       </div>
