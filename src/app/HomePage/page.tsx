@@ -9,9 +9,10 @@ import Feed from "@/components/feed/feed";
 import Events from "@/components/events/events";
 import GroupsForYou from "@/components/groupsForYou/groupsForYou";
 import { useState } from "react";
-import Profile from "@/components/profile/profile";
+import ProfileYou from "@/components/profile/profileYou/profileYou";
 import Settings from "@/components/settings/settings";
 import Notifications from "@/components/notifications/notifications";
+import ProfileSomeoneElse from "@/components/profile/profileSomeoneElse/profileSomeoneElse";
 
 export default function HomePage() {
   const [activeMenu, setActiveMenu] = useState("Home");
@@ -22,10 +23,10 @@ export default function HomePage() {
 
   const renderContent = () => {
     switch (activeMenu) {
-      case "notifications":
+      case "Notifications":
         return <Notifications />;
       case "Profile":
-        return <Profile />;
+        return <ProfileYou />;
       case "Messages":
         return <div>Messages Component</div>;
       case "Groups":
