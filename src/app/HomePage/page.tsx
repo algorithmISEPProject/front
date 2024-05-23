@@ -15,6 +15,20 @@ import Settings from "@/components/settings/settings";
 import Notifications from "@/components/notifications/notifications";
 import ProfileSomeoneElse from "@/components/profile/profileSomeoneElse/profileSomeoneElse";
 import Groups from "@/components/groupsForYou/groups";
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  useQuery,
+  gql,
+} from "@apollo/client";
+
+export interface HomePageProps {
+  id: number;
+  name: string;
+  description: string;
+  photo: string;
+}
 
 export default function HomePage() {
   const [activeMenu, setActiveMenu] = useState("Home");
