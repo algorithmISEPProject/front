@@ -7,12 +7,12 @@ import commentIcon from "../../../public/commentIcon.svg";
 import likeIcon from "../../../public/likeIcon.svg";
 
 export interface FeedProps {
-  userImage?: string | undefined;
-  userPseudo: string;
-  userName: string;
-  content: string;
-  numberLikes: number | 0;
-  numberComments: number | 0;
+  userImage?: String | undefined;
+  userPseudo: String;
+  userName: String;
+  content?: String;
+  numberLikes?: number | 0;
+  numberComments?: number | 0;
 }
 
 export default function Feed(props: FeedProps) {

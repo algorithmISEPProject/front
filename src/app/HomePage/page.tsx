@@ -5,7 +5,7 @@ import kingWhale from "../../../public/kingWhale.png";
 
 import Menu from "../../components/menu/menu";
 import Suggestions from "@/components/suggestions/suggestions";
-import Post from "@/components/post/post";
+import UserPost from "@/components/userPost/userPost";
 import Feed from "@/components/feed/feed";
 import Events from "@/components/events/events";
 import GroupsForYou from "@/components/groupsForYou/groupsForYou";
@@ -75,6 +75,7 @@ export default function HomePage() {
                   profileGroupMembersNumber={300}
                   profileJoinedGroup={true}
                 />
+
                 <Groups
                   profileGroupName="Pet Walking"
                   profileGroupMembersNumber={300}
@@ -98,7 +99,7 @@ export default function HomePage() {
       default:
         return (
           <div>
-            <Post />
+            <UserPost />
             <div className="my-6">
               <div className="text-subTitle">Feed</div>
               <Feed
