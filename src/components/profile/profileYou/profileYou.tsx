@@ -13,6 +13,7 @@ import ProfileReplies from "../profileReplies";
 import ProfileLikes from "../profileLikes";
 import ProfileEditModal from "./profileEditModal";
 import ProfileInfoEditModal from "./profileInfoEditModal";
+import { ApolloClient, InMemoryCache, gql, useQuery } from "@apollo/client";
 
 export interface ProfileYouProps {
   userBanner?: string;

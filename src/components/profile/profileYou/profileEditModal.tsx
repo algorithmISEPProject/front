@@ -24,9 +24,9 @@ export default function ProfileEditModal(props: ProfileEditModalProps) {
             <Image className="" alt="closeIcon" src={closeIcon} />
           </button>
         </div>
-        <div className="flex items-center justify-center w-full bg-btn-background h-36 rounded-md mt-4">
+        <button className="flex items-center justify-center w-full bg-btn-background h-36 rounded-md mt-4">
           <Image className="" alt="modifyPicture" src={editProfileIcon} />
-        </div>
+        </button>
         <div className="flex flex-col ml-2">
           <div className="flex flex-row center-items justify-center space-x-2 text-subTitle w-full mt-4">
             <Image
