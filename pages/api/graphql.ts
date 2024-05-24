@@ -1,8 +1,6 @@
 import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import neo4j from "neo4j-driver";
 
-//import { UserPostsArgs } from "../../src/components/feed/feed";
 import {
   Post,
   User,
@@ -13,11 +11,13 @@ import {
   Event,
   Group,
 } from "./typeInterface";
-import { gql } from "@apollo/client";
 import { Neo4jGraphQL } from "@neo4j/graphql";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import { createYoga } from "graphql-yoga";
+import driver from "./driver";
+import neo4j from "neo4j-driver";
 
-const typeDefs = gql`
+const typeDefs = `#graphql
   type User {
     _id: ID! @id
     username: String!
@@ -146,38 +146,72 @@ const posts: Post[] = [
   // Add more posts if needed
 ];
 
-export const resolvers = {
-  Query: {
-    users: () => {
-      return [];
-    }, //need to match the name in Query
-    userPosts: (_: unknown, { username }: UserPostsQueryVariables): Post[] => {
-      return posts.filter((post) => post.author.username === username);
-    },
-  },
+const neoSchema = new Neo4jGraphQL({
+  typeDefs,
+  driver,
+});
+
+const server = new ApolloServer({
+  schema: neoSchema.getSchema,
+});
+
+// Building the Neo4j GraphQL schema is an async process
+const initServer = async () => {
+  console.log("Building GraphQL server");
+  return await neoSchema.getSchema();
 };
 
-const driver = neo4j.driver(
-  "neo4j+s://47bf683d.databases.neo4j.io:7687",
-  neo4j.auth.basic("neo4j", "VY1gKJWDr79Ql44_ktUGO9adQPlY1bk2Tv8dE9hi0uY")
-);
-
-const neoSchema = new Neo4jGraphQL({ typeDefs, driver });
-const server = new ApolloServer({
-  schema: await neoSchema.getSchema(),
+// Note the use of the top-level await here in the call to initServer()
+export default createYoga({
+  schema: await initServer(),
+  graphqlEndpoint: "/api/graphql",
 });
 
-await startStandaloneServer(server, {
-  context: async ({ req }) => ({ req }),
+const checkNeo4jConnection = async () => {
+  try {
+    // Get the Neo4j session
+    const session = driver.session();
+    // Run a simple query
+    await session.run("RETURN 1");
+    console.log("Successfully connected to Neo4j database");
+    await session.close();
+  } catch (error) {
+    console.error("Failed to connect to Neo4j database", error);
+  }
+};
+
+const startServer = async () => {
+  await checkNeo4jConnection();
+  const neoSchema = new Neo4jGraphQL({ typeDefs, driver });
+  const schema = await neoSchema.getSchema();
+
+  const resolvers = {
+    Query: {
+      users: async () => {
+        const session = driver.session();
+        const result = await session.run("MATCH (u:User) RETURN u");
+        const users = result.records.map(
+          (record) => record.get("u").properties
+        );
+        await session.close();
+        return users;
+      },
+    },
+  };
+
+  const server = new ApolloServer({
+    resolvers,
+    typeDefs,
+  });
+
+  await startStandaloneServer(server, {
+    context: async ({ req }) => ({ req }),
+    listen: { port: 4000 },
+  });
+
+  console.log(`🚀 Server ready at http://localhost:4000/graphql`);
+};
+
+startServer().catch((error) => {
+  console.error("Server failed to start", error);
 });
-
-/*const serverApollo = new ApolloServer({
-  resolvers,
-  typeDefs,
-});*/
-
-export default startServerAndCreateNextHandler(server);
-
-const handler = startServerAndCreateNextHandler(server);
-
-export { handler as GET, handler as POST };

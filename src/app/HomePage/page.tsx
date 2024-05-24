@@ -21,7 +21,10 @@ import {
   InMemoryCache,
   useQuery,
   gql,
+  HttpLink,
+  useSuspenseQuery,
 } from "@apollo/client";
+import driver from "../../../pages/api/driver";
 
 export interface HomePageProps {
   id: number;
@@ -102,8 +105,19 @@ export default function HomePage() {
             <UserPost />
             <div className="my-6">
               <div className="text-subTitle">Feed</div>
-              <Feed
-                _id="100"
+              {/* {record?.map((post: any) => (
+                <Feed
+                  key={post.id}
+                  id={post.id}
+                  author={post.author}
+                  content={post.content}
+                  createdAt={post.createdAt}
+                  comments={[]}
+                  likes={[]}
+                />
+              ))} */}
+              {/* <Feed
+                id="100"
                 username="Victor"
                 userPseudo="victor"
                 content="j'ai créer mon only fan, donnez moi de la force"
@@ -112,7 +126,7 @@ export default function HomePage() {
                 likesNumber={10}
               />
               <Feed
-                _id="1000"
+                id="1000"
                 username="Victor"
                 userPseudo="victor"
                 content="j'ai créer mon only fan, donnez moi de la force"
@@ -121,14 +135,14 @@ export default function HomePage() {
                 likesNumber={10}
               />
               <Feed
-                _id="102"
+                id="102"
                 username="Victor"
                 userPseudo="victor"
                 content="j'ai créer mon only fan, donnez moi de la force"
                 createdAt="2h"
                 commentsNumber={10}
                 likesNumber={10}
-              />
+              /> */}
             </div>
           </div>
         );
