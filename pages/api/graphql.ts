@@ -1,6 +1,5 @@
 import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import neo4j from "neo4j-driver";
 
 //import { UserPostsArgs } from "../../src/components/feed/feed";
 import {
@@ -13,11 +12,12 @@ import {
   Event,
   Group,
 } from "./typeInterface";
-import { gql } from "@apollo/client";
 import { Neo4jGraphQL } from "@neo4j/graphql";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import { createYoga } from "graphql-yoga";
+import driver from "./driver";
 
-const typeDefs = gql`
+const typeDefs = `#graphql
   type User {
     _id: ID! @id
     username: String!
@@ -146,38 +146,33 @@ const posts: Post[] = [
   // Add more posts if needed
 ];
 
-export const resolvers = {
+const neoSchema = new Neo4jGraphQL({
+  typeDefs,
+  driver,
+});
+
+// Building the Neo4j GraphQL schema is an async process
+const initServer = async () => {
+  console.log("Building GraphQL server");
+  return await neoSchema.getSchema();
+};
+
+// Note the use of the top-level await here in the call to initServer()
+export default createYoga({
+  schema: await initServer(),
+  graphqlEndpoint: "/api/graphql",
+});
+
+const resolvers = {
   Query: {
-    users: () => {
-      return [];
-    }, //need to match the name in Query
-    userPosts: (_: unknown, { username }: UserPostsQueryVariables): Post[] => {
-      return posts.filter((post) => post.author.username === username);
+    users: async () => {
+      const session = driver.session();
+
+      const result = await session.run("MATCH (u:User) RETURN u");
+      const users = result.records.map((record) => record.get("u").properties);
+
+      await session.close();
+      return users;
     },
   },
 };
-
-const driver = neo4j.driver(
-  "neo4j+s://47bf683d.databases.neo4j.io:7687",
-  neo4j.auth.basic("neo4j", "VY1gKJWDr79Ql44_ktUGO9adQPlY1bk2Tv8dE9hi0uY")
-);
-
-const neoSchema = new Neo4jGraphQL({ typeDefs, driver });
-const server = new ApolloServer({
-  schema: await neoSchema.getSchema(),
-});
-
-await startStandaloneServer(server, {
-  context: async ({ req }) => ({ req }),
-});
-
-/*const serverApollo = new ApolloServer({
-  resolvers,
-  typeDefs,
-});*/
-
-export default startServerAndCreateNextHandler(server);
-
-const handler = startServerAndCreateNextHandler(server);
-
-export { handler as GET, handler as POST };
