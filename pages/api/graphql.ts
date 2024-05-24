@@ -1,140 +1,180 @@
 import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import { gql } from "graphql-tag";
+import neo4j from "neo4j-driver";
 
-const typeDefs = ` #graphql
+//import { UserPostsArgs } from "../../src/components/feed/feed";
+import {
+  Post,
+  User,
+  UserPostsQuery,
+  UserPostsQueryVariables,
+  Comment,
+  Hobby,
+  Event,
+  Group,
+} from "./typeInterface";
+import { gql } from "@apollo/client";
+import { Neo4jGraphQL } from "@neo4j/graphql";
+import { startStandaloneServer } from "@apollo/server/standalone";
 
+const typeDefs = gql`
   type User {
-    _id: ID!
-    username: String  
-    userpseudo: String  
-    hobbies: [Hobby]
-    posts: [Post]
-    groups: [Group]
-    events: [Event]
-    numberLikes: Int
-  }
-
-  type UserPost {
-    _id: ID!
-    username: String
-    content: String
-    userIconURL: String
-    createdAt: String
-    likesNumber: String
-    commentsNumber: String
+    _id: ID! @id
+    username: String!
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String!
+    avatar: String
+    banner: String
+    bio: String
+    location: String
+    job: String
+    descText: String
+    descLink: String
+    followers: [User!]! @relationship(type: "FOLLOWS", direction: IN)
+    following: [User!]! @relationship(type: "FOLLOWS", direction: OUT)
+    friends: [User]
+    posts: [Post!]! @relationship(type: "POSTED", direction: OUT)
+    hobbies: [Hobby!]! @relationship(type: "HAS_HOBBY", direction: OUT)
+    likes: [Post!]! @relationship(type: "LIKED", direction: OUT)
+    events: [Event!]! @relationship(type: "ATTENDS", direction: OUT)
+    groups: [Group!]! @relationship(type: "MEMBER_OF", direction: OUT)
+    createdAt: DateTime! @timestamp(operations: [CREATE])
   }
 
   type Post {
-    _id: ID!
-    username: String
+    id: ID! @id
     content: String
-    userIconURL: String
-    createdAt: String
-    likesNumber: String
-    commentsNumber: String
+    imageURL: String
+    createdAt: DateTime! @timestamp(operations: [CREATE])
+    author: User! @relationship(type: "POSTED", direction: IN)
+    comments: [Comment!]! @relationship(type: "COMMENTED_ON", direction: IN)
+    likes: [User!]! @relationship(type: "LIKED", direction: IN)
   }
 
-  type Event {
-    id: ID!
-    name: String
-    description: String
-    location: String 
-    date: String
-    attendees: [User]
-  }
-
-  type Group {
-    id: ID!
-    name: String
-    description: String
-    members: [User]
+  type Comment {
+    id: ID! @id
+    content: String
+    createdAt: DateTime! @timestamp(operations: [CREATE])
+    post: Post! @relationship(type: "COMMENTED_ON", direction: OUT)
+    author: User! @relationship(type: "WROTE", direction: OUT)
   }
 
   type Hobby {
-    id: ID!
-    name: String
+    id: Int!
+    name: String!
+    users: [User!]! @relationship(type: "HAS_HOBBY", direction: IN)
   }
 
+  type Event {
+    id: ID! @id
+    name: String!
+    description: String
+    createdAt: DateTime! @timestamp(operations: [CREATE])
+    date: DateTime!
+    location: String!
+    attendees: [User!]! @relationship(type: "ATTENDS", direction: IN)
+  }
 
-
-
+  type Group {
+    id: ID! @id
+    name: String!
+    description: String!
+    createdAt: DateTime! @timestamp(operations: [CREATE])
+    members: [User!]! @relationship(type: "MEMBER_OF", direction: IN)
+  }
 
   type Query {
     users: [User]
     user: User
-    userPosts: [UserPost]
+    userPosts: [Post]
+    userLikedPosts: [Post]
+    userRepliedPosts: [Post]
     posts: [Post]
-    post: Post
+    post: [Post]
   }
 `;
+
+const posts: Post[] = [
+  {
+    id: "1",
+    content: "J'ai créer mon only fan, donnez moi de la force",
+    createdAt: new Date().toISOString(),
+    author: {
+      id: "1",
+      username: "vic_dub",
+      firstName: "Victor",
+      lastName: "Dubrana",
+      email: "victor@example.com",
+      avatar: "bonjour",
+      followers: [],
+      following: [],
+      posts: [],
+      hobbies: [],
+      likes: [],
+      events: [],
+      groups: [],
+      createdAt: new Date().toISOString(),
+    },
+    comments: [],
+    likes: [],
+  },
+  {
+    id: "2",
+    content: "Je suis en train de cook ça fort",
+    createdAt: new Date().toISOString(),
+    author: {
+      id: "2",
+      username: "Victor Dubrana",
+      firstName: "Victor",
+      lastName: "Dubrana",
+      email: "victor@example.com",
+      avatar: "bonjour",
+      followers: [],
+      following: [],
+      posts: [],
+      hobbies: [],
+      likes: [],
+      events: [],
+      groups: [],
+      createdAt: new Date().toISOString(),
+    },
+    comments: [],
+    likes: [],
+  },
+  // Add more posts if needed
+];
 
 export const resolvers = {
   Query: {
     users: () => {
-      return [
-        {
-          _id: "1",
-          username: "Victor Dubrana",
-          userpseudo: "vic_dub",
-          hobbies: [
-            { id: 1, name: "tennis" },
-            { id: 2, name: "foot" },
-          ],
-          posts: [
-            {
-              id: 1,
-              content: "J'ai créer mon only fan, donnez moi de la force",
-            },
-          ],
-          numberLikes: 10,
-        },
-        {
-          _id: "2",
-          username: "Dimitar Dimitrov",
-          userpseudo: "dimitroweb",
-          hobbies: [{ id: 3, name: "ping-pong" }],
-          posts: [
-            {
-              id: 1,
-              content: "J'ai créer mon only fan, donnez moi de la force",
-            },
-          ],
-          numberLikes: 10,
-        },
-      ];
+      return [];
     }, //need to match the name in Query
-    userPosts: () => {
-      return [
-        {
-          _id: "1",
-          username: "Victor Dubrana",
-          userpseudo: "vic_dub",
-          content: "J'ai créer mon only fan, donnez moi de la force",
-          userIconURL: "bonjour",
-          createdAt: "1h",
-          likesNumber: 120,
-          commentsNumber: 237,
-        },
-        {
-          _id: "2",
-          username: "Victor Dubrana",
-          userpseudo: "vic_dub",
-          content: "Je suis en train de cook ça fort",
-          userIconURL: "bonjour",
-          createdAt: "10h",
-          likesNumber: 39,
-          commentsNumber: 72,
-        },
-      ];
+    userPosts: (_: unknown, { username }: UserPostsQueryVariables): Post[] => {
+      return posts.filter((post) => post.author.username === username);
     },
   },
 };
 
+const driver = neo4j.driver(
+  "neo4j+s://47bf683d.databases.neo4j.io:7687",
+  neo4j.auth.basic("neo4j", "VY1gKJWDr79Ql44_ktUGO9adQPlY1bk2Tv8dE9hi0uY")
+);
+
+const neoSchema = new Neo4jGraphQL({ typeDefs, driver });
 const server = new ApolloServer({
+  schema: await neoSchema.getSchema(),
+});
+
+await startStandaloneServer(server, {
+  context: async ({ req }) => ({ req }),
+});
+
+/*const serverApollo = new ApolloServer({
   resolvers,
   typeDefs,
-});
+});*/
 
 export default startServerAndCreateNextHandler(server);
 

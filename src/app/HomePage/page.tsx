@@ -103,25 +103,31 @@ export default function HomePage() {
             <div className="my-6">
               <div className="text-subTitle">Feed</div>
               <Feed
-                userName="Victor"
+                _id="100"
+                username="Victor"
                 userPseudo="victor"
                 content="j'ai créer mon only fan, donnez moi de la force"
-                numberComments={10}
-                numberLikes={10}
+                createdAt="1h"
+                commentsNumber={10}
+                likesNumber={10}
               />
               <Feed
-                userName="Victor"
+                _id="1000"
+                username="Victor"
                 userPseudo="victor"
                 content="j'ai créer mon only fan, donnez moi de la force"
-                numberComments={10}
-                numberLikes={10}
+                createdAt="1h"
+                commentsNumber={10}
+                likesNumber={10}
               />
               <Feed
-                userName="Victor"
+                _id="102"
+                username="Victor"
                 userPseudo="victor"
                 content="j'ai créer mon only fan, donnez moi de la force"
-                numberComments={10}
-                numberLikes={10}
+                createdAt="2h"
+                commentsNumber={10}
+                likesNumber={10}
               />
             </div>
           </div>
