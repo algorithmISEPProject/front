@@ -1,6 +1,17 @@
 import React from "react";
 import Image from "next/image";
-import Feed from "../feed/feed";
+import Feed from "../postComponent";
+import {
+  Post,
+  User,
+  UserPostsQuery,
+  UserPostsQueryVariables,
+  Comment,
+  Hobby,
+  Event,
+  Group,
+} from "@/interface/typeInterface";
+
 import {
   ApolloClient,
   ApolloProvider,
@@ -8,16 +19,7 @@ import {
   gql,
   useQuery,
 } from "@apollo/client";
-
-interface UserPost {
-  _id: string;
-  username: string;
-  content: string;
-  userIconURL: string;
-  createdAt: string;
-  likesNumber: number;
-  commentsNumber: number;
-}
+import PostComponent from "../postComponent";
 
 export default function ProfilePosts() {
   const client = new ApolloClient({
@@ -26,46 +28,47 @@ export default function ProfilePosts() {
   });
 
   const GET_USER_POSTS = gql`
-    query GetUserposts {
-      userPosts {
-        _id
-        username
+    query GetUserPosts($username: String!) {
+      userPosts(username: $username) {
+        id
         content
-        userIconURL
+        imageURL
         createdAt
-        likesNumber
-        commentsNumber
-      }
-    }
-  `;
-
-  const GET_USERS = gql`
-    query GetUsers {
-      users {
-        _id
-        username
-        hobbies {
+        author {
+          username
+          avatar
+        }
+        comments {
           id
-          name
+          content
+          createdAt
+          author {
+            username
+          }
+        }
+        likes {
+          username
         }
       }
     }
   `;
 
   const DisplayUserPosts = () => {
-    const { loading, error, data } = useQuery<{ userPosts: UserPost[] }>(
-      GET_USER_POSTS
-    );
+    const { loading, error, data } = useQuery<
+      UserPostsQuery,
+      UserPostsQueryVariables
+    >(GET_USER_POSTS, { variables: { username: "vic_dub" } });
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error : {error.message}</p>;
+    if (!data) return <p>No data found</p>;
     console.log(data);
 
     return (
       <div>
         {data!.userPosts.map((userPost) => (
-          <div key={userPost._id}>
-            <Feed userName={userPost.username} userPseudo={userPost.username} />
+          <div key={userPost.id}>
+            <PostComponent {...userPost} />
           </div>
         ))}
       </div>
@@ -75,28 +78,6 @@ export default function ProfilePosts() {
   return (
     <ApolloProvider client={client}>
       <div>
-        <Feed
-          userName="Victor"
-          userPseudo="victor"
-          content="j'ai créer mon only fan, donnez moi de la force"
-          numberComments={10}
-          numberLikes={10}
-        />
-
-        <Feed
-          userName="Victor"
-          userPseudo="victor"
-          content="j'ai créer mon only fan, donnez moi de la force"
-          numberComments={10}
-          numberLikes={10}
-        />
-        <Feed
-          userName="Victor"
-          userPseudo="victor"
-          content="j'ai créer mon only fan, donnez moi de la force"
-          numberComments={10}
-          numberLikes={10}
-        />
         <DisplayUserPosts />
       </div>
     </ApolloProvider>

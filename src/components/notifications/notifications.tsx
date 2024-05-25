@@ -1,13 +1,13 @@
 import React from "react";
 import Image from "next/image";
 
-import userIcon from "../../../public/userIcon.svg";
-import Feed from "../feed/feed";
+import userIcon from "../../../assets/userIcon.svg";
+import Feed from "../postComponent";
 import Follow from "./follow";
 import Like from "./like";
 import Reply from "./reply";
 import Friend from "./friend";
-import kingWhale from "../../../public/kingWhale.png";
+import kingWhale from "../../../assets/kingWhale.png";
 
 export default function Notifications() {
   return (

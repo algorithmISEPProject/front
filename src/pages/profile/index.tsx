@@ -4,24 +4,53 @@ import React from "react";
 import Image from "next/image";
 import { useState } from "react";
 
-import userIcon from "../../../../public/userIcon.svg";
-import locationIcon from "../../../../public/locationIcon.svg";
-import editProfileIcon from "../../../../public/editProfileIcon.svg";
-import permanentJobIcon from "../../../../public/permanentJobIcon.svg";
-import ProfilePosts from "../profilePosts";
-import ProfileReplies from "../profileReplies";
-import ProfileLikes from "../profileLikes";
+import userIcon from "@/assets/userIcon.svg";
+import locationIcon from "@/assets/locationIcon.svg";
+import editProfileIcon from "@/assets/editProfileIcon.svg";
+import permanentJobIcon from "@/assets/permanentJobIcon.svg";
+import ProfilePosts from "@/components/profile/profilePosts";
+import ProfileReplies from "@/components/profile/profileReplies";
+import ProfileLikes from "@/components/profile/profileLikes";
+import ProfileEditModal from "@/components/profile/profileEditModal";
+import ProfileInfoEditModal from "@/components/profile/profileInfoEditModal";
 
-export interface ProfileSomeoneElseProps {
+export interface ProfileProps {
   onClick: void;
 }
 
-export default function ProfileSomeoneElse() {
+export default function ProfilePage() {
   const [activeProfileMenu, setActiveProfileMenu] = useState("Posts");
   const [userPseudo, setUserPseudo] = useState(""); //will later allow to fetch only the tweets, likes and replies from the connected user
+  const [activeProfileEdit, setActiveProfileEdit] = useState(false);
+  const [activeInfoEdit, setActiveInfoEdit] = useState(false);
 
   const onActiveProfileMenuChange = (menu: string) => {
     setActiveProfileMenu(menu);
+  };
+  const onEditProfile = () => {
+    setActiveProfileEdit(!activeProfileEdit);
+  };
+
+  const onEditInfo = () => {
+    setActiveInfoEdit(!activeInfoEdit);
+  };
+
+  const renderContentEditProfile = () => {
+    switch (activeProfileEdit) {
+      case true:
+        return <ProfileEditModal />;
+      case false:
+        return;
+    }
+  };
+
+  const renderContentEditInfo = () => {
+    switch (activeInfoEdit) {
+      case true:
+        return <ProfileInfoEditModal />;
+      case false:
+        return;
+    }
   };
 
   const renderContent = () => {
@@ -39,7 +68,7 @@ export default function ProfileSomeoneElse() {
   return (
     <div>
       <div className="text-subTitle">Your Profile</div>
-      <div className="flex flex-col bg-componentBackground my-2 p-2 rounded-md border border-componentOutline text-subTitle">
+      <div className="flex flex-col bg-componentBackground my-2 p-2 rounded-md border-2 border-componentOutline text-subTitle">
         <div className="w-full bg-btn-background h-36 rounded-md"></div>
         <div className="flex flex-row w-full space-x-60 mb-4">
           <div className="flex flex-row">
@@ -49,6 +78,18 @@ export default function ProfileSomeoneElse() {
               <div>@didmitroweb</div>
             </div>
           </div>
+          <button
+            className="flex flex-row items-center"
+            onClick={onEditProfile}
+          >
+            Edit Profile
+            <Image
+              className="ml-3"
+              alt="editProfileIcon"
+              src={editProfileIcon}
+            />
+            {renderContentEditProfile()}
+          </button>
         </div>
         <div className="flex flex-col">
           <div className="text-white text-lg">This is a test description</div>
@@ -85,6 +126,11 @@ export default function ProfileSomeoneElse() {
       <div className="flex flex-col bg-componentBackground my-2 p-2 rounded-md border-2 border-componentOutline text-subTitle">
         <div className="flex flex-row w-full space-x-96 mt-3">
           <div>Hobbies</div>
+          <button className="flex flex-row items-center" onClick={onEditInfo}>
+            <div className="mr-3">Edit Info</div>
+            <Image alt="editInfoIcon" src={editProfileIcon} />
+            {renderContentEditInfo()}
+          </button>
         </div>
         <div className="flex flex-row mt-3 w-full text-background items-center">
           <div className="bg-hobbies p-1.5 rounded-md mr-2">Video Games</div>

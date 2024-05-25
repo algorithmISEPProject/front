@@ -1,10 +1,10 @@
 import React from "react";
 import Image, { StaticImageData } from "next/image";
 
-import userIcon from "../../../public/userIcon.svg";
-import moreIcon from "../../../public/moreIcon.svg";
-import commentIcon from "../../../public/commentIcon.svg";
-import likeIcon from "../../../public/likeIcon.svg";
+import userIcon from "../../../assets/userIcon.svg";
+import moreIcon from "../../../assets/moreIcon.svg";
+import commentIcon from "../../../assets/commentIcon.svg";
+import likeIcon from "../../../assets/likeIcon.svg";
 
 export interface ReplyProps {
   userName: string;

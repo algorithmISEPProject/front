@@ -1,5 +1,5 @@
 import React from "react";
-import GroupsForYou from "./groupsForYou";
+import GroupsForYou from "./groupsComp";
 
 export interface GroupsProps {
   profileGroupName?: string;

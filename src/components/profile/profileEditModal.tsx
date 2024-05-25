@@ -1,5 +1,5 @@
 import React from "react";
-import userIcon from "../../../public/userIcon.svg";
+import userIcon from "@/assets/userIcon.svg";
 
 interface ProfileEditModalProps {}
 

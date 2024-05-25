@@ -1,7 +1,7 @@
 "use client";
 import React, { ChangeEvent, useState } from "react";
-import userIcon from "../../../public/userIcon.svg";
-import textModif from "../../../public/textModif.svg";
+import userIcon from "../../../assets/userIcon.svg";
+import textModif from "../../../assets/textModif.svg";
 
 import Image from "next/image";
 
@@ -41,7 +41,7 @@ interface Hobby {
   name: string;
 }
 
-export default function Post() {
+export default function PostInput() {
   const GET_USERS = gql`
     query GetUsers {
       users {
@@ -54,34 +54,6 @@ export default function Post() {
       }
     }
   `;
-
-  /* function DisplayLocations() {
-    const { loading, error, data } = useQuery(GET_LOCATIONS);
-
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error : {error.message}</p>;
-
-    return data.locations.map(({ id, name, description, photo }) => (
-      <div key={id}>
-        <h3>{name}</h3>
-        <img
-          width="400"
-          height="250"
-          alt="location-reference"
-          src={`${photo}`}
-        />
-        <br />
-        <b>About this location:</b>
-        <p>{description}</p>
-        <br />
-      </div>
-    ));
-  }*/
-
-  const client = new ApolloClient({
-    uri: "/api/graphql",
-    cache: new InMemoryCache(),
-  });
 
   const DisplayUsers = () => {
     const { loading, error, data } = useQuery<{ users: User[] }>(GET_USERS);
@@ -108,26 +80,24 @@ export default function Post() {
   };
 
   return (
-    <ApolloProvider client={client}>
-      <div>
-        <div className="text-subTitle">Post</div>
-        <div className="flex flex-col bg-componentBackground my-2 p-2 rounded-md border-2 border-componentOutline text-subTitle">
-          <div className="flex flex-row ">
-            <Image alt="userIcon" src={userIcon} height={40} width={40} />
-            <div className="bg-inputField-background rounded-md w-full pl-2">
-              <input
-                type="text"
-                placeholder="Share your thoughts to the world!"
-                className="pl-2 pr-4 py-2 border bg-btn-background w-full rounded-lg"
-              />
-            </div>
-          </div>
-          <div className="pt-4">
-            <Image alt="textModif" src={textModif} height={100} width={100} />
+    <div>
+      <div className="text-subTitle">Post</div>
+      <div className="flex flex-col bg-componentBackground my-2 p-2 rounded-md border-componentOutline text-subTitle">
+        <div className="flex flex-row ">
+          <Image alt="userIcon" src={userIcon} height={40} width={40} />
+          <div className="bg-inputField-background rounded-md w-full pl-2">
+            <input
+              type="text"
+              placeholder="Share your thoughts to the world!"
+              className="pl-2 pr-4 py-2 border bg-btn-background w-full rounded-lg"
+            />
           </div>
         </div>
-        <DisplayUsers />
+        <div className="pt-4">
+          <Image alt="textModif" src={textModif} height={100} width={100} />
+        </div>
       </div>
-    </ApolloProvider>
+      <DisplayUsers />
+    </div>
   );
 }
