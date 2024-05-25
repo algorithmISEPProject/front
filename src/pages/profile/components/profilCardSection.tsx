@@ -22,7 +22,7 @@ export default function ProfilCardSection() {
       {showProfileEdit && <ProfileEditModal onClose={handleCloseModal} />}
 
       <div className="text-subtileText">Your Profile</div>
-      <div className="flex flex-col bg-componentBackground p-5 rounded-xl border border-componentOutline text-subTitle">
+      <div className="flex flex-col bg-componentBackground p-5 rounded-xl border border-componentOutline text-subTitle space-y-2">
         <div className="w-full bg-btn-background h-36 rounded-md"></div>
         <div className="flex w-full justify-between mb-4">
           <div className="flex gap-3 items-center">
@@ -38,13 +38,12 @@ export default function ProfilCardSection() {
               <div>@dimitroweb</div>
             </div>
           </div>
-          <button className="flex items-center" onClick={handleOpenModal}>
+          <button
+            className="flex items-center gap-2 text-subtileText"
+            onClick={handleOpenModal}
+          >
             Edit Profile
-            <Image
-              className="ml-3"
-              alt="editProfileIcon"
-              src={editProfileIcon}
-            />
+            <Image alt="editProfileIcon" src={editProfileIcon} />
           </button>
         </div>
         <div className="flex flex-col">
