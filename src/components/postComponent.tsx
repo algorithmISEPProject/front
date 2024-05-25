@@ -8,12 +8,60 @@ import mockPostImage from "@/assets/mockPostImage.png";
 
 import { Post } from "@/interface/typeInterface";
 import { formatRelativeTime } from "@/utils/formatDate";
+import { gql, useMutation } from "@apollo/client";
 
 export default function PostComponent(props: Post) {
-  const [activeLike, setActiveLike] = useState(false);
+  const [activeLike, setActiveLike] = useState(props.likesAggregate.count > 0);
   const [activeComment, setActiveComment] = useState(false);
 
+  const LIKE_POST = gql`
+    mutation like_post($id: ID, $firstName: String = "Alex") {
+      updatePosts(
+        where: { id: $id }
+        update: {
+          likes: { connect: { where: { node: { firstName: $firstName } } } }
+        }
+      ) {
+        posts {
+          likesAggregate {
+            count
+          }
+        }
+      }
+    }
+  `;
+
+  const UNLIKE_POST = gql`
+    mutation unlike_post($id: ID, $firstName: String = "Alex") {
+      updatePosts(
+        where: { id: $id }
+        update: {
+          likes: { disconnect: { where: { node: { firstName: $firstName } } } }
+        }
+      ) {
+        posts {
+          likesAggregate {
+            count
+          }
+        }
+      }
+    }
+  `;
+
+  const [like_post, { loading, error }] = useMutation(LIKE_POST);
+  const [unlike_post] = useMutation(UNLIKE_POST);
+
+  if (error) return <p>Error</p>;
+  if (loading) return <p>Loading...</p>;
+
   const onLikeChange = () => {
+    {
+      activeLike
+        ? unlike_post({ variables: { id: props.id } })
+        : like_post({
+            variables: { id: props.id },
+          });
+    }
     setActiveLike(!activeLike);
   };
 

@@ -11,7 +11,7 @@ export default function Home() {
 
   const GET_POSTS = gql`
     query getPosts {
-      posts {
+      posts(options: { sort: { createdAt: DESC } }) {
         content
         createdAt
         id

@@ -15,7 +15,6 @@ function RightNavigation() {
           userImage={kingWhale}
           hobby="Hiking"
         />
-
         <button className="p-2 border text-subtileText border-btn-outline w-full rounded-lg">
           See More
         </button>
