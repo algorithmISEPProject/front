@@ -15,7 +15,7 @@ export interface SuggestionsProps {
 export default function SuggestionComp({ userName, hobby }: SuggestionsProps) {
   return (
     <div className="w-full flex min-w-96  bg-inputField-background rounded-md border border-componentOutline p-2 justify-center items-center">
-      <div className="flex w-full items-center gap-2">
+      <div className="flex w-full items-center gap-3">
         <Image
           alt="userIcon"
           src={mockProfilPic}
@@ -23,10 +23,11 @@ export default function SuggestionComp({ userName, hobby }: SuggestionsProps) {
           width={64}
           className="rounded"
         />
-        <div className="flex flex-col text-subTitle items-left">
-          <div className="ml-2 text-white">{userName}</div>
-          <div className="flex flex-row ml-2">
-            Loves <div className="text-green-500">{hobby}</div> like you
+        <div className="flex flex-col text-subTitle ">
+          <div className=" text-white">{userName}</div>
+          <div className="flex flex-row gap-1">
+            Loves <span className="text-green-500">{hobby}</span>
+            like you
           </div>
         </div>
       </div>
