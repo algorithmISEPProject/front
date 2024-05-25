@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Feed from "../postComponent";
+import Feed from "../../../components/postComponent";
 import {
   ApolloClient,
   ApolloProvider,

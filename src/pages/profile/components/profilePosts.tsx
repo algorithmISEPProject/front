@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Feed from "../postComponent";
+import Feed from "../../../components/postComponent";
 import {
   Post,
   User,
@@ -19,7 +19,7 @@ import {
   gql,
   useQuery,
 } from "@apollo/client";
-import PostComponent from "../postComponent";
+import PostComponent from "../../../components/postComponent";
 
 export default function ProfilePosts() {
   const client = new ApolloClient({
