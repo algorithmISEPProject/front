@@ -17,7 +17,7 @@ export default function GroupComponent({
   groupsNumber,
 }: GroupsProps) {
   return (
-    <div className="w-full flex min-w-96  bg-inputField-background rounded-md border border-componentOutline p-2 justify-center items-center">
+    <div className="w-full flex min-w-96 bg-inputField-background rounded-md border border-componentOutline p-2 justify-center items-center">
       <div className="flex w-full items-center gap-2">
         <Image
           alt="userIcon"

@@ -1,19 +1,27 @@
 import Image from "next/image";
 import editProfileIcon from "@/assets/editProfileIcon.svg";
 import { useState } from "react";
+import ProfileInfoEditModal from "./profileInfoEditModal";
 
 export default function InformationsSection() {
   const [showInfoEdit, setShowInfoEdit] = useState(false);
+
+  const handleOpenModal = () => {
+    setShowInfoEdit(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowInfoEdit(false);
+  };
+
   return (
     <div className="space-y-2">
+      {showInfoEdit && <ProfileInfoEditModal onClose={handleCloseModal} />}
       <div className=" text-subtileText">Informations</div>
       <div className="flex flex-col bg-componentBackground px-5 py-6 rounded-xl border border-componentOutline text-subTitle">
         <div className="flex w-full justify-between">
           <div>Hobbies</div>
-          <button
-            className="flex items-center"
-            onClick={() => setShowInfoEdit(!showInfoEdit)}
-          >
+          <button className="flex items-center" onClick={handleOpenModal}>
             <div className="mr-3">Edit Info</div>
             <Image alt="editInfoIcon" src={editProfileIcon} />
           </button>

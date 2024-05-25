@@ -1,11 +1,13 @@
 import React from "react";
 import Image, { StaticImageData } from "next/image";
 
-import userIcon from "../../../assets/userIcon.svg";
-import moreIcon from "../../../assets/moreIcon.svg";
-import commentIcon from "../../../assets/commentIcon.svg";
-import likeIcon from "../../../assets/likeIcon.svg";
-import shareIcon from "../../../assets/shareIcon.svg";
+import userIcon from "@/assets/userIcon.svg";
+import moreIcon from "@/assets/moreIcon.svg";
+import commentIcon from "@/assets/commentIcon.svg";
+import likeIcon from "@/assets/likeIcon.svg";
+import shareIcon from "@/assets/shareIcon.svg";
+
+import mockProfilPic from "@/assets/mockProfilPic.png";
 
 export interface FollowProps {
   userName?: string;
@@ -17,25 +19,21 @@ export interface FollowProps {
 export default function Follow(props: FollowProps) {
   return (
     <div>
-      <div className="flex flex-col bg-componentBackground my-2 p-2 rounded-md border-2 border-componentOutline text-subTitle">
-        <div className="flex flex-row items-center m-2">
-          <div className="flex flex-row space-x-2 items-center w-full">
-            {props.userImage ? (
-              <Image
-                alt="userIcon"
-                src={props.userImage}
-                height={40}
-                width={40}
-              />
-            ) : (
-              <Image alt="userIcon" src={userIcon} height={40} width={40} />
-            )}
+      <div className="flex flex-col bg-componentBackground p-5 rounded-xl border border-componentOutline text-subTitle">
+        <div className="flex items-center">
+          <div className="flex space-x-2 items-center w-full">
+            <Image
+              alt="userIcon"
+              src={mockProfilPic || userIcon}
+              height={32}
+              width={32}
+              className="rounded"
+            />
             <div className="text-white">{props.userName}</div>
             <div>followed you</div>
           </div>
-          <button className="right-0 mr-2">
-            <Image alt="moreIcon" src={shareIcon} />
-          </button>
+
+          <Image alt="moreIcon" src={shareIcon} />
         </div>
       </div>
     </div>

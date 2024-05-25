@@ -4,11 +4,23 @@ import editProfileIcon from "@/assets/editProfileIcon.svg";
 import permanentJobIcon from "@/assets/permanentJobIcon.svg";
 import mockPostImage from "@/assets/mockPostImage.png";
 import Image from "next/image";
+import ProfileEditModal from "./profileEditModal";
 
 export default function ProfilCardSection() {
   const [showProfileEdit, setShowProfileEdit] = useState(false);
+
+  const handleOpenModal = () => {
+    setShowProfileEdit(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowProfileEdit(false);
+  };
+
   return (
     <div className="space-y-2">
+      {showProfileEdit && <ProfileEditModal onClose={handleCloseModal} />}
+
       <div className="text-subtileText">Your Profile</div>
       <div className="flex flex-col bg-componentBackground p-5 rounded-xl border border-componentOutline text-subTitle">
         <div className="w-full bg-btn-background h-36 rounded-md"></div>
@@ -26,10 +38,7 @@ export default function ProfilCardSection() {
               <div>@dimitroweb</div>
             </div>
           </div>
-          <button
-            className="flex items-center"
-            onClick={() => setShowProfileEdit(!showProfileEdit)}
-          >
+          <button className="flex items-center" onClick={handleOpenModal}>
             Edit Profile
             <Image
               className="ml-3"
