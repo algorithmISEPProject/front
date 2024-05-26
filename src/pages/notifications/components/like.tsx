@@ -16,29 +16,31 @@ export interface LikeProps {
 export default function Like(props: LikeProps) {
   return (
     <div>
-      <div className="flex flex-col bg-componentBackground my-2 p-2 rounded-md border-2 border-componentOutline text-subTitle">
-        <div className="flex flex-row items-center m-2">
-          <div className="flex flex-col w-full space-x-2">
-            <div className="flex flex-row space-x-2 mb-2 items-center w-full">
-              {props.userImage ? (
+      <div className="flex flex-col bg-componentBackground gap-5 p-5 rounded-xl border-1 border-componentOutline text-subTitle">
+        <div className="flex items-center gap-5">
+          <div className="flex flex-col space-y-4 w-full space-x-2">
+            <div className="flex items-center">
+              <div className="flex space-x-2  items-center w-full">
                 <Image
                   alt="userIcon"
-                  src={props.userImage}
+                  src={props?.userImage || ""}
                   height={40}
                   width={40}
                 />
-              ) : (
-                <Image alt="userIcon" src={userIcon} height={40} width={40} />
-              )}
-              <div className="text-white">{props.userName}</div>
-              <div>Liked your reply</div>
+                <div className="text-white">Dimitar</div>
+                <div>Liked your reply</div>
+              </div>
+              <div className="">
+                <Image
+                  alt="moreIcon"
+                  src={likeRedIcon}
+                  height={30}
+                  width={30}
+                />
+              </div>
             </div>
-            <div>{props.messageContent}</div>
+            <div>Bonjour c'est moi</div>
           </div>
-
-          <button className="right-0 mr-2">
-            <Image alt="moreIcon" src={likeRedIcon} />
-          </button>
         </div>
       </div>
     </div>
