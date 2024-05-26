@@ -93,10 +93,6 @@ export default function ProfilCardSection() {
         </div>
         <div className="flex w-3/4 space-x-8 mt-3 text-lg">
           <div className="flex">
-            <div className="text-white mr-1">{80}</div>
-            <div>Friends</div>
-          </div>
-          <div className="flex">
             <div className="text-white mr-1">
               {data.users[0].followersAggregate?.count}
             </div>

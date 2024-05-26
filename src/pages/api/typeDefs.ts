@@ -95,4 +95,18 @@ type Group {
   members: [User!]! @relationship(type: "MEMBER_OF", direction: IN)
 }
 
+extend type User {
+  recommend(limit: Int=10, userId: ID!): [User!]!
+  @cypher(
+    statement: """
+    MATCH (u:User {_id: $userId})-[:HAS_HOBBY]->(h:Hobby)
+    WITH u, h
+    MATCH (otherUser:User)-[:HAS_HOBBY]->(h)
+    WHERE otherUser <> u
+    RETURN DISTINCT otherUser LIMIT $limit
+    """,
+    columnName: "otherUser"
+  )
+}
+
   `;

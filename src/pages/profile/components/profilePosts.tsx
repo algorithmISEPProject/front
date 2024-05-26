@@ -1,52 +1,31 @@
-import React from "react";
-import Image from "next/image";
-import Feed from "../../../components/postComponent";
 import {
-  Post,
-  User,
   UserPostsQuery,
   UserPostsQueryVariables,
-  Comment,
-  Hobby,
-  Event,
-  Group,
 } from "@/interface/typeInterface";
 
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  gql,
-  useQuery,
-} from "@apollo/client";
+import { useAuth } from "@/context/AuthContext";
+import { gql, useQuery } from "@apollo/client";
 import PostComponent from "../../../components/postComponent";
 
 export default function ProfilePosts() {
-  const client = new ApolloClient({
-    uri: "/api/graphql",
-    cache: new InMemoryCache(),
-  });
-
+  const { user } = useAuth();
   const GET_USER_POSTS = gql`
-    query GetUserPosts($username: String!) {
-      userPosts(username: $username) {
-        id
+    query getUserPost($_id: ID = ${JSON.stringify(user._id)}) {
+      posts(where: { author: { _id: $_id }}, options: {sort: {createdAt: DESC}}) {
         content
-        imageURL
         createdAt
+        id
+        imageURL
+        likesAggregate {
+          count
+        }
+        commentsAggregate {
+          count
+        }
         author {
-          username
           avatar
-        }
-        comments {
-          id
-          content
-          createdAt
-          author {
-            username
-          }
-        }
-        likes {
+          _id
+          firstName
           username
         }
       }
@@ -54,10 +33,7 @@ export default function ProfilePosts() {
   `;
 
   const DisplayUserPosts = () => {
-    const { loading, error, data } = useQuery<
-      UserPostsQuery,
-      UserPostsQueryVariables
-    >(GET_USER_POSTS, { variables: { username: "vic_dub" } });
+    const { loading, error, data } = useQuery(GET_USER_POSTS);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error : {error.message}</p>;
@@ -65,10 +41,10 @@ export default function ProfilePosts() {
     console.log(data);
 
     return (
-      <div>
-        {data!.userPosts.map((userPost) => (
-          <div key={userPost.id}>
-            <PostComponent {...userPost} />
+      <div className="space-y-3">
+        {data?.posts?.map((item: any) => (
+          <div key={item.id}>
+            <PostComponent {...item} />
           </div>
         ))}
       </div>
@@ -76,10 +52,8 @@ export default function ProfilePosts() {
   };
 
   return (
-    <ApolloProvider client={client}>
-      <div>
-        <DisplayUserPosts />
-      </div>
-    </ApolloProvider>
+    <div>
+      <DisplayUserPosts />
+    </div>
   );
 }
