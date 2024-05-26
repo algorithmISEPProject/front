@@ -1,5 +1,5 @@
 import React from "react";
-import Group from "@/pages/groups/components/group";
+import Group from "@/pages/groups/components/groupBigComp";
 import CreateGroup from "@/pages/groups/components/createGroup";
 
 function GroupsPage() {
