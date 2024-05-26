@@ -45,7 +45,7 @@ export default function Home() {
     <div className="flex flex-col h-screen items-center">
       <div className="w-4/6 space-y-3">
         <UserPost />
-        {user?.firstName}
+
         {data.posts.map((post: any) => (
           <Feed {...post} />
         ))}
