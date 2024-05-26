@@ -13,15 +13,9 @@ export interface EventsProps {
 export default function Event(props: EventsProps) {
   const [eventParticipate, setEventParticipate] = useState(false);
   return (
-    <div className="flex w-full flex-col space-y-4 p-5 bg-componentBackground border-1 border-btn-outline rounded-xl">
+    <div className="flex w-full flex-col space-y-4 p-5 bg-componentBackground border border-btn-outline rounded-xl">
       <div className="h-36 bg-white rounded"></div>
-      <Image
-        alt="userIcon"
-        src={props?.eventImage || ""}
-        height={64}
-        width={64}
-        className="rounded"
-      />
+
       <div className="flex flex-col space-y-4">
         <div className="flex flex-col">
           <div className="flex space-x-2">
@@ -45,11 +39,10 @@ export default function Event(props: EventsProps) {
             <div className="flex items-center w-full">
               <div className="text-subTitle">{props.eventsNumber} members</div>
             </div>
-            <div className=" flex space-x-2">
-              <button className="text-subTitle tracking-wide bg-btn-background w-28 h-9 p-2 border-1 border-btn-outline rounded-xl">
-                Participate
-              </button>
-            </div>
+
+            <button className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg">
+              Participate
+            </button>
           </div>
         )}
       </div>

@@ -8,9 +8,9 @@ import likeIcon from "../../../assets/likeIcon.svg";
 import shareIcon from "../../../assets/shareIcon.svg";
 
 export interface FollowProps {
-  userName?: string;
-  userPseudo?: string;
-  userImage?: StaticImageData | undefined;
+  firstName?: string;
+  username?: string;
+  avatar?: any;
   profileName?: string; //pas sûr de ça
 }
 

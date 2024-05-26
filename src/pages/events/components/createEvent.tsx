@@ -5,11 +5,11 @@ import Image from "next/image";
 
 export default function CreateEvent() {
   return (
-    <div className="">
-      <button className="rounded-xl flex items-center w-full border-1 bg-componentBackground border-componentOutline gap-5 p-5">
-        <Image alt="plusIcon" src={plusIcon} width={10} height={10} />
-        <div className="text-subTitle">Create a new event</div>
-      </button>
-    </div>
+    <button className="rounded-xl w-full flex items-center border bg-componentBackground border-componentOutline hover:bg-btn-background transition-all gap-5 p-3 group">
+      <Image alt="plusIcon" src={plusIcon} width={12} height={12} />
+      <div className="text-subTitle group-hover:text-white">
+        Create a new event
+      </div>
+    </button>
   );
 }
