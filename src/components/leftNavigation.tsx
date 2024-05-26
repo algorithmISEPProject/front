@@ -92,7 +92,7 @@ function LeftNavigation() {
             <div className="absolute -top-20 w-full bg-btn-background rounded-xl flex-col space-y-4 p-2">
               <button
                 className="w-full rounded-lg px-4 text-red-400 py-3 hover:bg-red-900/35 hover:text-red-200 transition-all"
-                onClick={logout}
+                onClick={() => logout()}
               >
                 Deconnexion
               </button>

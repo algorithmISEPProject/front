@@ -7,9 +7,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, user } = useAuth();
   const router = useRouter();
 
-  // if (!isAuthenticated) {
-  //   router.push("/auth/login");
-  // }
+  setTimeout(() => {
+    if (!isAuthenticated && !user) {
+      router.push("/auth/login");
+    }
+  }, 1000);
 
   return (
     <div className="flex h-screen">
@@ -19,7 +21,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </aside>
       )}
       <main className="flex-1 p-4">{children}</main>
-      {isAuthenticated && (
+      {isAuthenticated && !(router.pathname == "/settings") && (
         <aside>
           <RightNavigation />
         </aside>

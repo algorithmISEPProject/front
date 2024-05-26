@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import Image from "next/image";
 
 import appLogo from "../../../assets/appLogo.svg";
@@ -21,6 +21,12 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    // call graphql register api
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen">

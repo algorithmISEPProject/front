@@ -7,6 +7,7 @@ import appLogo from "../../../assets/appLogo.svg";
 import arrowIcon from "../../../assets/arrowIcon.svg";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 export interface LoginProps {
@@ -18,10 +19,14 @@ export default function Login() {
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await login(email, password);
+
+    const response = await login(email, password);
+
+    console.log({ response });
   };
 
   return (
@@ -71,6 +76,7 @@ export default function Login() {
               Login
             </button>
           </form>
+
           <div className="flex flex-row space-x-2">
             <div className="text-subTitle">Don't have an account?</div>
             <Link
