@@ -23,7 +23,6 @@ export default function NotificationsSettings() {
           </div>
 
           <div className="flex space-x-4">
-            .
             <div className="flex space-x-4 w-full">
               <div className="text-white">Mention</div>
               <div>Off</div>

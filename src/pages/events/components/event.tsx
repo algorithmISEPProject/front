@@ -13,9 +13,9 @@ export interface EventsProps {
 export default function Event(props: EventsProps) {
   const [eventParticipate, setEventParticipate] = useState(false);
   return (
+
     <div className="flex w-full flex-col space-y-4 p-5 bg-componentBackground border border-btn-outline rounded-xl">
       <div className="h-36 bg-white rounded"></div>
-
       <div className="flex flex-col space-y-4">
         <div className="flex flex-col">
           <div className="flex space-x-2">
