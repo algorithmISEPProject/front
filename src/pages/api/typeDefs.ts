@@ -22,6 +22,34 @@ type User {
   events: [Event!]! @relationship(type: "ATTENDS", direction: OUT)
   groups: [Group!]! @relationship(type: "MEMBER_OF", direction: OUT)
   createdAt: DateTime! @timestamp(operations: [CREATE])
+  account: [Account!]! @relationship(type: "HAS_ACCOUNT", direction: OUT)
+  session: [Session!]! @relationship(type: "HAS_SESSION", direction: OUT)
+}
+
+type Account {
+  id: ID!
+  type: String
+  Provider: String
+  providerAccountId: String
+  refresh_token: String
+  access_token: String
+  expires_at: Int
+  token_type: String
+  scope: String
+  id_token: String
+  session_state: String
+}
+
+type Session {
+  id: ID!
+  expires: DateTime @timestamp
+  sessionToken: String
+}
+
+type VerificationToken {
+  identifier: String
+  token: String
+  expires: DateTime @timestamp
 }
 
 type Post {
