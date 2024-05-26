@@ -12,7 +12,7 @@ export default function ProfilCardSection() {
   const [showProfileEdit, setShowProfileEdit] = useState(false);
   const { user } = useAuth();
 
-  const GET_USER_INFO = gql`
+  const GET_USER_PROFILE_INFO = gql`
     query getUserInfo($_id: ID = ${JSON.stringify(user._id)}) {
       users(where: { _id: $_id }) {
         avatar
@@ -25,16 +25,13 @@ export default function ProfilCardSection() {
         followingAggregate {
           count
         }
-        hobbies {
-          name
-        }
         job
         location
       }
     }
   `;
 
-  const { loading, error, data } = useQuery(GET_USER_INFO);
+  const { loading, error, data } = useQuery(GET_USER_PROFILE_INFO);
 
   if (error) return <p>Error</p>;
   if (loading) return <p>Loading...</p>;
@@ -81,17 +78,17 @@ export default function ProfilCardSection() {
             {data.bio || "C'est vide ici..."}
           </div>
           <div>
-            Check out this link: <a>{data.descLink || "No link"}</a>
+            Check out this link: <a>{data.users[0].descLink || "No link"}</a>
           </div>
         </div>
         <div className="flex w-3/4 space-x-8 mt-2">
           <div className="flex">
             <Image className="mr-1" alt="commentIcon" src={permanentJobIcon} />
-            <div>{data.job || "No job"}</div>
+            <div>{data.users[0].job || "No job"}</div>
           </div>
           <div className="flex">
             <Image className="mr-1" alt="likeIcon" src={locationIcon} />
-            <div>{data.location || "No location"}</div>
+            <div>{data.users[0].location || "No location"}</div>
           </div>
         </div>
         <div className="flex w-3/4 space-x-8 mt-3 text-lg">
@@ -101,13 +98,13 @@ export default function ProfilCardSection() {
           </div>
           <div className="flex">
             <div className="text-white mr-1">
-              {data.followersAggregate?.count || 0}
+              {data.users[0].followersAggregate?.count}
             </div>
             <div>Followers</div>
           </div>
           <div className="flex">
             <div className="text-white mr-1">
-              {data.followingAggregate?.count || 0}
+              {data.users[0].followingAggregate?.count}
             </div>
             <div>Following</div>
           </div>

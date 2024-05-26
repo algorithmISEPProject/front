@@ -7,10 +7,29 @@ import ProjectComp from "./projectComp";
 import LoveComp from "./loveComp";
 import EduComp from "./eduComp";
 import testIcon from "@/assets/shareIcon.svg";
+import { gql, useQuery } from "@apollo/client";
+import { useAuth } from "@/context/AuthContext";
 
 export default function InformationsSection() {
   const [showInfoEdit, setShowInfoEdit] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const { user } = useAuth();
+
+  const GET_USER_PROFILE_INFO = gql`
+  query getUserInfo($_id: ID = ${JSON.stringify(user._id)}) {
+    users(where: {_id: $_id}) {
+      hobbies {
+        name
+        id
+      }
+    }
+  }
+`;
+
+  const { loading, error, data } = useQuery(GET_USER_PROFILE_INFO);
+
+  if (error) return <p>Error</p>;
+  if (loading) return <p>Loading...</p>;
 
   const handleOpenModal = () => {
     setShowInfoEdit(true);
@@ -33,7 +52,10 @@ export default function InformationsSection() {
           </button>
         </div>
         <div className="flex gap-2 w-full text-background items-center">
-          <HobbyComp hobby="Video Games" />
+          {data.users[0].hobbies.map((item: any) => {
+            <HobbyComp hobby={item.name} key={item.id} />;
+          })}
+
           <HobbyComp hobby="Sports" />
           <HobbyComp hobby="Hiking" />
           <HobbyComp hobby="Design" />
