@@ -5,6 +5,7 @@ type User {
   firstName: String!
   lastName: String!
   email: String!
+  emailVerified: DateTime! @timestamp(operations: [CREATE])
   password: String!
   avatar: String
   banner: String
@@ -42,14 +43,14 @@ type Account {
 
 type Session {
   id: ID!
-  expires: DateTime @timestamp
+  expires: DateTime @timestamp(operations: [CREATE])
   sessionToken: String
 }
 
 type VerificationToken {
   identifier: String
   token: String
-  expires: DateTime @timestamp
+  expires: DateTime @timestamp(operations: [CREATE])
 }
 
 type Post {
