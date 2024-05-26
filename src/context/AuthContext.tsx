@@ -27,7 +27,12 @@ export const AuthProvider = ({ children }: any) => {
   useEffect(() => {
     const authStatus = Cookies.get("isAuthenticated");
     if (authStatus === "true") {
-      setIsAuthenticated(true);
+      const storedUser = Cookies.get("user");
+      if (storedUser) {
+        console.log("user", storedUser);
+        setUser(JSON.parse(storedUser));
+        setIsAuthenticated(true);
+      }
     }
   }, []);
 
@@ -57,6 +62,7 @@ export const AuthProvider = ({ children }: any) => {
       if (data.users && data.users[0].password === password) {
         getUser(data.users[0]._id);
         Cookies.set("isAuthenticated", "true", { expires: 7 });
+
         setIsAuthenticated(true);
         router.push("/");
       } else {
@@ -75,6 +81,7 @@ export const AuthProvider = ({ children }: any) => {
         users(where: {_id: $id}) {
           _id
           email
+          username
           firstName
           lastName
           avatar
@@ -93,7 +100,7 @@ export const AuthProvider = ({ children }: any) => {
     );
 
     const { data } = await response.json();
-
+    Cookies.set("user", JSON.stringify(data.users[0]), { expires: 7 });
     setUser(data.users[0]);
   };
 
@@ -101,7 +108,8 @@ export const AuthProvider = ({ children }: any) => {
   const logout = async () => {
     setIsAuthenticated(false);
     setUser([]);
-    Cookies.remove("isAuthenticated"); // Remove the authentication cookie
+    Cookies.remove("isAuthenticated");
+    Cookies.remove("user");
     router.push("/auth/login");
   };
 
