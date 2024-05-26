@@ -5,6 +5,7 @@ import userIcon from "../../../assets/userIcon.svg";
 import moreIcon from "../../../assets/moreIcon.svg";
 import commentIcon from "../../../assets/commentIcon.svg";
 import likeIcon from "../../../assets/likeIcon.svg";
+
 import friendIcon from "../../../assets/friendIcon.svg";
 
 export interface FriendProps {
@@ -24,7 +25,6 @@ export default function Friend(props: FriendProps) {
               height={40}
               width={40}
             />
-
             <div className="text-white">{props.userName}</div>
             <div>became your friend</div>
           </div>

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 interface AuthContextData {
   user: any;
@@ -19,21 +20,96 @@ export const useAuth = () => {
 // AuthProvider component that wraps its children with the AuthContext.Provider
 export const AuthProvider = ({ children }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  // Mock function to simulate user login
+  useEffect(() => {
+    const authStatus = Cookies.get("isAuthenticated");
+    if (authStatus === "true") {
+      const storedUser = Cookies.get("user");
+      if (storedUser) {
+        console.log("user", storedUser);
+        setUser(JSON.parse(storedUser));
+        setIsAuthenticated(true);
+      }
+    }
+  }, []);
+
   const login = async (email: string, password: string) => {
-    setIsAuthenticated(true);
-    setLoading(false);
-    router.push("/"); // Redirect after login
+    const LOGIN_FLOW = `
+    query getUsers($email: String = ${JSON.stringify(email)}) {
+      users(where: {email: $email}) {
+        password
+        _id
+      }
+    }
+    `;
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/graphql?query=${LOGIN_FLOW}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const { data } = await response.json();
+
+      if (data.users && data.users[0].password === password) {
+        getUser(data.users[0]._id);
+        Cookies.set("isAuthenticated", "true", { expires: 7 });
+
+        setIsAuthenticated(true);
+        router.push("/");
+      } else {
+        // handle login failure
+        alert("Invalid email or password");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("An error occurred during login");
+    }
+  };
+
+  const getUser = async (userId: string) => {
+    const GET_USER = `
+      query getUser($id: ID = ${JSON.stringify(userId)}) {
+        users(where: {_id: $id}) {
+          _id
+          email
+          username
+          firstName
+          lastName
+          avatar
+        }
+      }
+    `;
+
+    const response = await fetch(
+      `http://localhost:3000/api/graphql?query=${GET_USER}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const { data } = await response.json();
+    Cookies.set("user", JSON.stringify(data.users[0]), { expires: 7 });
+    setUser(data.users[0]);
   };
 
   // Mock function to simulate user logout
   const logout = async () => {
     setIsAuthenticated(false);
-    setUser(null);
+    setUser([]);
+    Cookies.remove("isAuthenticated");
+    Cookies.remove("user");
     router.push("/auth/login");
   };
 

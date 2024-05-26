@@ -8,15 +8,17 @@ import textBoldIcon from "@/assets/text-bold.svg";
 import textItalicIcon from "@/assets/text-italic.svg";
 import { gql, useMutation } from "@apollo/client";
 import { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 export default function UserPost() {
   const [post, setPost] = useState("");
+  const { user } = useAuth();
 
   const PUBLISH_POST = gql`
-    mutation publish($content: String!) {
+    mutation publish($content: String!, $id: ID = ${JSON.stringify(user._id)}) {
       createPosts(
         input: {
-          author: { connect: { where: { node: { firstName: "Dimitar" } } } }
+          author: { connect: { where: { node: { _id: $id } } } }
           content: $content
         }
       ) {

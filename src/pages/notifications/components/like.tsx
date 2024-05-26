@@ -8,9 +8,9 @@ import likeIcon from "../../../assets/likeIcon.svg";
 import likeRedIcon from "../../../assets/likeRedIcon.svg";
 
 export interface LikeProps {
-  userName: string;
-  userImage?: StaticImageData | undefined;
-  messageContent: string;
+  username: string;
+  avatar?: any;
+  content: string;
 }
 
 export default function Like(props: LikeProps) {
@@ -23,7 +23,7 @@ export default function Like(props: LikeProps) {
               <div className="flex space-x-2  items-center w-full">
                 <Image
                   alt="userIcon"
-                  src={props?.userImage || ""}
+                  src={props?.avatar || ""}
                   height={40}
                   width={40}
                 />
