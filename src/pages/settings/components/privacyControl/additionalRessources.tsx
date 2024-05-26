@@ -2,48 +2,36 @@ import React from "react";
 import Image from "next/image";
 
 import changePasswordIcon from "@/assets/resetPasswordGray.svg";
+import upRightArrow from "@/assets/upRightArrow.svg";
+import additionalRessourcesIcon from "@/assets/ressourcesIcon.svg";
 
 export default function AdditionalRessources() {
   return (
-    <div className="bg-componentBackground w-full space-y-6 h-4/6 rounded-xl border-1 p-5 border-componentOutline">
-      <div className="flex h-full flex-col space-y-4 ">
-        <div className="h-full flex flex-col space-y-4">
-          <div className="flex items-center space-x-4 ">
-            <div>
-              <Image
-                alt="changePasswordIcon"
-                src={changePasswordIcon}
-                width={20}
-                height={20}
-              />
-            </div>
-            <div className="text-subTitle">Change Password</div>
-          </div>
-          <div className="flex flex-col space-y-10">
-            <div className="flex flex-col space-y-4">
-              <div className="text-subTitle">Enter New Password:</div>
-              <input
-                type="text"
-                placeholder="New Password"
-                className="px-4 py-3 w-full bg-btn-background focus:outline-none rounded-lg"
-              />
-            </div>
-            <div className="flex flex-col space-y-4">
-              <div className="text-subTitle">Confirm New Password:</div>
-              <input
-                type="text"
-                placeholder="Confirm Password"
-                className="px-4 py-3 w-full bg-btn-background focus:outline-none rounded-lg"
-              />
-            </div>
-          </div>
+    <div className="bg-componentBackground w-full space-y-6 h-4/6 rounded-xl border p-5 border-componentOutline">
+      <div className="flex flex-col space-y-4">
+        <div className="flex space-x-4">
+          <Image
+            alt="additionalRessourcesIcon"
+            src={additionalRessourcesIcon}
+          />
+          <div className="text-subTitle">Additional Ressources</div>
         </div>
-        <div className="">
-          <div className="flex justify-center">
-            <button className="p-4 w-1/2 items-center bg-btn-background focus:outline-none rounded-lg">
-              <div className="text-white">Confirm</div>
-            </button>
-          </div>
+
+        <div className="flex space-x-4">
+          <div className=" border-b  text-iconInactive">Term of services</div>
+          <Image alt="upRightArrow" src={upRightArrow} width={10} height={10} />
+        </div>
+        <div className="flex space-x-4">
+          <div className="border-b  text-iconInactive">Privacy Policy</div>
+          <Image alt="upRightArrow" src={upRightArrow} width={10} height={10} />
+        </div>
+        <div className="flex space-x-4">
+          <div className=" border-b text-iconInactive">Cookie Policy</div>
+          <Image alt="upRightArrow" src={upRightArrow} width={10} height={10} />
+        </div>
+        <div className="flex space-x-4">
+          <div className=" border-b text-iconInactive">Release Notes</div>
+          <Image alt="upRightArrow" src={upRightArrow} width={10} height={10} />
         </div>
       </div>
     </div>

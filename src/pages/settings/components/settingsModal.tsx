@@ -197,7 +197,9 @@ export default function SettingsModal() {
               </button>
               <button
                 className="flex flex-row space-x-4 w-full items-center rounded-lg px-4 py-3 hover:bg-btn-background hover:text-white transition-all"
-                onClick={() => setAccountSettingsActiveMenu("accessibility")}
+                onClick={() =>
+                  setAccountSettingsActiveMenu("additionalRessources")
+                }
               >
                 <Image
                   alt="ressourcesIcon"
@@ -209,7 +211,7 @@ export default function SettingsModal() {
               </button>
               <button
                 className="flex flex-row space-x-4 w-full items-center rounded-lg px-4 py-3 hover:bg-btn-background hover:text-white transition-all"
-                onClick={() => setAccountSettingsActiveMenu("accessibility")}
+                onClick={() => setAccountSettingsActiveMenu("helpCenter")}
               >
                 <Image
                   alt="helpCenterIcon"

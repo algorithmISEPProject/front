@@ -14,7 +14,6 @@ export default function Event(props: EventsProps) {
   const [eventParticipate, setEventParticipate] = useState(false);
   return (
     <div className="flex w-full flex-col space-y-4 p-5 bg-componentBackground border-1 border-btn-outline rounded-xl">
-      <div className="h-36 bg-white rounded"></div>
       <Image
         alt="userIcon"
         src={props?.eventImage || ""}
