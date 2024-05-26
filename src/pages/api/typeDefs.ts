@@ -84,6 +84,7 @@ type Event {
   createdAt: DateTime! @timestamp(operations: [CREATE])
   date: DateTime!
   location: String!
+  eventImage: String
   attendees: [User!]! @relationship(type: "ATTENDS", direction: IN)
 }
 
@@ -91,6 +92,7 @@ type Group {
   id: ID! @id
   name: String!
   description: String!
+  eventImage: String
   createdAt: DateTime! @timestamp(operations: [CREATE])
   members: [User!]! @relationship(type: "MEMBER_OF", direction: IN)
 }
@@ -108,5 +110,6 @@ extend type User {
     columnName: "otherUser"
   )
 }
+
 
   `;
