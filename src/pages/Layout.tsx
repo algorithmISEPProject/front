@@ -19,7 +19,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </aside>
       )}
       <main className="flex-1 p-4">{children}</main>
-      {isAuthenticated && (
+      {isAuthenticated && !(router.pathname == "/settings") && (
         <aside>
           <RightNavigation />
         </aside>

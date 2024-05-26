@@ -7,16 +7,15 @@ import Reply from "@/pages/notifications/components/reply";
 
 function NotificationsPage() {
   return (
-    <div>
-      <div className="w-full flex justify-center">
-        <div className="space-y-5 w-4/6">
-          <Like />
-          <Follow />
-          <Friend />
-          <Follow />
-          <Like />
-          <Reply />
-        </div>
+    <div className="w-full flex justify-center">
+      <div className="space-y-5 w-4/6">
+        <div>Notifications</div>
+        <Like />
+        <Follow />
+        <Friend />
+        <Follow />
+        <Like />
+        <Reply />
       </div>
     </div>
   );
