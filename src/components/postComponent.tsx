@@ -14,6 +14,7 @@ import { useAuth } from "@/context/AuthContext";
 export default function PostComponent(props: Post) {
   const [activeLike, setActiveLike] = useState(props.likesAggregate.count > 0);
   const [activeComment, setActiveComment] = useState(false);
+  const [countLike, setCountLike] = useState(0);
   const { user } = useAuth();
 
   const LIKE_POST = gql`
@@ -54,15 +55,15 @@ export default function PostComponent(props: Post) {
   const [unlike_post] = useMutation(UNLIKE_POST);
 
   if (error) return <p>Error</p>;
-  if (loading) return <p>Loading...</p>;
 
   const onLikeChange = () => {
     {
       activeLike
-        ? unlike_post({ variables: { id: props.id } })
-        : like_post({
+        ? (unlike_post({ variables: { id: props.id } }), setCountLike(0))
+        : (like_post({
             variables: { id: props.id },
-          });
+          }),
+          setCountLike(1));
     }
     setActiveLike(!activeLike);
   };
@@ -111,7 +112,7 @@ export default function PostComponent(props: Post) {
 
           <button className="flex items-center gap-2" onClick={onLikeChange}>
             <Image alt="likeIcon" src={likeIcon} width={20} height={20} />
-            <div>{props.likesAggregate.count}</div>
+            <div>{props.likesAggregate.count + countLike}</div>
           </button>
         </div>
       </div>
