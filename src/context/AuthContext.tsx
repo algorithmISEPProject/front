@@ -8,6 +8,13 @@ interface AuthContextData {
   loading: boolean;
   login: (email: string, password: string) => Promise<void> | void;
   logout: () => Promise<void>;
+  register: (
+    firstName: string,
+    lastName: string,
+    username: string,
+    email: string,
+    password: string
+  ) => Promise<void> | void;
 }
 
 const AuthContext = createContext({} as AuthContextData);
@@ -75,6 +82,66 @@ export const AuthProvider = ({ children }: any) => {
     }
   };
 
+  const register = async (
+    firstName: string,
+    lastName: string,
+    username: string,
+    email: string,
+    password: string
+  ) => {
+    const REGISTER_USER = `
+    mutation createUser($email: String!, $firstName: String!, $lastName: String!, $password: String!, $username: String!) {
+      createUsers(
+        input: {username: $username, lastName: $lastName, email: $email, password: $password, firstName: $firstName}
+      ) {
+        users {
+          _id
+          email
+          username
+          password
+        }
+      }
+    }
+    `;
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/graphql?query=${REGISTER_USER} `,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: REGISTER_USER,
+            variables: {
+              email,
+              firstName,
+              lastName,
+              password,
+              username,
+            },
+          }),
+        }
+      );
+
+      const { data } = await response.json();
+
+      if (data.createUsers) {
+        getUser(data.createUsers.users[0]._id);
+        Cookies.set("isAuthenticated", "true", { expires: 7 });
+        setIsAuthenticated(true);
+        router.push("/");
+      } else {
+        // handle login failure
+        alert("Invalid email or password");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("An error occurred during login");
+    }
+  };
+
   const getUser = async (userId: string) => {
     const GET_USER = `
       query getUser($id: ID = ${JSON.stringify(userId)}) {
@@ -129,6 +196,7 @@ export const AuthProvider = ({ children }: any) => {
     login,
     logout,
     isAuthenticated,
+    register,
   };
 
   return (
