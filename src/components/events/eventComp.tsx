@@ -5,6 +5,7 @@ import mockProfilPic from "@/assets/mockProfilPic.png";
 import { formatDate } from "@/utils/dateFormatter";
 import { gql, useMutation } from "@apollo/client";
 import { useAuth } from "@/context/AuthContext";
+import { defaultEventsPicture } from "@/utils/defaultImages";
 
 export interface EventsProps {
   id: string;
@@ -75,9 +76,9 @@ export default function EventComp(props: EventsProps) {
   return (
     <div className="w-full min-w-96 flex bg-inputField-background rounded-md border border-componentOutline p-2 justify-center items-center">
       <div className="flex w-full items-center gap-3">
-        <Image
-          alt="userIcon"
-          src={mockProfilPic}
+        <img
+          alt="event image"
+          src={props.eventImage || defaultEventsPicture}
           height={64}
           width={64}
           className="rounded"

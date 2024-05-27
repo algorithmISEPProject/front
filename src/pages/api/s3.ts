@@ -77,13 +77,11 @@ export async function deletePostAWS(imageUrl: string) {
     const key = url.split("/").slice(-1)[0];
 
     const deleteParams = {
-      Bucket: process.env.AWS_BUCKET_NAME!,
+      Bucket: process.env.NEXT_PUBLIC_AWS_NAME!,
       Key: key,
     };
 
     await s3Client.send(new DeleteObjectCommand(deleteParams));
-
-    revalidatePath("/");
   } catch (error) {
     console.error(error);
   }

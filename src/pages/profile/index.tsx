@@ -22,11 +22,11 @@ export interface ProfileProps {
 
 export default function ProfilePage() {
   const [activeProfileMenu, setActiveProfileMenu] = useState("Posts");
-  const [userPseudo, setUserPseudo] = useState(""); //will later allow to fetch only the tweets, likes and replies from the connected user
+
   const { user } = useAuth();
 
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center pb-10">
       <div className="space-y-5 w-4/6">
         <ProfilCardSection username={user.username} />
 
@@ -40,6 +40,7 @@ export default function ProfilePage() {
                   ? "bg-componentBackground rounded-md"
                   : ""
               }`}
+              onClick={() => setActiveProfileMenu("Posts")}
             >
               Posts
             </button>
@@ -49,6 +50,7 @@ export default function ProfilePage() {
                   ? "bg-componentBackground rounded-md"
                   : ""
               }`}
+              onClick={() => setActiveProfileMenu("Likes")}
             >
               Likes
             </button>
@@ -58,13 +60,20 @@ export default function ProfilePage() {
                   ? "bg-componentBackground rounded-md"
                   : ""
               }`}
+              onClick={() => setActiveProfileMenu("Replies")}
             >
               Replies
             </button>
           </div>
         </div>
 
-        <ProfilePosts username={user.username} />
+        {activeProfileMenu == "Posts" ? (
+          <ProfilePosts username={user.username} />
+        ) : activeProfileMenu == "Likes" ? (
+          <ProfileLikes username={user.username} />
+        ) : (
+          <ProfileReplies username={user.username} />
+        )}
       </div>
     </div>
   );

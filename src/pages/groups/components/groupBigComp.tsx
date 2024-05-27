@@ -5,7 +5,11 @@ import React, { useEffect, useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { useAuth } from "@/context/AuthContext";
 import { Group } from "@/interface/typeInterface";
+
 import Link from "next/link";
+
+import { defaultBannerPicture } from "@/utils/defaultImages";
+
 
 export default function GroupBigComp(props: Group) {
   const [joinedGroup, setJoinedGroup] = useState(false);
@@ -61,7 +65,11 @@ export default function GroupBigComp(props: Group) {
 
   return (
     <div className="flex w-full flex-col p-5 space-y-4 bg-componentBackground border border-btn-outline rounded-xl">
-      <div className="h-36 bg-white rounded"></div>
+      <img
+        alt="group banner"
+        src={props.groupImage || defaultBannerPicture}
+        className="h-36 bg-white rounded object-cover"
+      />
       <div className="text-white">{props.name}</div>
 
       {joinedGroup ? (

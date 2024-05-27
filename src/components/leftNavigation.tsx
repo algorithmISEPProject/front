@@ -12,10 +12,10 @@ import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-import mockProfilPic from "@/assets/mockProfilPic.png";
 import showMenuIcon from "@/assets/showMenu.svg";
 import { useState } from "react";
 import NavLinkComp from "./navLinkComp";
+import { defaultProfilPicture } from "@/utils/defaultImages";
 
 function LeftNavigation() {
   const [showMenu, setShowMenu] = useState(false);
@@ -104,9 +104,9 @@ function LeftNavigation() {
           >
             <div className="flex items-center gap-2">
               <div>
-                <Image
+                <img
                   alt="profile"
-                  src={user?.avatar || mockProfilPic}
+                  src={user?.avatar || defaultProfilPicture}
                   height={56}
                   width={56}
                   className="rounded"

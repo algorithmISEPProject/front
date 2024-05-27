@@ -6,15 +6,16 @@ import likeIcon from "@/assets/likeIcon.svg";
 import moreIcon from "@/assets/moreIcon.svg";
 
 import { useAuth } from "@/context/AuthContext";
-import { Post } from "@/interface/typeInterface";
+import { deletePostAWS } from "@/pages/api/s3";
+import { defaultProfilPicture } from "@/utils/defaultImages";
 import { formatRelativeTime } from "@/utils/formatDate";
 import { gql, useMutation } from "@apollo/client";
 import Link from "next/link";
-import { DeleteObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { deletePostAWS } from "@/pages/api/s3";
 
-export default function PostComponent(props: Post) {
-  const [activeLike, setActiveLike] = useState(props.likesAggregate.count > 0);
+export default function PostComponent(props: any) {
+  const [activeLike, setActiveLike] = useState(
+    props?.likesAggregate?.count > 0
+  );
   const [activeComment, setActiveComment] = useState(false);
 
   const [showOptions, setShowOptions] = useState(false);
@@ -86,7 +87,9 @@ export default function PostComponent(props: Post) {
     deletePost({ variables: { id: props.id } });
     setShowOptions(!showOptions);
 
-    deletePostAWS(props.imageURL as string);
+    if (props.imageURL) {
+      await deletePostAWS(props.imageURL as string);
+    }
 
     window.location.reload();
   };
@@ -99,12 +102,13 @@ export default function PostComponent(props: Post) {
     <div className="">
       <div className="flex relative flex-col gap-5 bg-componentBackground p-5 rounded-lg border border-componentOutline text-subTitle">
         <div className="flex">
-          <div className="flex space-x-2 items-center w-full">
-            <Image
+          <div className="flex space-x-3 items-center w-full">
+            <img
               alt="userIcon"
-              src={props?.avatar || ""}
+              src={props?.author.avatar || defaultProfilPicture}
               height={40}
               width={40}
+              className="border border-btn-outline rounded w-10 h-10"
             />
             <Link
               href={`/profile/${props.author.username}`}
@@ -118,18 +122,20 @@ export default function PostComponent(props: Post) {
               {formatRelativeTime(props.createdAt)}
             </div>
           </div>
-          <div
-            onClick={() => setShowOptions(!showOptions)}
-            className="cursor-pointer"
-          >
-            <Image alt="moreIcon" src={moreIcon} />
-          </div>
-
+          {user.username === props.author.username && (
+            <div
+              onClick={() => setShowOptions(!showOptions)}
+              className="cursor-pointer"
+            >
+              <Image alt="moreIcon" src={moreIcon} />
+            </div>
+          )}
           {showOptions && (
             <div className="absolute right-5 top-10 bg-componentBackground p-2 rounded-xl border border-componentOutline">
               <div className="text-subTitle p-2 hover:bg-componentOutline min-w-20 rounded-lg cursor-pointer">
                 Edit
               </div>
+
               <div
                 onClick={onDeletePost}
                 className="text-error p-2 hover:bg-componentOutline min-w-20 rounded-lg cursor-pointer"

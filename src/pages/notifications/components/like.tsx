@@ -6,6 +6,7 @@ import moreIcon from "../../../assets/moreIcon.svg";
 import commentIcon from "../../../assets/commentIcon.svg";
 import likeIcon from "../../../assets/likeIcon.svg";
 import likeRedIcon from "../../../assets/likeRedIcon.svg";
+import { defaultProfilPicture } from "@/utils/defaultImages";
 
 export interface LikeProps {
   username: string;
@@ -20,15 +21,18 @@ export default function Like(props: LikeProps) {
         <div className="flex items-center gap-5">
           <div className="flex flex-col space-y-4 w-full space-x-2">
             <div className="flex items-center">
-              <div className="flex space-x-2  items-center w-full">
-                <Image
+              <div className="flex space-x-3 items-center w-full">
+                <img
                   alt="userIcon"
-                  src={props?.avatar || ""}
-                  height={40}
-                  width={40}
+                  src={props.avatar || defaultProfilPicture}
+                  height={32}
+                  width={32}
+                  className="border border-btn-outline rounded w-8 h-8"
                 />
-                <div className="text-white">Dimitar</div>
-                <div>Liked your reply</div>
+                <div className="flex gap-1">
+                  <div className="text-white">Dimitar</div>
+                  <div>Liked your reply</div>
+                </div>
               </div>
               <div className="">
                 <Image

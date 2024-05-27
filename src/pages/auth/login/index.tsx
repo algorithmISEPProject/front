@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
 import Image from "next/image";
+import React, { useState } from "react";
 
+import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import appLogo from "../../../assets/appLogo.svg";
 import arrowIcon from "../../../assets/arrowIcon.svg";
-import Link from "next/link";
-import { useAuth } from "@/context/AuthContext";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 
 export interface LoginProps {
   Email: string;

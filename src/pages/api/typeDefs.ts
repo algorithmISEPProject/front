@@ -75,10 +75,12 @@ type Tag {
 type Comment {
   id: ID! @id
   content: String
+  imageURL: String
   createdAt: DateTime! @timestamp(operations: [CREATE])
   post: Post! @relationship(type: "COMMENTED_ON", direction: OUT)
   author: User! @relationship(type: "WROTE", direction: OUT)
-  posts: [Post!]! @relationship(type: "POSTED_IN", direction: IN)
+  comments: [Comment!]! @relationship(type: "COMMENTED_ON", direction: IN)
+  likes: [User!]! @relationship(type: "LIKED", direction: IN)
 }
 
 type Hobby {

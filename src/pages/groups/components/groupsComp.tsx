@@ -7,6 +7,7 @@ import groupNumberIcon from "@/assets/groupNumberIcon.svg";
 import mockProfilPic from "@/assets/mockProfilPic.png";
 import { useAuth } from "@/context/AuthContext";
 import { gql, useMutation } from "@apollo/client";
+import { defaultGroupsPicture } from "@/utils/defaultImages";
 
 export interface GroupsProps {
   eventImage?: string;
@@ -74,9 +75,9 @@ export default function GroupComponent(props: GroupsProps) {
   return (
     <div className="w-full flex min-w-96 bg-inputField-background rounded-md border border-componentOutline p-2 justify-center items-center">
       <div className="flex w-full items-center gap-3">
-        <Image
-          alt="userIcon"
-          src={mockProfilPic}
+        <img
+          alt="group picture"
+          src={props.eventImage || defaultGroupsPicture}
           height={64}
           width={64}
           className="rounded"
