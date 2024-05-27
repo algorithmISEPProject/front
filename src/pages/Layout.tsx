@@ -21,11 +21,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </aside>
       )}
       <main className="flex-1 p-4">{children}</main>
-      {isAuthenticated && !(router.pathname == "/settings") && (
-        <aside>
-          <RightNavigation />
-        </aside>
-      )}
+      {isAuthenticated &&
+        !(router.pathname == "/settings") &&
+        !(router.pathname == "/messages") && (
+          <aside>
+            <RightNavigation />
+          </aside>
+        )}
     </div>
   );
 };

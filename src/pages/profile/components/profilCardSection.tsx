@@ -7,6 +7,10 @@ import Image from "next/image";
 import { useState } from "react";
 import ProfileEditModal from "./profileEditModal";
 import { useAuth } from "@/context/AuthContext";
+import {
+  defaultBannerPicture,
+  defaultProfilPicture,
+} from "@/utils/defaultImages";
 
 export default function ProfilCardSection(username: any) {
   const [showProfileEdit, setShowProfileEdit] = useState(false);
@@ -97,12 +101,16 @@ export default function ProfilCardSection(username: any) {
         {isUserMe ? "Your profile" : username.username + "'s profile"}
       </div>
       <div className="flex flex-col bg-componentBackground p-5 rounded-xl border border-componentOutline text-subTitle space-y-5">
-        <div className="w-full bg-btn-background h-36 rounded-md"></div>
+        <img
+          alt="user banner"
+          src={data.users[0].banner || defaultBannerPicture}
+          className="w-full bg-btn-background h-36 rounded-md object-cover"
+        />
         <div className="flex w-full justify-between">
           <div className="flex gap-3 items-center">
-            <Image
+            <img
               alt="userIcon"
-              src={mockPostImage}
+              src={data.users[0].avatar || defaultProfilPicture}
               height={40}
               width={40}
               className="w-16 h-16 rounded-md"

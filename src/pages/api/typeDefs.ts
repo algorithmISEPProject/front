@@ -25,6 +25,8 @@ type User {
   createdAt: DateTime! @timestamp(operations: [CREATE])
   account: [Account!]! @relationship(type: "HAS_ACCOUNT", direction: OUT)
   session: [Session!]! @relationship(type: "HAS_SESSION", direction: OUT)
+  chats: [Chat!]! @relationship(type: "PARTICIPATES_IN", direction: OUT)
+  notifications: [Notification!]! @relationship(type: "RECEIVES", direction: OUT)
 }
 
 type Account {
@@ -61,6 +63,13 @@ type Post {
   author: User! @relationship(type: "POSTED", direction: IN)
   comments: [Comment!]! @relationship(type: "COMMENTED_ON", direction: IN)
   likes: [User!]! @relationship(type: "LIKED", direction: IN)
+  tags: [Tag!]! @relationship(type: "TAGGED_WITH", direction: OUT)
+}
+
+type Tag {
+  id: ID! @id
+  name: String!
+  posts: [Post!]! @relationship(type: "TAGGED_WITH", direction: IN)
 }
 
 type Comment {
@@ -69,6 +78,7 @@ type Comment {
   createdAt: DateTime! @timestamp(operations: [CREATE])
   post: Post! @relationship(type: "COMMENTED_ON", direction: OUT)
   author: User! @relationship(type: "WROTE", direction: OUT)
+  posts: [Post!]! @relationship(type: "POSTED_IN", direction: IN)
 }
 
 type Hobby {
@@ -82,7 +92,7 @@ type Event {
   name: String!
   description: String
   createdAt: DateTime! @timestamp(operations: [CREATE])
-  date: DateTime
+  date: DateTime!
   location: String!
   eventImage: String
   attendees: [User!]! @relationship(type: "ATTENDS", direction: IN)
@@ -95,6 +105,38 @@ type Group {
   groupImage: String
   createdAt: DateTime! @timestamp(operations: [CREATE])
   members: [User!]! @relationship(type: "MEMBER_OF", direction: IN)
+  posts: [Post!]! @relationship(type: "POSTED_IN", direction: IN)
+}
+
+type Chat {
+  id: ID! @id
+  name: String
+  participants: [User!]! @relationship(type: "PARTICIPATES_IN", direction: IN)
+  messages: [Message!]! @relationship(type: "SENT_IN", direction: OUT)
+}
+
+type Message {
+  id: ID! @id
+  content: String!
+  imageUrl: String
+  sender: User! @relationship(type: "SENT_BY", direction: OUT)
+  chat: Chat! @relationship(type: "SENT_IN", direction: IN)
+  createdAt: DateTime! @timestamp(operations: [CREATE])
+}
+
+type Notification {
+  id: ID! @id
+  type: NotificationType!
+  message: String!
+  createdAt: DateTime! @timestamp(operations: [CREATE])
+  user: User! @relationship(type: "RECEIVES", direction: IN)
+}
+
+enum NotificationType {
+  LIKE
+  COMMENT
+  FOLLOW
+  REPLY
 }
 
 extend type User {
@@ -111,8 +153,8 @@ extend type User {
   )
 }
 
+
 type Subscription {
   onAddedPost: Post
 }
-
   `;
