@@ -12,7 +12,6 @@ import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-import mockProfilPic from "@/assets/mockProfilPic.png";
 import showMenuIcon from "@/assets/showMenu.svg";
 import { useState } from "react";
 import NavLinkComp from "./navLinkComp";

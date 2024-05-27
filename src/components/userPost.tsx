@@ -13,6 +13,7 @@ import { generateUploadURL } from "@/pages/api/s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { revalidatePath } from "next/cache";
 import { defaultProfilPicture } from "@/utils/defaultImages";
+import computeSHA256 from "@/utils/computeSHA256";
 
 export default function UserPost() {
   const [content, setContent] = useState("");
@@ -51,16 +52,6 @@ export default function UserPost() {
 
   if (error) return <p>Error</p>;
   if (mutaLoading) return <p>Loading...</p>;
-
-  const computeSHA256 = async (file: File) => {
-    const buffer = await file.arrayBuffer();
-    const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
-    return hashHex;
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
