@@ -12,6 +12,7 @@ import { twMerge } from "tailwind-merge";
 import { generateUploadURL } from "@/pages/api/s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { revalidatePath } from "next/cache";
+import { defaultProfilPicture } from "@/utils/defaultImages";
 
 export default function UserPost() {
   const [content, setContent] = useState("");
@@ -107,6 +108,8 @@ export default function UserPost() {
 
     setStatusMessage("Created");
     setLoading(false);
+
+    window.location.reload();
   };
 
   // console.log(data.createPosts.posts[0].id);
@@ -133,9 +136,9 @@ export default function UserPost() {
         <div className="text-subtileText">Post</div>
         <div className="flex flex-col bg-componentBackground p-[4px] pb-3 rounded-lg border border-componentOutline text-subTitle space-y-3">
           <form className="flex gap-2" onSubmit={handleSubmit}>
-            <Image
+            <img
               alt="userIcon"
-              src={mockProfilPic}
+              src={user.avatar || defaultProfilPicture}
               height={40}
               width={40}
               className="border border-btn-outline rounded w-10 h-10"
@@ -166,7 +169,7 @@ export default function UserPost() {
                 <img
                   src={fileUrl}
                   alt="Selected file"
-                  className="w-full h-auto max-h-96 rounded-lg"
+                  className="w-full h-auto max-h-96 rounded-lg object-contain bg-btn-background"
                 />
               ) : file.type.startsWith("video/") ? (
                 <video src={fileUrl} controls />

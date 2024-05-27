@@ -5,6 +5,7 @@ import Image from "next/image";
 import { IEvent } from "@/interface/typeInterface";
 import { useAuth } from "@/context/AuthContext";
 import { gql, useMutation } from "@apollo/client";
+import { defaultEventsBanner } from "@/utils/defaultImages";
 
 export interface EventsProps {
   eventsName?: string;
@@ -71,7 +72,10 @@ export default function Event(props: IEvent) {
 
   return (
     <div className="flex w-full flex-col space-y-4 p-5 bg-componentBackground border border-btn-outline rounded-xl">
-      <div className="h-36 bg-white rounded"></div>
+      <img
+        src={props.eventImage || defaultEventsBanner}
+        className="h-36 bg-white rounded object-cover"
+      />
       <div className="flex flex-col space-y-4">
         <div className="flex flex-col">
           <div className="flex space-x-2">

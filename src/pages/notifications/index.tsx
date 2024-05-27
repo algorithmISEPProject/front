@@ -12,7 +12,6 @@ function NotificationsPage() {
         <div>Notifications</div>
         <Like />
         <Follow />
-        <Friend />
         <Follow />
         <Like />
         <Reply />
