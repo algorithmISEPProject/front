@@ -12,6 +12,7 @@ import { gql, useMutation } from "@apollo/client";
 import Link from "next/link";
 import { DeleteObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { deletePostAWS } from "@/pages/api/s3";
+import { defaultProfilPicture } from "@/utils/defaultImages";
 
 export default function PostComponent(props: Post) {
   const [activeLike, setActiveLike] = useState(props.likesAggregate.count > 0);
@@ -99,12 +100,13 @@ export default function PostComponent(props: Post) {
     <div className="">
       <div className="flex relative flex-col gap-5 bg-componentBackground p-5 rounded-lg border border-componentOutline text-subTitle">
         <div className="flex">
-          <div className="flex space-x-2 items-center w-full">
-            <Image
+          <div className="flex space-x-3 items-center w-full">
+            <img
               alt="userIcon"
-              src={props?.avatar || ""}
+              src={props?.avatar || defaultProfilPicture}
               height={40}
               width={40}
+              className="border border-btn-outline rounded w-10 h-10"
             />
             <Link
               href={`/profile/${props.author.username}`}

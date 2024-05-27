@@ -7,6 +7,7 @@ import mockProfilPic from "@/assets/mockProfilPic.png";
 import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { gql } from "@apollo/client";
+import { defaultProfilPicture } from "@/utils/defaultImages";
 
 export interface SuggestionsProps {
   userName: string;
@@ -21,9 +22,9 @@ export default function SuggestionComp({ userName, hobby }: SuggestionsProps) {
   return (
     <div className="w-full flex min-w-96  bg-inputField-background rounded-md border border-componentOutline p-2 justify-center items-center">
       <div className="flex w-full items-center gap-3">
-        <Image
+        <img
           alt="userIcon"
-          src={mockProfilPic}
+          src={defaultProfilPicture}
           height={64}
           width={64}
           className="rounded"
