@@ -14,6 +14,7 @@ import frenchFlagIcon from "@/assets/frenchFlagIcon.svg";
 import birthdayCakeIcon from "@/assets/birthdayCakeIcon.svg";
 import { User } from "@/interface/typeInterface";
 import onIcon from "@/assets/onIcon.svg";
+import { defaultProfilPicture } from "@/utils/defaultImages";
 
 export default function AccountInformation(props: User) {
   const [commentBlockActive, setCommentBlockActive] = useState(false);
@@ -32,14 +33,14 @@ export default function AccountInformation(props: User) {
       <div className="flex flex-col  space-y-4">
         <div className="flex items-center space-x-4">
           <div className="flex space-x-4 w-full bg-componentOutline rounded-xl p-1">
-            <Image
+            <img
               className="rounded-xl"
               alt="mockIcon"
-              src={mockProfileIcon}
+              src={defaultProfilPicture}
               width={56}
               height={56}
             />
-            <div className="flex flex-col space-y-2">
+            <div className="flex flex-col justify-center">
               <div className="text-white">{props.firstName}</div>
               <div className="text-subTitle">@{props.username}</div>
             </div>
