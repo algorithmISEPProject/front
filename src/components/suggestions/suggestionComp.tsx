@@ -6,7 +6,8 @@ import mockProfilPic from "@/assets/mockProfilPic.png";
 
 import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import Link from "next/link";
 
 export interface SuggestionsProps {
   _id: string;
@@ -23,7 +24,7 @@ export default function SuggestionComp({
   const { user } = useAuth();
   const [followed, setFollowed] = useState(false);
 
-  const FOLLOW_USER = gql`
+  const FOLLOW = gql`
     mutation follow($userToFollowId: ID! = ${_id}, $_userId: ID = ${JSON.stringify(
     user._id
   )}) {
@@ -40,12 +41,6 @@ export default function SuggestionComp({
       }
     }
   `;
-  const [followUser] = useMutation(FOLLOW_USER);
-
-  const handleFollow = () => {
-    followUser();
-    console.log("user Followed");
-  };
 
   return (
     <div className="w-full flex min-w-96  bg-inputField-background rounded-md border border-componentOutline p-2 justify-center items-center">
@@ -66,15 +61,15 @@ export default function SuggestionComp({
         </div>
       </div>
       <div className="flex space-x-2">
-        <button
-          onClick={handleFollow}
-          className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg"
-        >
+        <button className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg">
           Follow
         </button>
-        <button className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg">
+        <Link
+          href={`/profile/${userName}`}
+          className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg"
+        >
           See
-        </button>
+        </Link>
       </div>
     </div>
   );

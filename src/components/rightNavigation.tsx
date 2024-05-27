@@ -63,7 +63,7 @@ function RightNavigation() {
         <div className="text-subtileText">Suggestions</div>
         <Suggestions
           _id="1"
-          userName="Victor Dubrana"
+          userName="johndoe"
           userImage={kingWhale}
           hobby="Hiking"
         />
