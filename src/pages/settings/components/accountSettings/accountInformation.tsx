@@ -17,6 +17,10 @@ import onIcon from "@/assets/onIcon.svg";
 
 export default function AccountInformation(props: User) {
   const [commentBlockActive, setCommentBlockActive] = useState(false);
+
+  const onChangeProtectPost = () => {
+    setCommentBlockActive(!commentBlockActive);
+  };
   return (
     <div className="bg-componentBackground w-full space-y-6 h-4/6 rounded-xl border-1 p-5 border-componentOutline">
       <div className="flex items-center space-x-4 ">
@@ -50,37 +54,38 @@ export default function AccountInformation(props: User) {
         </div>
         <div className="flex items-center space-x-4">
           <div className="flex items-center p-1 pt-5 pb-5 space-x-4 w-full bg-componentOutline rounded-xl">
-            {commentBlockActive ? (
-              <div className="flex  space-x-4 w-full">
-                <Image
-                  className="rounded-xl"
-                  alt="commentBlockIcon"
-                  src={onIcon}
-                  width={24}
-                  height={24}
-                />
-                <div className="text-white">Protect Posts</div>
-              </div>
-            ) : (
-              <div className="flex  space-x-4 w-full">
-                <Image
-                  className="rounded-xl"
-                  alt="commentBlockIcon"
-                  src={commentBlockIcon}
-                  width={24}
-                  height={24}
-                />
-                <div className="text-white">Protect Posts</div>
-              </div>
-            )}
+            <div className="flex  space-x-4 w-full">
+              <Image
+                className="rounded-xl"
+                alt="commentBlockIcon"
+                src={commentBlockIcon}
+                width={24}
+                height={24}
+              />
 
-            <Image
-              className="p-1"
-              alt="protectPostIcon"
-              src={protectPostIcon}
-              height={46}
-              width={46}
-            />
+              <div className="text-white">Protect Posts</div>
+            </div>
+            {commentBlockActive ? (
+              <button className="" onClick={onChangeProtectPost}>
+                <Image
+                  className="p-1"
+                  alt="protectPostIcon"
+                  src={onIcon}
+                  height={60}
+                  width={60}
+                />
+              </button>
+            ) : (
+              <button className="" onClick={onChangeProtectPost}>
+                <Image
+                  className="p-1"
+                  alt="protectPostIcon"
+                  src={protectPostIcon}
+                  height={60}
+                  width={60}
+                />
+              </button>
+            )}
           </div>
           <div className="flex space-x-4 w-full bg-componentOutline rounded-xl p-1">
             <Image alt="emailIcon" src={emailIcon} height={24} width={24} />
