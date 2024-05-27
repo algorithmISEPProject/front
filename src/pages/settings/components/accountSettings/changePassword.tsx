@@ -40,7 +40,7 @@ export default function ChangePassword() {
           onChangePassword(password1);
         }}
       >
-        <div className="flex h-full flex-col space-y-4 ">
+        <div className="flex h-full w-full flex-col space-y-4 ">
           <div className="h-full flex flex-col space-y-4">
             <div className="flex items-center space-x-4 ">
               <div>

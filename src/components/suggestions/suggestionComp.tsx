@@ -4,7 +4,9 @@ import Image, { StaticImageData } from "next/image";
 
 import mockProfilPic from "@/assets/mockProfilPic.png";
 
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
+import { gql } from "@apollo/client";
 
 export interface SuggestionsProps {
   userName: string;
@@ -13,6 +15,9 @@ export interface SuggestionsProps {
 }
 
 export default function SuggestionComp({ userName, hobby }: SuggestionsProps) {
+  const { user } = useAuth();
+  const [followed, setFollowed] = useState(false);
+
   return (
     <div className="w-full flex min-w-96  bg-inputField-background rounded-md border border-componentOutline p-2 justify-center items-center">
       <div className="flex w-full items-center gap-3">
@@ -31,9 +36,14 @@ export default function SuggestionComp({ userName, hobby }: SuggestionsProps) {
           </div>
         </div>
       </div>
-      <button className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg">
-        See
-      </button>
+      <div className="flex space-x-2">
+        <button className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg">
+          Follow
+        </button>
+        <button className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg">
+          See
+        </button>
+      </div>
     </div>
   );
 }

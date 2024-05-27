@@ -18,16 +18,6 @@ export default function Event(props: IEvent) {
   const [eventParticipate, setEventParticipate] = useState(false);
   const { user } = useAuth();
 
-  useEffect(() => {
-    // Check local storage for participation status
-    const participationStatus = localStorage.getItem(
-      `event-${props.id}-participation-${user._id}`
-    );
-    if (participationStatus === "true") {
-      setEventParticipate(true);
-    }
-  }, [props.id, user._id]);
-
   const JOIN_EVENT = gql`
   mutation joinEvent ($id: ID, $userId: ID = ${JSON.stringify(user._id)}) {
     updateEvents(
@@ -64,14 +54,11 @@ export default function Event(props: IEvent) {
 
   const onParticipateEventChange = () => {
     {
-      if (eventParticipate) {
+      if (!eventParticipate) {
         leaveEvent({
           variables: { id: props.id },
         });
-        localStorage.setItem(
-          `event-${props.id}-participation-${user._id}`,
-          "false"
-        );
+
         setEventParticipate(!eventParticipate);
       } else {
         joinEvent({
@@ -79,10 +66,6 @@ export default function Event(props: IEvent) {
         });
       }
       setEventParticipate(!eventParticipate);
-      localStorage.setItem(
-        `event-${props.id}-participation-${user._id}`,
-        "true"
-      );
     }
   };
 
@@ -105,11 +88,12 @@ export default function Event(props: IEvent) {
                 {props!.attendees.length} members
               </div>
             </div>
+
             <button
               onClick={onParticipateEventChange}
-              className="text-green-500 tracking-wide p-3 "
+              className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg"
             >
-              Participating
+              Participate
             </button>
           </div>
         ) : (
@@ -119,12 +103,11 @@ export default function Event(props: IEvent) {
                 {props!.attendees.length} members
               </div>
             </div>
-
             <button
               onClick={onParticipateEventChange}
-              className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg"
+              className="text-green-500 tracking-wide p-3 "
             >
-              Participate
+              Participating
             </button>
           </div>
         )}
