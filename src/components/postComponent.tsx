@@ -10,6 +10,7 @@ import { Post } from "@/interface/typeInterface";
 import { formatRelativeTime } from "@/utils/formatDate";
 import { gql, useMutation } from "@apollo/client";
 import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
 
 export default function PostComponent(props: Post) {
   const [activeLike, setActiveLike] = useState(props.likesAggregate.count > 0);
@@ -83,10 +84,17 @@ export default function PostComponent(props: Post) {
               height={40}
               width={40}
             />
-            <div className="text-white">{props.author.firstName}</div>
-            <div>@{props.author.username}</div>
-            <div>-</div>
-            <div>{formatRelativeTime(props.createdAt)}</div>
+            <Link
+              href={`/profile/${props.author.username}`}
+              className="flex gap-2"
+            >
+              <div className="text-white">{props.author.firstName}</div>
+              <div>@{props.author.username}</div>
+            </Link>
+            <div className="text-subtileText">-</div>
+            <div className="text-subtileText">
+              {formatRelativeTime(props.createdAt)}
+            </div>
           </div>
           <div className="">
             <Image alt="moreIcon" src={moreIcon} />

@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import Suggestions from "./suggestions/suggestionComp";
 import Events from "./events/eventComp";
-import GroupsComp from "./groupsForYou/groupsComp";
+import GroupComponent from "@/pages/groups/components/groupsComp";
 
 import kingWhale from "@/assets/kingWhale.png";
 import { useAuth } from "@/context/AuthContext";
 import { gql, useQuery } from "@apollo/client";
-import Groups from "./groupsForYou/groups";
 
 function RightNavigation() {
   const [usersToShow, setUsersToShow] = useState(3);
@@ -34,7 +33,7 @@ function RightNavigation() {
         }
       }
       groups(options: { limit: $limitGroups }) {
-        eventImage
+        groupImage
         description
         createdAt
         id
@@ -95,8 +94,8 @@ function RightNavigation() {
       </div>
       <div className="space-y-2">
         <div className="text-subtileText">Groups for you</div>
-        {data.groups?.slice(0, eventsToShow).map((item: any) => (
-          <GroupsComp {...item} />
+        {data.groups?.slice(0, groupsToShow).map((item: any) => (
+          <GroupComponent {...item} />
         ))}
 
         {groupsToShow == 3 ? (

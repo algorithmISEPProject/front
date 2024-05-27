@@ -92,7 +92,7 @@ type Group {
   id: ID! @id
   name: String!
   description: String!
-  eventImage: String
+  groupImage: String
   createdAt: DateTime! @timestamp(operations: [CREATE])
   members: [User!]! @relationship(type: "MEMBER_OF", direction: IN)
 }
