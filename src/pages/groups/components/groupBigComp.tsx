@@ -1,6 +1,4 @@
-import { StaticImageData } from "next/image";
-import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
 
 export interface GroupsProps {
   eventImage?: string;
@@ -12,7 +10,7 @@ export interface GroupsProps {
   membersAggregate: any;
 }
 
-export default function Group(props: GroupsProps) {
+export default function GroupBigComp(props: GroupsProps) {
   const [groupJoined, setGroupJoined] = useState(false);
 
   return (

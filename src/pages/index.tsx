@@ -1,4 +1,4 @@
-import Feed from "@/components/postComponent";
+import PostComponent from "@/components/postComponent";
 import UserPost from "@/components/userPost";
 import { useAuth } from "@/context/AuthContext";
 import { gql, useQuery } from "@apollo/client";
@@ -47,7 +47,7 @@ export default function Home() {
         <UserPost />
 
         {data.posts.map((post: any) => (
-          <Feed {...post} />
+          <PostComponent {...post} />
         ))}
       </div>
     </div>

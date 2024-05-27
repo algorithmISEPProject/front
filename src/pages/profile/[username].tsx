@@ -14,23 +14,23 @@ import ProfileInfoEditModal from "@/pages/profile/components/profileInfoEditModa
 
 import InformationsSection from "./components/informationsSection";
 import ProfilCardSection from "./components/profilCardSection";
-import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/router";
 
 export interface ProfileProps {
   onClick: void;
 }
 
 export default function ProfilePage() {
-  const [activeProfileMenu, setActiveProfileMenu] = useState("Posts");
-  const [userPseudo, setUserPseudo] = useState(""); //will later allow to fetch only the tweets, likes and replies from the connected user
-  const { user } = useAuth();
+  const router = useRouter();
+  const { username } = router.query;
+  const [activeProfileMenu, setActiveProfileMenu] = useState("");
 
   return (
     <div className="w-full flex justify-center">
       <div className="space-y-5 w-4/6">
-        <ProfilCardSection username={user.username} />
+        <ProfilCardSection username={username} />
 
-        <InformationsSection username={user.username} />
+        <InformationsSection username={username} />
 
         <div className="flex flex-col mt-8">
           <div className="flex text-subTitle space-x-4  ">
@@ -64,7 +64,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <ProfilePosts username={user.username} />
+        <ProfilePosts username={username} />
       </div>
     </div>
   );

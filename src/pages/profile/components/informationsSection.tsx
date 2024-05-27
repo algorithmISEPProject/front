@@ -10,14 +10,14 @@ import testIcon from "@/assets/shareIcon.svg";
 import { gql, useQuery } from "@apollo/client";
 import { useAuth } from "@/context/AuthContext";
 
-export default function InformationsSection() {
+export default function InformationsSection(username: any) {
   const [showInfoEdit, setShowInfoEdit] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const { user } = useAuth();
 
   const GET_USER_PROFILE_INFO = gql`
-  query getUserInfo($_id: ID = ${JSON.stringify(user._id)}) {
-    users(where: {_id: $_id}) {
+  query getUserInfo($username: String = ${JSON.stringify(username.username)}) {
+    users(where: {username: $username}) {
       hobbies {
         name
         id
@@ -53,12 +53,8 @@ export default function InformationsSection() {
         </div>
         <div className="flex gap-2 w-full text-background items-center">
           {data.users[0].hobbies.map((item: any) => {
-            <HobbyComp hobby={item.name} key={item.id} />;
+            <HobbyComp hobby={item} />;
           })}
-
-          <HobbyComp hobby="Sports" />
-          <HobbyComp hobby="Hiking" />
-          <HobbyComp hobby="Design" />
         </div>
         {showMore && (
           <div className="space-y-4">

@@ -1,6 +1,7 @@
 import React from "react";
-import Group from "@/pages/groups/components/groupBigComp";
+
 import CreateGroup from "@/pages/groups/components/createGroup";
+import GroupBigComp from "./components/groupBigComp";
 
 function GroupsPage() {
   return (
@@ -13,12 +14,12 @@ function GroupsPage() {
           </div>
           <div className="space-y-2">
             <div>Groups</div>
-            <Group
+            <GroupBigComp
               //groupImage={}
               groupsName="Video Games"
               groupsNumber={1657}
             />
-            <Group
+            <GroupBigComp
               //groupImage={}
               groupsName="Pet Walking"
               groupsNumber={765}
