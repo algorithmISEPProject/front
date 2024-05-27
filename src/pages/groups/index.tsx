@@ -4,6 +4,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import GroupBigComp from "@/pages/groups/components/groupBigComp";
 import { useAuth } from "@/context/AuthContext";
 import { Group } from "@/interface/typeInterface";
+import Link from "next/link";
 
 function GroupsPage(props: Group) {
   const { user } = useAuth();
@@ -81,7 +82,9 @@ function GroupsPage(props: Group) {
           <div className="space-y-2">
             <div>Your Groups</div>
             {data.groups.map((item: any) => (
-              <GroupBigComp {...item} />
+              <div>
+                <GroupBigComp {...item} />
+              </div>
             ))}
           </div>
         </div>

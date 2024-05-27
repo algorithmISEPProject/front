@@ -31,6 +31,7 @@ export default function InformationsSection(username: any) {
 
   if (error) return <p>Error</p>;
   if (loading) return <p>Loading...</p>;
+  console.log(data);
 
   const handleOpenModal = () => {
     setShowInfoEdit(true);
@@ -61,9 +62,15 @@ export default function InformationsSection(username: any) {
           )}
         </div>
         <div className="flex gap-2 w-full text-background items-center">
-          {data.users[0]?.hobbies.map((item: any) => {
-            <HobbyComp hobby={item} />;
-          })}
+
+          {data.users[0].hobbies.map((item: any) => (
+            <div key={item.id}>
+              <div className="bg-hobbies px-3 py-1 rounded-lg  text-black">
+                {item.name}
+              </div>
+            </div>
+          ))}
+
         </div>
         {showMore && (
           <div className="space-y-4">

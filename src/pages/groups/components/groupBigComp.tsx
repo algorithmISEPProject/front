@@ -5,7 +5,11 @@ import React, { useEffect, useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { useAuth } from "@/context/AuthContext";
 import { Group } from "@/interface/typeInterface";
+
+import Link from "next/link";
+
 import { defaultBannerPicture } from "@/utils/defaultImages";
+
 
 export default function GroupBigComp(props: Group) {
   const [joinedGroup, setJoinedGroup] = useState(false);
@@ -90,13 +94,20 @@ export default function GroupBigComp(props: Group) {
       ) : (
         <div className="flex items-center justify-between w-full">
           <div className="text-subTitle">{props!.members.length} members</div>
-
-          <button
-            onClick={onJoinedGroupChange}
-            className="text-subTitle bg-btn-background h-9 w-32 p-1 border border-btn-outline rounded-xl"
-          >
-            Leave Group
-          </button>
+          <div className="flex space-x-2">
+            <Link
+              href={`/groups/${props.id}`}
+              className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg"
+            >
+              See More
+            </Link>
+            <button
+              onClick={onJoinedGroupChange}
+              className="text-subTitle bg-btn-background h-9 w-32 p-1 border border-btn-outline rounded-xl"
+            >
+              Leave Group
+            </button>
+          </div>
         </div>
       )}
     </div>

@@ -6,18 +6,44 @@ import mockProfilPic from "@/assets/mockProfilPic.png";
 
 import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { gql } from "@apollo/client";
+
+import { gql, useMutation, useQuery } from "@apollo/client";
+import Link from "next/link";
 import { defaultProfilPicture } from "@/utils/defaultImages";
 
+
 export interface SuggestionsProps {
+  _id: string;
   userName: string;
   userImage?: StaticImageData | undefined;
   hobby: string;
 }
 
-export default function SuggestionComp({ userName, hobby }: SuggestionsProps) {
+export default function SuggestionComp({
+  userName,
+  hobby,
+  _id,
+}: SuggestionsProps) {
   const { user } = useAuth();
   const [followed, setFollowed] = useState(false);
+
+  const FOLLOW = gql`
+    mutation follow($userToFollowId: ID! = ${_id}, $_userId: ID = ${JSON.stringify(
+    user._id
+  )}) {
+      updateUsers(
+        connect: { followers: { where: { node: { _id: $_userId } } } }
+        where: { _id: $userToFollowId }
+      ) {
+        users {
+          followersAggregate {
+            count
+          }
+          email
+        }
+      }
+    }
+  `;
 
   return (
     <div className="w-full flex min-w-96  bg-inputField-background rounded-md border border-componentOutline p-2 justify-center items-center">
@@ -41,10 +67,15 @@ export default function SuggestionComp({ userName, hobby }: SuggestionsProps) {
         <button className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg">
           Follow
         </button>
-        <button className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg">
+        <Link
+          href={`/profile/${userName}`}
+          className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg"
+        >
           See
-        </button>
+        </Link>
       </div>
     </div>
   );
 }
+
+//John Victor
