@@ -128,10 +128,13 @@ export default function ProfilCardSection(username: any) {
           </div>
           {isUserMe && (
             <button
-              className="flex items-center gap-2 text-subtileText"
+              className="flex items-center gap-2 py-2 px-3 h-fit group rounded-lg transition-all duration-200 hover:bg-btn-background"
               onClick={handleOpenModal}
             >
-              Edit Profile
+              <p className="opacity-50 group-hover:opacity-100 transition-opacity">
+                Edit Profile
+              </p>
+
               <Image alt="editProfileIcon" src={editProfileIcon} />
             </button>
           )}

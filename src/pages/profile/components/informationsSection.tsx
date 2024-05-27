@@ -49,11 +49,14 @@ export default function InformationsSection(username: any) {
           <div>Hobbies</div>
           {isUserMe && (
             <button
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 h-fit group rounded-lg transition-all duration-200 "
               onClick={handleOpenModal}
             >
-              <div className="text-subtileText">Edit Info</div>
-              <Image alt="editInfoIcon" src={editProfileIcon} />
+              <p className="opacity-50 group-hover:opacity-100 transition-opacity">
+                Edit Info
+              </p>
+
+              <Image alt="editProfileIcon" src={editProfileIcon} />
             </button>
           )}
         </div>

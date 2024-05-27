@@ -1,83 +1,58 @@
-import React from "react";
-import Image from "next/image";
-import Feed from "../../../components/postComponent";
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  gql,
-  useQuery,
-} from "@apollo/client";
+import Reply from "@/pages/notifications/components/reply";
+import { gql, useQuery } from "@apollo/client";
 
-interface UserRepliedPost {
-  _id: string;
-  username: string;
-  content: string;
-  userIconURL: string;
-  createdAt: string;
-  likesNumber: number;
-  commentsNumber: number;
-  liked?: boolean;
-  replied?: boolean;
-}
-
-export default function ProfileReplies() {
-  const client = new ApolloClient({
-    uri: "/api/graphql",
-    cache: new InMemoryCache(),
-  });
-
+export default function ProfileReplies(username: any) {
   const GET_USER_REPLIED_POSTS = gql`
-    query GetUserRepliedposts {
-      userRepliedPosts {
-        _id
-        username
+    query getUserReplies($username: String = ${JSON.stringify(
+      username.username
+    )}) {
+      comments(
+        where: { author: { username: $username } }
+        options: { sort: { createdAt: DESC } }
+      ) {
         content
-        userIconURL
         createdAt
-        likesNumber
-        commentsNumber
-        liked
-        replied
+        id
+        author {
+          _id
+          avatar
+          firstName
+          username
+        }
+        imageURL
+        likesAggregate {
+          count
+        }
+        commentsAggregate {
+          count
+        }
+        post {
+          author {
+            username
+            _id
+          }
+        }
       }
     }
   `;
 
-  const DisplayUserPosts = () => {
-    const { loading, error, data } = useQuery<{
-      userRepliedPosts: UserRepliedPost[];
-    }>(GET_USER_REPLIED_POSTS);
+  const { loading, error, data } = useQuery(GET_USER_REPLIED_POSTS);
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error : {error.message}</p>;
-    console.log(data);
-
-    return (
-      <div>
-        {data!.userRepliedPosts.map((userRepliedPost) => (
-          <div key={userRepliedPost._id}>
-            <Feed
-              _id={userRepliedPost._id}
-              username={userRepliedPost.username}
-              userPseudo={userRepliedPost.username}
-              content={userRepliedPost.content}
-              createdAt={userRepliedPost.createdAt}
-              likesNumber={userRepliedPost.likesNumber}
-              commentsNumber={userRepliedPost.commentsNumber}
-              liked={userRepliedPost.liked}
-              replied={userRepliedPost.replied}
-            />
-          </div>
-        ))}
-      </div>
-    );
-  };
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error.message}</p>;
 
   return (
-    <ApolloProvider client={client}>
+    <div>
       <div>
-        <DisplayUserPosts />
+        {data.comments.length === 0 && (
+          <p className="flex justify-center items-center text h-32 text-subTitle">
+            Sorry, you have no replies.
+          </p>
+        )}
+        {data.comments.map((item: any) => (
+          <Reply {...item} />
+        ))}
       </div>
-    </ApolloProvider>
+    </div>
   );
 }
