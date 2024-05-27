@@ -25,7 +25,7 @@ export default function UserPost() {
   const buttonDisabled = content.length < 1 || loading;
 
   const PUBLISH_POST = gql`
-    mutation publish($content: String!, $imageURL: String!, $id: ID = ${JSON.stringify(
+    mutation publish($content: String!, $imageURL: String, $id: ID = ${JSON.stringify(
       user._id
     )}) {
       createPosts(
@@ -97,6 +97,10 @@ export default function UserPost() {
         body: file,
       });
     }
+
+    await createPost({
+      variables: { content: content, imageURL: null },
+    });
 
     setStatusMessage("Created");
     setLoading(false);
