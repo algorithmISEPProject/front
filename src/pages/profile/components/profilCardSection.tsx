@@ -38,7 +38,7 @@ export default function ProfilCardSection(username: any) {
   `;
 
   const FOLLOW = gql`
-    mutation follow($userToFollowId: ID, $_userId: ID = ${JSON.stringify(
+    mutation follow($userToFollowId: ID!, $_userId: ID = ${JSON.stringify(
       user._id
     )}) {
       updateUsers(
@@ -84,7 +84,7 @@ export default function ProfilCardSection(username: any) {
   const handleFollow = () => {
     if (user.username != username.username) {
       updateUsers({
-        variables: { userToFollow: data.users[0]._id },
+        variables: { userToFollowId: data.users[0]._id },
       });
     }
   };

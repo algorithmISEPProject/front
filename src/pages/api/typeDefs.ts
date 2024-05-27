@@ -55,7 +55,7 @@ type VerificationToken {
 
 type Post {
   id: ID! @id
-  content: String
+  content: String!
   imageURL: String
   createdAt: DateTime! @timestamp(operations: [CREATE])
   author: User! @relationship(type: "POSTED", direction: IN)
@@ -111,5 +111,8 @@ extend type User {
   )
 }
 
+type Subscription {
+  onAddedPost: Post
+}
 
   `;
