@@ -34,26 +34,24 @@ export default function ProfilePosts(username: any) {
     }
   `;
 
-  const DisplayUserPosts = () => {
-    const { loading, error, data } = useQuery(GET_USER_POSTS);
+  const { loading, error, data } = useQuery(GET_USER_POSTS);
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error : {error.message}</p>;
-    if (!data) return <p>No data found</p>;
-    return (
-      <div className="space-y-3">
-        {data?.posts?.map((item: any) => (
-          <div key={item.id}>
-            <PostComponent {...item} />
-          </div>
-        ))}
-      </div>
-    );
-  };
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error.message}</p>;
+  if (!data) return <p>No data found</p>;
 
   return (
-    <div>
-      <DisplayUserPosts />
+    <div className="space-y-3">
+      {data.posts.length === 0 && (
+        <p className="flex justify-center items-center text h-32 text-subTitle">
+          Sorry, you have no posts.
+        </p>
+      )}
+      {data?.posts?.map((item: any) => (
+        <div key={item.id}>
+          <PostComponent {...item} />
+        </div>
+      ))}
     </div>
   );
 }
