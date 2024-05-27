@@ -1,7 +1,7 @@
 import closeIcon from "@/assets/closeIcon.svg";
 import InputComp from "@/components/inputComp";
 import { useAuth } from "@/context/AuthContext";
-import { generateUploadURL } from "@/pages/api/s3";
+import { deletePostAWS, generateUploadURL } from "@/pages/api/s3";
 import computeSHA256 from "@/utils/computeSHA256";
 import {
   defaultBannerPicture,
@@ -10,6 +10,7 @@ import {
 import { gql, useMutation } from "@apollo/client";
 import Image from "next/image";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 const USER_UPDATE = gql`
   mutation updateUser(
@@ -61,6 +62,14 @@ export default function ProfileEditModal({ onClose, props }: any) {
   const [statusMessage, setStatusMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
+  let buttonDisabled = false;
+
+  if (statusMessage) {
+    buttonDisabled = true;
+  } else {
+    buttonDisabled = false;
+  }
+
   const { user } = useAuth();
 
   const [updateUser, { data, loading: mutaLoading, error }] =
@@ -109,7 +118,7 @@ export default function ProfileEditModal({ onClose, props }: any) {
     setLoading(true);
 
     const uploadFile = async (file: any) => {
-      setStatusMessage(`Uploading file: ${file.name}`);
+      setStatusMessage(`Uploading files...`);
       const checksum = await computeSHA256(file);
 
       const signedUrlResult = await generateUploadURL({
@@ -148,15 +157,20 @@ export default function ProfileEditModal({ onClose, props }: any) {
         setLoading(false);
         return;
       }
+
+      await deletePostAWS(props.users[0]?.banner as string);
     }
 
     if (avatarFile) {
       newAvatarUrl = (await uploadFile(avatarFile)) as string;
+
       if (!newAvatarUrl) {
         setStatusMessage("Avatar upload failed");
         setLoading(false);
         return;
       }
+
+      await deletePostAWS(props.users[0]?.avatar as string);
     }
 
     updateUser({
@@ -172,7 +186,7 @@ export default function ProfileEditModal({ onClose, props }: any) {
       },
     });
 
-    setStatusMessage("Created");
+    setStatusMessage("Changes applied successfully");
     setLoading(false);
 
     window.location.reload();
@@ -261,12 +275,20 @@ export default function ProfileEditModal({ onClose, props }: any) {
 
             <button
               type="submit"
-              className="px-3 py-2 w-full bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-xl"
+              disabled={buttonDisabled}
+              aria-disabled={buttonDisabled}
+              className={twMerge(
+                `px-3 py-2 w-full bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-xl`,
+                buttonDisabled && "opacity-50 cursor-not-allowed"
+              )}
             >
-              Save
+              {statusMessage ? (
+                <div className="text-center text-subTitle">{statusMessage}</div>
+              ) : (
+                "Save"
+              )}
             </button>
           </form>
-          {statusMessage && <div>{statusMessage}</div>}
         </div>
       </dialog>
     </>
