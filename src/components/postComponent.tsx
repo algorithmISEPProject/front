@@ -86,7 +86,7 @@ export default function PostComponent(props: Post) {
     deletePost({ variables: { id: props.id } });
     setShowOptions(!showOptions);
 
-    deletePostAWS(props.imageURL as string);
+    await deletePostAWS(props.imageURL as string);
 
     window.location.reload();
   };
