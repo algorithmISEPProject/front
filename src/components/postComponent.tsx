@@ -4,17 +4,21 @@ import { useState } from "react";
 import commentIcon from "@/assets/commentIcon.svg";
 import likeIcon from "@/assets/likeIcon.svg";
 import moreIcon from "@/assets/moreIcon.svg";
-import mockPostImage from "@/assets/mockPostImage.png";
 
+import { useAuth } from "@/context/AuthContext";
 import { Post } from "@/interface/typeInterface";
 import { formatRelativeTime } from "@/utils/formatDate";
 import { gql, useMutation } from "@apollo/client";
-import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
+import { DeleteObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { deletePostAWS } from "@/pages/api/s3";
 
 export default function PostComponent(props: Post) {
   const [activeLike, setActiveLike] = useState(props.likesAggregate.count > 0);
   const [activeComment, setActiveComment] = useState(false);
+
+  const [showOptions, setShowOptions] = useState(false);
+
   const [countLike, setCountLike] = useState(0);
   const { user } = useAuth();
 
@@ -52,7 +56,16 @@ export default function PostComponent(props: Post) {
     }
   `;
 
+  const DELETE_POST = gql`
+    mutation deletePost($id: ID!) {
+      deletePosts(where: { id: $id }) {
+        nodesDeleted
+      }
+    }
+  `;
+
   const [like_post, { loading, error }] = useMutation(LIKE_POST);
+  const [deletePost] = useMutation(DELETE_POST);
   const [unlike_post] = useMutation(UNLIKE_POST);
 
   if (error) return <p>Error</p>;
@@ -69,13 +82,22 @@ export default function PostComponent(props: Post) {
     setActiveLike(!activeLike);
   };
 
+  const onDeletePost = async () => {
+    deletePost({ variables: { id: props.id } });
+    setShowOptions(!showOptions);
+
+    deletePostAWS(props.imageURL as string);
+
+    window.location.reload();
+  };
+
   const onCommentChange = () => {
     setActiveComment(!activeComment);
   };
 
   return (
-    <div>
-      <div className="flex flex-col gap-5 bg-componentBackground p-5 rounded-lg border border-componentOutline text-subTitle">
+    <div className="">
+      <div className="flex relative flex-col gap-5 bg-componentBackground p-5 rounded-lg border border-componentOutline text-subTitle">
         <div className="flex">
           <div className="flex space-x-2 items-center w-full">
             <Image
@@ -96,19 +118,32 @@ export default function PostComponent(props: Post) {
               {formatRelativeTime(props.createdAt)}
             </div>
           </div>
-          <div className="">
+          <div
+            onClick={() => setShowOptions(!showOptions)}
+            className="cursor-pointer"
+          >
             <Image alt="moreIcon" src={moreIcon} />
           </div>
+
+          {showOptions && (
+            <div className="absolute right-5 top-10 bg-componentBackground p-2 rounded-xl border border-componentOutline">
+              <div className="text-subTitle p-2 hover:bg-componentOutline min-w-20 rounded-lg cursor-pointer">
+                Edit
+              </div>
+              <div
+                onClick={onDeletePost}
+                className="text-error p-2 hover:bg-componentOutline min-w-20 rounded-lg cursor-pointer"
+              >
+                Delete
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="text-white text-lg space-y-4">
           <div>{props.content}</div>
           {props.imageURL && (
-            <Image
-              alt="postImage"
-              src={mockPostImage || props.imageURL}
-              className="rounded-lg"
-            />
+            <img alt="postImage" src={props.imageURL} className="rounded-lg" />
           )}
         </div>
 
