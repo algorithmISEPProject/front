@@ -1,6 +1,6 @@
 import { StaticImageData } from "next/image";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { gql, useMutation } from "@apollo/client";
 import { useAuth } from "@/context/AuthContext";
@@ -9,6 +9,16 @@ import { Group } from "@/interface/typeInterface";
 export default function GroupBigComp(props: Group) {
   const [joinedGroup, setJoinedGroup] = useState(false);
   const { user } = useAuth();
+
+  useEffect(() => {
+    // Check local storage for participation status
+    const participationStatus = localStorage.getItem(
+      `event-${props.id}-participation-${user._id}`
+    );
+    if (participationStatus === "true") {
+      setJoinedGroup(true);
+    }
+  }, [props.id, user._id]);
 
   const JOIN_GROUP = gql`
   mutation joinGroup ($id: ID, $userId: ID = ${JSON.stringify(user._id)}) {
@@ -44,14 +54,24 @@ export default function GroupBigComp(props: Group) {
   if (error) return <p>Error</p>;
 
   const onJoinedGroupChange = () => {
-    {
-      joinedGroup
-        ? leaveGroup({
-            variables: { id: props.id },
-          })
-        : joinGroup({
-            variables: { id: props.id },
-          });
+    if (joinedGroup) {
+      leaveGroup({
+        variables: { id: props.id },
+      });
+      localStorage.setItem(
+        `event-${props.id}-participation-${user._id}`,
+        "false"
+      );
+      setJoinedGroup(!joinedGroup);
+    } else {
+      joinGroup({
+        variables: { id: props.id },
+      });
+
+      localStorage.setItem(
+        `event-${props.id}-participation-${user._id}`,
+        "true"
+      );
       setJoinedGroup(!joinedGroup);
     }
   };

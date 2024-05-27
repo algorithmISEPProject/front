@@ -1,8 +1,10 @@
 import { StaticImageData } from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import { IEvent } from "@/interface/typeInterface";
+import { useAuth } from "@/context/AuthContext";
+import { gql, useMutation } from "@apollo/client";
 
 export interface EventsProps {
   eventsName?: string;
@@ -14,6 +16,76 @@ export interface EventsProps {
 
 export default function Event(props: IEvent) {
   const [eventParticipate, setEventParticipate] = useState(false);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    // Check local storage for participation status
+    const participationStatus = localStorage.getItem(
+      `event-${props.id}-participation-${user._id}`
+    );
+    if (participationStatus === "true") {
+      setEventParticipate(true);
+    }
+  }, [props.id, user._id]);
+
+  const JOIN_EVENT = gql`
+  mutation joinEvent ($id: ID, $userId: ID = ${JSON.stringify(user._id)}) {
+    updateEvents(
+      where: { id: $id }
+      update: { attendees: { connect: { where: { node: { _id: $userId } } } } }
+    ) {
+      events {
+        attendeesAggregate {
+          count
+        }
+      }
+    }
+  }
+`;
+
+  const LEAVE_EVENT = gql`
+  mutation leaveEvent ($id: ID, $userId: ID = ${JSON.stringify(user._id)}) {
+  updateEvents(
+    where: { id: $id }
+    update: { attendees: { disconnect: { where: { node: { _id: $userId } } } } }
+  ) {
+    events {
+      attendeesAggregate {
+        count
+      }
+    }
+  }
+}
+`;
+
+  const [joinEvent, { loading, error }] = useMutation(JOIN_EVENT);
+  if (error) return <p>Error</p>;
+  const [leaveEvent] = useMutation(LEAVE_EVENT);
+
+  const onParticipateEventChange = () => {
+    {
+      if (eventParticipate) {
+        leaveEvent({
+          variables: { id: props.id },
+        });
+        localStorage.setItem(
+          `event-${props.id}-participation-${user._id}`,
+          "false"
+        );
+        setEventParticipate(!eventParticipate);
+      } else {
+        joinEvent({
+          variables: { id: props.id },
+        });
+      }
+      setEventParticipate(!eventParticipate);
+      localStorage.setItem(
+        `event-${props.id}-participation-${user._id}`,
+        "true"
+      );
+    }
+  };
+
   return (
     <div className="flex w-full flex-col space-y-4 p-5 bg-componentBackground border border-btn-outline rounded-xl">
       <div className="h-36 bg-white rounded"></div>
@@ -33,7 +105,10 @@ export default function Event(props: IEvent) {
                 {props!.attendees.length} members
               </div>
             </div>
-            <button className="text-green-500 tracking-wide p-3 ">
+            <button
+              onClick={onParticipateEventChange}
+              className="text-green-500 tracking-wide p-3 "
+            >
               Participating
             </button>
           </div>
@@ -45,7 +120,10 @@ export default function Event(props: IEvent) {
               </div>
             </div>
 
-            <button className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg">
+            <button
+              onClick={onParticipateEventChange}
+              className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg"
+            >
               Participate
             </button>
           </div>

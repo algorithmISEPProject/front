@@ -12,8 +12,9 @@ import emailIcon from "@/assets/emailIcon.svg";
 import countryIcon from "@/assets/countryIcon.svg";
 import frenchFlagIcon from "@/assets/frenchFlagIcon.svg";
 import birthdayCakeIcon from "@/assets/birthdayCakeIcon.svg";
+import { User } from "@/interface/typeInterface";
 
-export default function AccountInformation() {
+export default function AccountInformation(props: User) {
   return (
     <div className="bg-componentBackground w-full space-y-6 h-4/6 rounded-xl border-1 p-5 border-componentOutline">
       <div className="flex items-center space-x-4 ">
@@ -33,8 +34,8 @@ export default function AccountInformation() {
               height={56}
             />
             <div className="flex flex-col space-y-2">
-              <div className="text-white">Dimitar</div>
-              <div className="text-subTitle">@dimitroweb</div>
+              <div className="text-white">{props.firstName}</div>
+              <div className="text-subTitle">@{props.username}</div>
             </div>
           </div>
           <div className="flex space-x-4 w-full bg-componentOutline rounded-xl p-1">
@@ -69,7 +70,7 @@ export default function AccountInformation() {
             <Image alt="emailIcon" src={emailIcon} height={24} width={24} />
             <div className="flex flex-col space-y-2">
               <div className="text-white">Email</div>
-              <div className="text-subTitle">victor.dubrana@eleve.isep.fr</div>
+              <div className="text-subTitle">{props.email}</div>
             </div>
           </div>
         </div>
