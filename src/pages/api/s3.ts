@@ -82,8 +82,6 @@ export async function deletePostAWS(imageUrl: string) {
     };
 
     await s3Client.send(new DeleteObjectCommand(deleteParams));
-
-    revalidatePath("/");
   } catch (error) {
     console.error(error);
   }

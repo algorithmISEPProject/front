@@ -4,12 +4,16 @@ interface InputCompProps {
   label: string;
   placeholder: string;
   isTextArea?: boolean;
+  value: string;
+  setValue: (e: any) => void;
 }
 
 export default function InputComp({
   label,
   placeholder,
   isTextArea,
+  value,
+  setValue,
 }: InputCompProps) {
   return (
     <div className="flex flex-col justify-center gap-2 w-full">
@@ -20,6 +24,8 @@ export default function InputComp({
           placeholder={placeholder}
           name={label}
           rows={4}
+          value={value}
+          onChange={setValue}
         />
       ) : (
         <input
@@ -27,6 +33,8 @@ export default function InputComp({
           type="text"
           placeholder={placeholder}
           name={label}
+          value={value}
+          onChange={setValue}
         />
       )}
     </div>

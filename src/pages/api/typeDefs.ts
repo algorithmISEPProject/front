@@ -96,6 +96,7 @@ type Event {
   location: String!
   eventImage: String
   attendees: [User!]! @relationship(type: "ATTENDS", direction: IN)
+  posts: [Post!]! @relationship(type: "POSTED_IN", direction: IN)
 }
 
 type Group {

@@ -14,6 +14,7 @@ export default function InformationsSection(username: any) {
   const [showInfoEdit, setShowInfoEdit] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const { user } = useAuth();
+  const isUserMe = user.username == username.username ? true : false;
 
   const GET_USER_PROFILE_INFO = gql`
   query getUserInfo($username: String = ${JSON.stringify(username.username)}) {
@@ -46,13 +47,18 @@ export default function InformationsSection(username: any) {
       <div className="flex flex-col bg-componentBackground px-5 py-6 rounded-xl gap-3 border border-componentOutline text-subTitle">
         <div className="flex w-full justify-between">
           <div>Hobbies</div>
-          <button className="flex items-center gap-2" onClick={handleOpenModal}>
-            <div className="text-subtileText">Edit Info</div>
-            <Image alt="editInfoIcon" src={editProfileIcon} />
-          </button>
+          {isUserMe && (
+            <button
+              className="flex items-center gap-2"
+              onClick={handleOpenModal}
+            >
+              <div className="text-subtileText">Edit Info</div>
+              <Image alt="editInfoIcon" src={editProfileIcon} />
+            </button>
+          )}
         </div>
         <div className="flex gap-2 w-full text-background items-center">
-          {data.users[0].hobbies.map((item: any) => {
+          {data.users[0]?.hobbies.map((item: any) => {
             <HobbyComp hobby={item} />;
           })}
         </div>
