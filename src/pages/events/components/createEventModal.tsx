@@ -8,16 +8,22 @@ export default function CreateEventModal({ onClose }: any) {
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState("2024-05-27T10:30:00");
 
   const CREATE_EVENT = gql`
     mutation publishEvents(
       $description: String!
       $name: String!
       $location: String!
+      $date: DateTime
     ) {
       createEvents(
-        input: { name: $name, description: $description, location: $location }
+        input: {
+          name: $name
+          description: $description
+          location: $location
+          date: $date
+        }
       ) {
         events {
           name
@@ -55,6 +61,7 @@ export default function CreateEventModal({ onClose }: any) {
                   name: name,
                   description: description,
                   location: location,
+                  date: date,
                 },
               });
             }}

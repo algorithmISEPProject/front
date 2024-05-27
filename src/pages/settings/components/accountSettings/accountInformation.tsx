@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import userIcon from "@/assets/userIcon.svg";
@@ -13,8 +13,10 @@ import countryIcon from "@/assets/countryIcon.svg";
 import frenchFlagIcon from "@/assets/frenchFlagIcon.svg";
 import birthdayCakeIcon from "@/assets/birthdayCakeIcon.svg";
 import { User } from "@/interface/typeInterface";
+import onIcon from "@/assets/onIcon.svg";
 
 export default function AccountInformation(props: User) {
+  const [commentBlockActive, setCommentBlockActive] = useState(false);
   return (
     <div className="bg-componentBackground w-full space-y-6 h-4/6 rounded-xl border-1 p-5 border-componentOutline">
       <div className="flex items-center space-x-4 ">
@@ -48,16 +50,30 @@ export default function AccountInformation(props: User) {
         </div>
         <div className="flex items-center space-x-4">
           <div className="flex items-center p-1 pt-5 pb-5 space-x-4 w-full bg-componentOutline rounded-xl">
-            <div className="flex  space-x-4 w-full">
-              <Image
-                className="rounded-xl"
-                alt="commentBlockIcon"
-                src={commentBlockIcon}
-                width={24}
-                height={24}
-              />
-              <div className="text-white">Protect Posts</div>
-            </div>
+            {commentBlockActive ? (
+              <div className="flex  space-x-4 w-full">
+                <Image
+                  className="rounded-xl"
+                  alt="commentBlockIcon"
+                  src={onIcon}
+                  width={24}
+                  height={24}
+                />
+                <div className="text-white">Protect Posts</div>
+              </div>
+            ) : (
+              <div className="flex  space-x-4 w-full">
+                <Image
+                  className="rounded-xl"
+                  alt="commentBlockIcon"
+                  src={commentBlockIcon}
+                  width={24}
+                  height={24}
+                />
+                <div className="text-white">Protect Posts</div>
+              </div>
+            )}
+
             <Image
               className="p-1"
               alt="protectPostIcon"
