@@ -24,6 +24,8 @@ import NotificationsSettings from "@/pages/settings/components/privacyControl/no
 import Accessibility from "@/pages/settings/components/privacyControl/accessibility";
 import AdditionalRessources from "@/pages/settings/components/privacyControl/additionalRessources";
 import HelpCenter from "@/pages/settings/components/privacyControl/helpCenter";
+import { gql, useQuery } from "@apollo/client";
+import { useAuth } from "@/context/AuthContext";
 
 export default function SettingsModal() {
   const [accountSettingsActive, setAccountSettingsActive] = useState(true);
@@ -32,10 +34,31 @@ export default function SettingsModal() {
     useState("");
   const [privacyControlActiveMenu, setPrivacyControlActiveMenu] = useState("");
 
+  const { user } = useAuth();
+
+  const GET_USER = gql`
+  query getUserProfile ($id: ID = ${JSON.stringify(user._id)} ) {
+    users(where: {_id: $id}) {
+      firstName
+      username
+      email
+    }
+  }
+  `;
+
+  const { loading, error, data } = useQuery(GET_USER);
+  console.log(data);
+
   const renderActiveMenuContent = () => {
     switch (accountSettingsActiveMenu) {
       case "accountInformation":
-        return <AccountInformation />;
+        return (
+          <div>
+            {data.users?.map((item: any) => (
+              <AccountInformation {...item} />
+            ))}
+          </div>
+        );
       case "resetPassword":
         return <ChangePassword />;
       case "deactivateAccount":
