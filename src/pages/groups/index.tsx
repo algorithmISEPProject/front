@@ -28,6 +28,27 @@ function GroupsPage(props: Group) {
       }
     }
   `;
+
+  const GET_USER_GROUPS = gql`
+    query GetUserGroups( $userId: ID = ${JSON.stringify(user._id)}) {
+      groups(where: { members_SINGLE: { _id : $userId } }) {
+        createdAt
+        id
+        name
+        description
+        groupImage
+        membersAggregate {
+          count
+        }
+        members {
+          avatar
+          _id
+          username
+        }
+      }
+    }
+  `;
+
   const JOIN_GROUP = gql`
     mutation joinGroup ($id: ID, $userId: ID = ${JSON.stringify(user._id)}) {
       updateGroups(
@@ -42,7 +63,7 @@ function GroupsPage(props: Group) {
       }
     }`;
 
-  const { loading, error, data } = useQuery(GET_GROUPS);
+  const { loading, error, data } = useQuery(GET_USER_GROUPS);
   const [joinGroup] = useMutation(JOIN_GROUP);
 
   if (error) return <p>Error</p>;
@@ -58,6 +79,7 @@ function GroupsPage(props: Group) {
             <CreateGroup />
           </div>
           <div className="space-y-2">
+            <div>Your Groups</div>
             {data.groups.map((item: any) => (
               <GroupBigComp {...item} />
             ))}

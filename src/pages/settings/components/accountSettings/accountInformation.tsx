@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import userIcon from "@/assets/userIcon.svg";
@@ -12,8 +12,15 @@ import emailIcon from "@/assets/emailIcon.svg";
 import countryIcon from "@/assets/countryIcon.svg";
 import frenchFlagIcon from "@/assets/frenchFlagIcon.svg";
 import birthdayCakeIcon from "@/assets/birthdayCakeIcon.svg";
+import { User } from "@/interface/typeInterface";
+import onIcon from "@/assets/onIcon.svg";
 
-export default function AccountInformation() {
+export default function AccountInformation(props: User) {
+  const [commentBlockActive, setCommentBlockActive] = useState(false);
+
+  const onChangeProtectPost = () => {
+    setCommentBlockActive(!commentBlockActive);
+  };
   return (
     <div className="bg-componentBackground w-full space-y-6 h-4/6 rounded-xl border-1 p-5 border-componentOutline">
       <div className="flex items-center space-x-4 ">
@@ -33,8 +40,8 @@ export default function AccountInformation() {
               height={56}
             />
             <div className="flex flex-col space-y-2">
-              <div className="text-white">Dimitar</div>
-              <div className="text-subTitle">@dimitroweb</div>
+              <div className="text-white">{props.firstName}</div>
+              <div className="text-subTitle">@{props.username}</div>
             </div>
           </div>
           <div className="flex space-x-4 w-full bg-componentOutline rounded-xl p-1">
@@ -55,21 +62,36 @@ export default function AccountInformation() {
                 width={24}
                 height={24}
               />
+
               <div className="text-white">Protect Posts</div>
             </div>
-            <Image
-              className="p-1"
-              alt="protectPostIcon"
-              src={protectPostIcon}
-              height={46}
-              width={46}
-            />
+            {commentBlockActive ? (
+              <button className="" onClick={onChangeProtectPost}>
+                <Image
+                  className="p-1"
+                  alt="protectPostIcon"
+                  src={onIcon}
+                  height={60}
+                  width={60}
+                />
+              </button>
+            ) : (
+              <button className="" onClick={onChangeProtectPost}>
+                <Image
+                  className="p-1"
+                  alt="protectPostIcon"
+                  src={protectPostIcon}
+                  height={60}
+                  width={60}
+                />
+              </button>
+            )}
           </div>
           <div className="flex space-x-4 w-full bg-componentOutline rounded-xl p-1">
             <Image alt="emailIcon" src={emailIcon} height={24} width={24} />
             <div className="flex flex-col space-y-2">
               <div className="text-white">Email</div>
-              <div className="text-subTitle">victor.dubrana@eleve.isep.fr</div>
+              <div className="text-subTitle">{props.email}</div>
             </div>
           </div>
         </div>

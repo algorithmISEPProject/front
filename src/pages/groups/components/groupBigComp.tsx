@@ -1,6 +1,6 @@
 import { StaticImageData } from "next/image";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { gql, useMutation } from "@apollo/client";
 import { useAuth } from "@/context/AuthContext";
@@ -44,14 +44,16 @@ export default function GroupBigComp(props: Group) {
   if (error) return <p>Error</p>;
 
   const onJoinedGroupChange = () => {
-    {
-      joinedGroup
-        ? leaveGroup({
-            variables: { id: props.id },
-          })
-        : joinGroup({
-            variables: { id: props.id },
-          });
+    if (joinedGroup) {
+      leaveGroup({
+        variables: { id: props.id },
+      });
+
+      setJoinedGroup(!joinedGroup);
+    } else {
+      joinGroup({
+        variables: { id: props.id },
+      });
       setJoinedGroup(!joinedGroup);
     }
   };
@@ -68,17 +70,6 @@ export default function GroupBigComp(props: Group) {
               {props!.members.length} members
             </div>
           </div>
-          <button
-            onClick={onJoinedGroupChange}
-            className="text-subTitle bg-btn-background h-9 w-32 p-1 border border-btn-outline rounded-xl"
-          >
-            Leave Group
-          </button>
-        </div>
-      ) : (
-        <div className="flex items-center justify-between w-full">
-          <div className="text-subTitle">{props!.members.length} members</div>
-
           <div className="flex space-x-2">
             <button className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg">
               Learn more
@@ -90,6 +81,17 @@ export default function GroupBigComp(props: Group) {
               Join group
             </button>
           </div>
+        </div>
+      ) : (
+        <div className="flex items-center justify-between w-full">
+          <div className="text-subTitle">{props!.members.length} members</div>
+
+          <button
+            onClick={onJoinedGroupChange}
+            className="text-subTitle bg-btn-background h-9 w-32 p-1 border border-btn-outline rounded-xl"
+          >
+            Leave Group
+          </button>
         </div>
       )}
     </div>

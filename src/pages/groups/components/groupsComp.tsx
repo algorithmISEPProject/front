@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Image, { StaticImageData } from "next/image";
 
 import userIcon from "@/assets/userIcon.svg";
 import groupNumberIcon from "@/assets/groupNumberIcon.svg";
 
 import mockProfilPic from "@/assets/mockProfilPic.png";
+import { useAuth } from "@/context/AuthContext";
+import { gql, useMutation } from "@apollo/client";
 
 export interface GroupsProps {
   eventImage?: string;
@@ -17,6 +19,58 @@ export interface GroupsProps {
 }
 
 export default function GroupComponent(props: GroupsProps) {
+  const [joinedGroup, setJoinedGroup] = useState(false);
+  const { user } = useAuth();
+
+  const JOIN_GROUP = gql`
+  mutation joinGroup ($id: ID, $userId: ID = ${JSON.stringify(user._id)}) {
+    updateGroups(
+      where: { id: $id }
+      update: { members: { connect: { where: { node: { _id: $userId } } } } }
+    ) {
+      groups {
+        membersAggregate {
+          count
+        }
+      }
+    }
+  }
+`;
+
+  const LEAVE_GROUP = gql`
+  mutation leaveGroup ($id: ID, $userId: ID = ${JSON.stringify(user._id)}) {
+    updateGroups(
+      where: { id: $id }
+      update: { members: { disconnect: { where: { node: { _id: $userId } } } } }
+    ) {
+      groups {
+        membersAggregate {
+          count
+        }
+      }
+    }
+  }
+`;
+
+  const [joinGroup] = useMutation(JOIN_GROUP);
+  const [leaveGroup, { loading, error }] = useMutation(LEAVE_GROUP);
+  if (error) return <p>Error</p>;
+
+  const onJoinedGroupChange = () => {
+    if (joinedGroup) {
+      leaveGroup({
+        variables: { id: props.id },
+      });
+
+      setJoinedGroup(!joinedGroup);
+    } else {
+      joinGroup({
+        variables: { id: props.id },
+      });
+      setJoinedGroup(!joinedGroup);
+    }
+  };
+
   return (
     <div className="w-full flex min-w-96 bg-inputField-background rounded-md border border-componentOutline p-2 justify-center items-center">
       <div className="flex w-full items-center gap-3">
@@ -35,10 +89,21 @@ export default function GroupComponent(props: GroupsProps) {
           </div>
         </div>
       </div>
-
-      <button className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg">
-        Join
-      </button>
+      {joinedGroup ? (
+        <button
+          onClick={onJoinedGroupChange}
+          className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg"
+        >
+          Leave Group
+        </button>
+      ) : (
+        <button
+          onClick={onJoinedGroupChange}
+          className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg"
+        >
+          Join
+        </button>
+      )}
     </div>
   );
 }
