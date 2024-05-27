@@ -6,17 +6,46 @@ import mockProfilPic from "@/assets/mockProfilPic.png";
 
 import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { gql } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 
 export interface SuggestionsProps {
+  _id: string;
   userName: string;
   userImage?: StaticImageData | undefined;
   hobby: string;
 }
 
-export default function SuggestionComp({ userName, hobby }: SuggestionsProps) {
+export default function SuggestionComp({
+  userName,
+  hobby,
+  _id,
+}: SuggestionsProps) {
   const { user } = useAuth();
   const [followed, setFollowed] = useState(false);
+
+  const FOLLOW_USER = gql`
+    mutation follow($userToFollowId: ID! = ${_id}, $_userId: ID = ${JSON.stringify(
+    user._id
+  )}) {
+      updateUsers(
+        connect: { followers: { where: { node: { _id: $_userId } } } }
+        where: { _id: $userToFollowId }
+      ) {
+        users {
+          followersAggregate {
+            count
+          }
+          email
+        }
+      }
+    }
+  `;
+  const [followUser] = useMutation(FOLLOW_USER);
+
+  const handleFollow = () => {
+    followUser();
+    console.log("user Followed");
+  };
 
   return (
     <div className="w-full flex min-w-96  bg-inputField-background rounded-md border border-componentOutline p-2 justify-center items-center">
@@ -37,7 +66,10 @@ export default function SuggestionComp({ userName, hobby }: SuggestionsProps) {
         </div>
       </div>
       <div className="flex space-x-2">
-        <button className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg">
+        <button
+          onClick={handleFollow}
+          className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg"
+        >
           Follow
         </button>
         <button className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg">
@@ -47,3 +79,5 @@ export default function SuggestionComp({ userName, hobby }: SuggestionsProps) {
     </div>
   );
 }
+
+//John Victor

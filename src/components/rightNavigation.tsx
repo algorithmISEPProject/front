@@ -62,6 +62,7 @@ function RightNavigation() {
       <div className="space-y-2">
         <div className="text-subtileText">Suggestions</div>
         <Suggestions
+          _id="1"
           userName="Victor Dubrana"
           userImage={kingWhale}
           hobby="Hiking"

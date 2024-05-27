@@ -5,6 +5,7 @@ import Image from "next/image";
 import { IEvent } from "@/interface/typeInterface";
 import { useAuth } from "@/context/AuthContext";
 import { gql, useMutation } from "@apollo/client";
+import Link from "next/link";
 
 export interface EventsProps {
   eventsName?: string;
@@ -82,13 +83,12 @@ export default function Event(props: IEvent) {
         </div>
 
         {eventParticipate ? (
-          <div className="flex items-center ">
+          <div className="flex items-center w-full">
             <div className="flex items-center w-full">
               <div className="text-subTitle ">
                 {props!.attendees.length} members
               </div>
             </div>
-
             <button
               onClick={onParticipateEventChange}
               className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg"
@@ -97,18 +97,25 @@ export default function Event(props: IEvent) {
             </button>
           </div>
         ) : (
-          <div className="flex items-center">
-            <div className="flex items-center w-full">
-              <div className="text-subTitle">
-                {props!.attendees.length} members
-              </div>
+          <div className="flex items-center justify-between w-full">
+            <div className="text-subTitle">
+              {props!.attendees.length} members
             </div>
-            <button
-              onClick={onParticipateEventChange}
-              className="text-green-500 tracking-wide p-3 "
-            >
-              Participating
-            </button>
+
+            <div className="flex space-x-2">
+              <Link
+                href={`/events/${props.id}`}
+                className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg"
+              >
+                See More
+              </Link>
+              <button
+                onClick={onParticipateEventChange}
+                className="text-green-500 tracking-wide p-3 "
+              >
+                Participating
+              </button>
+            </div>
           </div>
         )}
       </div>
