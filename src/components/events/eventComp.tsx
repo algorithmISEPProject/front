@@ -13,6 +13,7 @@ export interface EventsProps {
   createdAt: Date;
   attendees: any;
   attendeesAggregate: any;
+  location: string;
 }
 
 export default function EventComp(props: EventsProps) {

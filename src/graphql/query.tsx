@@ -7,13 +7,5 @@ query MyQuery {
         count
       }
     }
-    events {
-      date
-      name
-      id
-      attendeesAggregate {
-        count
-      }
-    }
   }
 `;

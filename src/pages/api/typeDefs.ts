@@ -82,7 +82,7 @@ type Event {
   name: String!
   description: String
   createdAt: DateTime! @timestamp(operations: [CREATE])
-  date: DateTime!
+  date: DateTime
   location: String!
   eventImage: String
   attendees: [User!]! @relationship(type: "ATTENDS", direction: IN)
