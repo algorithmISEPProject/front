@@ -11,6 +11,7 @@ import { twMerge } from "tailwind-merge";
 
 import { generateUploadURL } from "@/pages/api/s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { revalidatePath } from "next/cache";
 
 export default function UserPost() {
   const [content, setContent] = useState("");
