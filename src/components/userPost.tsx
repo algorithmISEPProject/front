@@ -98,9 +98,11 @@ export default function UserPost() {
       });
     }
 
-    await createPost({
-      variables: { content: content, imageURL: null },
-    });
+    if (!file) {
+      await createPost({
+        variables: { content: content, imageURL: null },
+      });
+    }
 
     setStatusMessage("Created");
     setLoading(false);

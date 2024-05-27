@@ -10,6 +10,8 @@ import { Post } from "@/interface/typeInterface";
 import { formatRelativeTime } from "@/utils/formatDate";
 import { gql, useMutation } from "@apollo/client";
 import Link from "next/link";
+import { DeleteObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { deletePostAWS } from "@/pages/api/s3";
 
 export default function PostComponent(props: Post) {
   const [activeLike, setActiveLike] = useState(props.likesAggregate.count > 0);
@@ -80,8 +82,13 @@ export default function PostComponent(props: Post) {
     setActiveLike(!activeLike);
   };
 
-  const onDeletePost = () => {
+  const onDeletePost = async () => {
     deletePost({ variables: { id: props.id } });
+    setShowOptions(!showOptions);
+
+    deletePostAWS(props.imageURL as string);
+
+    window.location.reload();
   };
 
   const onCommentChange = () => {

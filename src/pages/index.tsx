@@ -11,6 +11,7 @@ const inter = Montserrat({ subsets: ["latin"] });
 export default function Home() {
   const { user } = useAuth();
   const [hasNewPost, setHasNewPost] = useState(false);
+  const countPosts = 0;
   const [posts, setPosts] = useState([]);
 
   const GET_POSTS = gql`
@@ -37,8 +38,9 @@ export default function Home() {
 
   const POST_SUBSCRIPTION = gql`
     subscription addedPost {
-      onAddedPost {
+      posts {
         id
+
         author {
           avatar
           _id
@@ -51,8 +53,14 @@ export default function Home() {
     variables: { posts },
   });
 
-  const { data: subscriptionData, loading: subLoading } =
-    useSubscription(POST_SUBSCRIPTION);
+  useSubscription(POST_SUBSCRIPTION, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      const newPost = subscriptionData.data.posts[0];
+      if (newPost.author._id !== user._id) {
+        setHasNewPost(true);
+      }
+    },
+  });
 
   if (error) return <p>Error</p>;
   if (loading) return <p>Loading...</p>;
@@ -66,11 +74,7 @@ export default function Home() {
             className={`p-2 cursor-pointer text-center text-subTitle border hover:bg-componentBackground/50 transition-all border-componentBackground rounded-lg`}
           >
             <p className="text-subtileText">
-              Load{" "}
-              <span className="text-subTitle">
-                {subscriptionData.onAddedPosts.length}
-              </span>
-              new posts
+              Load <span className="text-subTitle">{countPosts}</span> new posts
             </p>
           </div>
         )}
