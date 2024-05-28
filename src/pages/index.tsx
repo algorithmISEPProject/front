@@ -9,6 +9,7 @@ import { useState } from "react";
 const inter = Montserrat({ subsets: ["latin"] });
 
 export default function Home() {
+  const [activeProfileMenu, setActiveProfileMenu] = useState("For you");
   const { user } = useAuth();
   const [hasNewPost, setHasNewPost] = useState(false);
   const countPosts = 0;
@@ -78,7 +79,32 @@ export default function Home() {
             </p>
           </div>
         )}
+        <div className="flex flex-col mt-8">
+          <div className="flex text-subTitle space-x-4  ">
+            <button
+              className={`p-2 px-4 rounded-md transition-all duration-200 ${
+                activeProfileMenu === "For you"
+                  ? "bg-componentBackground "
+                  : "hover:bg-componentBackground/50"
+              }`}
+              onClick={() => setActiveProfileMenu("For you")}
+            >
+              For you
+            </button>
+            <button
+              className={`p-2 px-4 rounded-md transition-all duration-200 ${
+                activeProfileMenu === "Susbscribed"
+                  ? "bg-componentBackground "
+                  : "hover:bg-componentBackground/50"
+              }`}
+              onClick={() => setActiveProfileMenu("Susbscribed")}
+            >
+              Subscribed
+            </button>
+          </div>
+        </div>
 
+        {/* TODO Post Recommendations & Subscribed */}
         {data.posts.map((post: any) => (
           <PostComponent {...post} />
         ))}
