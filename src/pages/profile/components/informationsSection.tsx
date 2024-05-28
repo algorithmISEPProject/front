@@ -43,7 +43,9 @@ export default function InformationsSection(username: any) {
 
   return (
     <div className="space-y-2">
-      {showInfoEdit && <ProfileInfoEditModal onClose={handleCloseModal} />}
+      {showInfoEdit && (
+        <ProfileInfoEditModal props={data} onClose={handleCloseModal} />
+      )}
       <div className=" text-subtileText">Informations</div>
       <div className="flex flex-col bg-componentBackground px-5 py-6 rounded-xl gap-3 border border-componentOutline text-subTitle">
         <div className="flex w-full justify-between">
@@ -62,7 +64,6 @@ export default function InformationsSection(username: any) {
           )}
         </div>
         <div className="flex gap-2 w-full text-background items-center">
-
           {data.users[0].hobbies.map((item: any) => (
             <div key={item.id}>
               <div className="bg-hobbies px-3 py-1 rounded-lg  text-black">
@@ -70,7 +71,6 @@ export default function InformationsSection(username: any) {
               </div>
             </div>
           ))}
-
         </div>
         {showMore && (
           <div className="space-y-4">

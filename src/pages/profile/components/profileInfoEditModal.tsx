@@ -1,17 +1,67 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 import testIcon from "@/assets/shareIcon.svg";
 import LoveComp from "./loveComp";
 import HobbyComp from "./hobbyComp";
 import ProjectComp from "./projectComp";
 import EduComp from "./eduComp";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { useAuth } from "@/context/AuthContext";
 
-export default function ProfileInfoEditModal({ onClose }: any) {
+const GET_HOBBIES = gql`
+  query getHobbies {
+    hobbies {
+      name
+      id
+    }
+  }
+`;
+
+const ADD_HOBBY = gql`
+  mutation addHobby($hobbyName: String!, $username: String!) {
+    updateUsers(
+      connect: { hobbies: { where: { node: { name: $hobbyName } } } }
+      where: { username: $username }
+    ) {
+      users {
+        hobbies {
+          name
+          id
+        }
+      }
+    }
+  }
+`;
+
+export default function ProfileInfoEditModal({ onClose, props }: any) {
+  const { user } = useAuth();
+  const [showAddHobby, setShowAddHobby] = useState(false);
+  const [selectedHobby, setSelectedHobby] = useState("");
+  const { loading, error, data } = useQuery(GET_HOBBIES);
+  const [addHobby] = useMutation(ADD_HOBBY);
+
+  if (error) return <p>Error</p>;
+  if (loading) return <p>Loading...</p>;
+
+  const uniqueHobbies = new Set(data.hobbies);
+
+  const onAddHobbyClicked = () => {
+    console.log(props.users[0]._id);
+    addHobby({
+      variables: {
+        hobbyName: selectedHobby,
+        username: user.username,
+      },
+    });
+    console.log("Hobby added");
+    window.location.reload();
+  };
+
   return (
     <>
       <dialog className="fixed left-0 top-0 w-full h-full bg-black bg-opacity-50 z-50 overflow-auto backdrop-blur flex justify-center items-center">
-        <div className=" bg-componentBackground border-btn-outline border m-auto p-5 w-[558px]  rounded-lg space-y-5">
+        <div className=" bg-componentBackground border-btn-outline border m-auto p-5 w-[558px] rounded-lg space-y-5">
           <div className="flex justify-between items-center ">
             <h3 className="text-subTitle">Edit your informations</h3>
             <button
@@ -25,13 +75,51 @@ export default function ProfileInfoEditModal({ onClose }: any) {
           <div className="flex flex-col gap-2">
             <div className="text-subTitle">Hobbies</div>
             <div className="flex gap-2">
-              <HobbyComp hobby="Video Games" />
-              <HobbyComp hobby="Sports" />
-              <HobbyComp hobby="Hiking" />
-              <HobbyComp hobby="Design" />
-              <button className="rounded-lg px-3 py-1  text-subtileText border border-inputField-outline">
-                + Add hobby
-              </button>
+              {props.users[0].hobbies.map((item: any) => (
+                <div key={item.id}>
+                  <div className="bg-hobbies px-3 py-1 rounded-lg  text-black">
+                    {item.name}
+                  </div>
+                </div>
+              ))}
+              <div className="relative">
+                <button
+                  onClick={() => setShowAddHobby(!showAddHobby)}
+                  className="rounded-lg px-3 py-1  text-subtileText border border-inputField-outline"
+                >
+                  + Add hobby
+                </button>
+                {showAddHobby && (
+                  <div className="absolute mt-2 space-x-3 bg-componentBackground border border-componentOutline p-3 rounded-xl flex gap-2">
+                    <select
+                      name="hobby"
+                      id="hobby"
+                      value={selectedHobby}
+                      onChange={(e) => setSelectedHobby(e.target.value)}
+                      className="border-inputField-outline text-subTitle focus:outline-none bg-inputField-background p-2 rounded-lg"
+                    >
+                      <option value="0">Select a hobby</option>
+                      {Array.from(uniqueHobbies).map((item: any) => (
+                        <option key={item.id}>{item.name}</option>
+                      ))}
+                    </select>
+                    <div className="flex gap-1">
+                      <button
+                        onClick={onAddHobbyClicked}
+                        className="rounded-lg px-3 py-1 hover:text-subTitle transition-all text-subtileText border border-inputField-outline"
+                      >
+                        Add
+                      </button>
+                      <button
+                        onClick={() => setShowAddHobby(!showAddHobby)}
+                        className="rounded-lg px-3 py-1  text-error grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all "
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -90,13 +178,6 @@ export default function ProfileInfoEditModal({ onClose }: any) {
               + Add new education
             </button>
           </div>
-
-          <button
-            type="submit"
-            className="px-3 py-2 w-full bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg"
-          >
-            Save
-          </button>
         </div>
       </dialog>
     </>
