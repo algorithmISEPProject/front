@@ -9,19 +9,44 @@ import { useAuth } from "@/context/AuthContext";
 import { deletePostAWS } from "@/pages/api/s3";
 import { defaultProfilPicture } from "@/utils/defaultImages";
 import { formatRelativeTime } from "@/utils/formatDate";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import Link from "next/link";
+import UserPostComment from "./userPostComment";
+import ReplyComponent from "./replyComponent";
 
 export default function PostComponent(props: any) {
   const [activeLike, setActiveLike] = useState(
     props?.likesAggregate?.count > 0
   );
+
   const [activeComment, setActiveComment] = useState(false);
 
   const [showOptions, setShowOptions] = useState(false);
 
   const [countLike, setCountLike] = useState(0);
   const { user } = useAuth();
+
+  const GET_COMMENTS = gql`
+    query getPostsComments($id: ID!) {
+      posts(where: { id: $id }) {
+        comments {
+          content
+          createdAt
+          likesAggregate {
+            count
+          }
+          commentsAggregate {
+            count
+          }
+          author {
+            username
+            firstName
+            avatar
+          }
+        }
+      }
+    }
+  `;
 
   const LIKE_POST = gql`
     mutation like_post($id: ID, $userId: ID = ${JSON.stringify(user._id)}) {
@@ -65,6 +90,8 @@ export default function PostComponent(props: any) {
     }
   `;
 
+  const { data } = useQuery(GET_COMMENTS, { variables: { id: props.id } });
+  console.log(data);
   const [like_post, { loading, error }] = useMutation(LIKE_POST);
   const [deletePost] = useMutation(DELETE_POST);
   const [unlike_post] = useMutation(UNLIKE_POST);
@@ -97,8 +124,6 @@ export default function PostComponent(props: any) {
   const onCommentChange = () => {
     setActiveComment(!activeComment);
   };
-
-  console.log(props);
 
   if (props.posts?.length === 0) {
     return;
@@ -182,6 +207,24 @@ export default function PostComponent(props: any) {
               <div>{props.likesAggregate.count + countLike || 0}</div>
             </button>
           </div>
+
+          {activeComment ? (
+            <div className="flex flex-col space-y-4">
+              <UserPostComment postId={props.id} />
+              {data &&
+              data.posts &&
+              data.posts.length > 0 &&
+              data.posts[0].comments
+                ? data.posts[0].comments.map((item: any) => (
+                    <div key={item.id}>
+                      <ReplyComponent {...item} />
+                    </div>
+                  ))
+                : null}
+            </div>
+          ) : (
+            false
+          )}
         </div>
       </div>
     );
