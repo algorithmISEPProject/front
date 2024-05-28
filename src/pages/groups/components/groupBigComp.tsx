@@ -10,7 +10,6 @@ import Link from "next/link";
 
 import { defaultBannerPicture } from "@/utils/defaultImages";
 
-
 export default function GroupBigComp(props: Group) {
   const [joinedGroup, setJoinedGroup] = useState(false);
   const { user } = useAuth();
@@ -64,7 +63,7 @@ export default function GroupBigComp(props: Group) {
   };
 
   return (
-    <div className="flex w-full flex-col p-5 space-y-4 bg-componentBackground border border-btn-outline rounded-xl">
+    <div className="flex w-full flex-col p-5 space-y-4 bg-componentBackground border border-componentOutline rounded-xl">
       <img
         alt="group banner"
         src={props.groupImage || defaultBannerPicture}
@@ -73,8 +72,8 @@ export default function GroupBigComp(props: Group) {
       <div className="text-white">{props.name}</div>
 
       {joinedGroup ? (
-        <div className="flex items-center w-full">
-          <div className="flex items-center w-full ">
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center">
             <div className="text-subTitle ">
               {props!.members.length} members
             </div>
@@ -103,7 +102,7 @@ export default function GroupBigComp(props: Group) {
             </Link>
             <button
               onClick={onJoinedGroupChange}
-              className="text-subTitle bg-btn-background h-9 w-32 p-1 border border-btn-outline rounded-xl"
+              className="text-error bg-btn-background px-3 py2 border border-btn-outline rounded-lg hover:bg-btn-background-hover transition-all"
             >
               Leave Group
             </button>

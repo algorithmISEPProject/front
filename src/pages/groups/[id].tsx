@@ -11,6 +11,7 @@ import leftIcon from "@/assets/leftIcon.svg";
 import UserPost from "@/pages/groups/components/userPostGroup";
 import GroupBigComp from "./components/groupBigComp";
 import PostComponent from "@/components/postComponent";
+import { defaultGroupsBanner } from "@/utils/defaultImages";
 
 export default function GroupPage() {
   const router = useRouter();
@@ -80,21 +81,26 @@ export default function GroupPage() {
   console.log(postsData);
 
   return (
-    <div className="w-full">
-      <div className=" w-4/6 space-y-4 p-5 flex flex-col items-center justify-center">
-        <div className="space-y-2">
+    <div className="w-full flex justify-center">
+      <div className=" w-4/6 space-y-4 flex flex-col ">
+        <div className="space-y-4">
           <div>
             <Link className="flex space-x-4 items-center" href={"/groups"}>
               <Image alt="leftIcon" src={leftIcon} />
-              <div>Go back to groups</div>
+              <div className="text-subTitle">Go back to groups</div>
             </Link>
           </div>
 
-          <div className="flex w-full flex-col p-5 space-y-4 bg-componentBackground border border-btn-outline rounded-xl">
-            <div className="h-36 bg-white rounded"></div>
+          <div className="flex w-full flex-col p-5 space-y-4 bg-componentBackground border border-componentOutline rounded-xl">
+            <img
+              src={groupData.groups[0].imageUrl || defaultGroupsBanner}
+              className="h-36 bg-white object-cover rounded-lg"
+            />
             <div>
-              <div className="text-white">{groupData.groups[0].name}</div>
-              <div className="text-white">
+              <div className="text-white text-lg">
+                {groupData.groups[0].name}
+              </div>
+              <div className="text-subTitle">
                 {groupData.groups[0].description}
               </div>
             </div>
@@ -111,7 +117,12 @@ export default function GroupPage() {
           </div>
 
           <div className="space-y-4">
-            <div>Group Posts</div>
+            <div className="text-subtileText">Group Posts</div>
+            {postsData.groups[0].posts && (
+              <p className="flex justify-center items-center text h-32 text-subTitle">
+                Sorry, there are no posts in this group.
+              </p>
+            )}
             {postsData.groups[0].posts.map((item: any) => (
               <div key={item.id}>
                 <PostComponent {...item} />

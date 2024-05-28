@@ -11,6 +11,7 @@ import leftIcon from "@/assets/leftIcon.svg";
 import Image from "next/image";
 import UserPostEvent from "./components/userPostEvent";
 import PostComponent from "@/components/postComponent";
+import { defaultEventsBanner } from "@/utils/defaultImages";
 
 function EventPage(props: IEvent) {
   const router = useRouter();
@@ -90,15 +91,18 @@ function EventPage(props: IEvent) {
     <div className="">
       <div className="w-full flex justify-center">
         <div className="space-y-5 w-4/6">
-          <div className="space-y-2">
+          <div className="space-y-4">
             <div>
-              <Link className="flex space-x-4 items-center" href={"/events"}>
+              <Link className="flex space-x-3 items-center" href={"/events"}>
                 <Image alt="leftIcon" src={leftIcon} width={10} />
-                <div>Go back to events</div>
+                <div className="text-subTitle">Go back to events</div>
               </Link>
             </div>
-            <div className="flex w-full flex-col p-5 space-y-4 bg-componentBackground border border-btn-outline rounded-xl">
-              <div className="h-36 bg-white rounded"></div>
+            <div className="flex w-full flex-col p-5 space-y-4 bg-componentBackground border border-componentOutline rounded-xl">
+              <img
+                src={eventData.events[0].imageUrl || defaultEventsBanner}
+                className="h-36 bg-white rounded-lg object-cover"
+              />
               <div>
                 <div className="text-white">{eventData.events[0].name}</div>
                 <div className="text-white">
@@ -117,7 +121,12 @@ function EventPage(props: IEvent) {
               <UserPostEvent eventId={eventData.events[0].id} />
             </div>
             <div className="space-y-4">
-              <div>Group Posts</div>
+              <div className="text-subtileText">Event Posts</div>
+              {postsData.events[0].posts && (
+                <p className="flex justify-center items-center text h-32 text-subTitle">
+                  Sorry, there are no posts in this event.
+                </p>
+              )}
               {postsData.events[0].posts.map((item: any) => (
                 <div key={item.id}>
                   <PostComponent {...item} />

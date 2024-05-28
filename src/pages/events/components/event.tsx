@@ -9,7 +9,6 @@ import Link from "next/link";
 
 import { defaultEventsBanner } from "@/utils/defaultImages";
 
-
 export interface EventsProps {
   eventsName?: string;
   eventsNumber?: number;
@@ -74,7 +73,7 @@ export default function Event(props: IEvent) {
   };
 
   return (
-    <div className="flex w-full flex-col space-y-4 p-5 bg-componentBackground border border-btn-outline rounded-xl">
+    <div className="flex w-full flex-col space-y-4 p-5 bg-componentBackground border border-componentOutline rounded-xl">
       <img
         src={props.eventImage || defaultEventsBanner}
         className="h-36 bg-white rounded object-cover"
@@ -111,13 +110,13 @@ export default function Event(props: IEvent) {
             <div className="flex space-x-2">
               <Link
                 href={`/events/${props.id}`}
-                className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg"
+                className="px-3 py-2 bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg"
               >
                 See More
               </Link>
               <button
                 onClick={onParticipateEventChange}
-                className="text-green-500 tracking-wide p-3 "
+                className="text-success tracking-wide px-3 "
               >
                 Participating
               </button>

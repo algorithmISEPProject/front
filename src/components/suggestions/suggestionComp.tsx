@@ -47,7 +47,9 @@ export default function SuggestionComp(props: any) {
           <div className=" text-white">{props.firstName}</div>
           <div className="flex flex-row gap-1">
             Loves{" "}
-            <span className="text-green-500">{props.hobbies[0].name}</span>
+            <span className="text-success">
+              {props.hobbies[0].name.toLowerCase()}
+            </span>
             like you
           </div>
         </div>
