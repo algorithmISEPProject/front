@@ -16,6 +16,7 @@ type User {
   descLink: String
   followers: [User!]! @relationship(type: "FOLLOWS", direction: IN)
   following: [User!]! @relationship(type: "FOLLOWS", direction: OUT)
+  blockedUser: [User!]! @relationship(type: "BLOCKS", direction: OUT)
   friends: [User]
   posts: [Post!]! @relationship(type: "POSTED", direction: OUT)
   hobbies: [Hobby!]! @relationship(type: "HAS_HOBBY", direction: OUT)
@@ -157,7 +158,6 @@ type Message {
 type Notification {
   id: ID! @id
   type: NotificationType!
-  message: String!
   createdAt: DateTime! @timestamp(operations: [CREATE])
   user: User! @relationship(type: "RECEIVES", direction: IN)
 }
@@ -166,7 +166,6 @@ enum NotificationType {
   LIKE
   COMMENT
   FOLLOW
-  REPLY
 }
 
 extend type User {

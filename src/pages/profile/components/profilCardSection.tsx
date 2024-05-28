@@ -41,12 +41,44 @@ export default function ProfilCardSection(username: any) {
     }
   `;
 
+  const CHECK_FOLLOW = gql`
+    query checkFollow(
+      $usernameToFollow: String = ${JSON.stringify(username.username)},
+      $_userId: ID = ${JSON.stringify(user._id)}
+    ) {
+      users(where: { username: $usernameToFollow }) {
+        username
+        followers(where: { _id: $_userId }) {
+          _id
+        }
+      }
+    }
+  `;
+
   const FOLLOW = gql`
     mutation follow($userToFollowId: ID!, $_userId: ID = ${JSON.stringify(
       user._id
     )}) {
       updateUsers(
         connect: { followers: { where: { node: { _id: $_userId } } } }
+        where: { _id: $userToFollowId }
+      ) {
+        users {
+          followersAggregate {
+            count
+          }
+          email
+        }
+      }
+    }
+  `;
+
+  const UNFOLLOW = gql`
+    mutation unfollow($userToFollowId: ID!, $_userId: ID = ${JSON.stringify(
+      user._id
+    )}) {
+      updateUsers(
+        disconnect: { followers: { where: { node: { _id: $_userId } } } }
         where: { _id: $userToFollowId }
       ) {
         users {
@@ -71,11 +103,15 @@ export default function ProfilCardSection(username: any) {
   // `;
 
   const { loading, error, data } = useQuery(GET_USER_PROFILE_INFO);
+  const { data: isFollowing } = useQuery(CHECK_FOLLOW);
 
-  const [updateUsers] = useMutation(FOLLOW);
+  const [follow] = useMutation(FOLLOW);
+  const [unfollow] = useMutation(UNFOLLOW);
 
   if (error) return <p>Error</p>;
   if (loading) return <p>Loading...</p>;
+
+  const isFollowed = isFollowing?.users[0]?.followers.length > 0;
 
   const handleOpenModal = () => {
     setShowProfileEdit(true);
@@ -87,13 +123,21 @@ export default function ProfilCardSection(username: any) {
 
   const handleFollow = () => {
     if (user.username != username.username) {
-      updateUsers({
+      follow({
         variables: { userToFollowId: data.users[0]._id },
       });
     }
+    window.location.reload();
   };
 
-  console.log(data.users[0]?.banner);
+  const handleUnfollow = () => {
+    if (user.username != username.username) {
+      unfollow({
+        variables: { userToFollowId: data.users[0]._id },
+      });
+    }
+    window.location.reload();
+  };
 
   return (
     <div className="space-y-2">
@@ -183,14 +227,22 @@ export default function ProfilCardSection(username: any) {
               <div>Following</div>
             </div>
           </div>
-          <button
-            onClick={handleFollow}
-            className={`${
-              isUserMe ? "hidden" : "flex"
-            } px-3 py-2 bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-xl`}
-          >
-            Follow
-          </button>
+          {!isUserMe &&
+            (isFollowed ? (
+              <button
+                onClick={handleUnfollow}
+                className={`px-3 py-2 bg-btn-background border border-btn-outline text-error hover:bg-btn-background-hover hover:text-white transition-all rounded-xl`}
+              >
+                Unfollow
+              </button>
+            ) : (
+              <button
+                onClick={handleFollow}
+                className={`px-3 py-2 bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-xl`}
+              >
+                Follow
+              </button>
+            ))}
         </div>
       </div>
     </div>

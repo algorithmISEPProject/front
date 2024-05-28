@@ -1,7 +1,7 @@
 import { Neo4jGraphQL } from "@neo4j/graphql";
 import neo4j from "neo4j-driver";
 import { typeDefs } from "./typeDefs";
-import { createYoga } from "graphql-yoga";
+import { createPubSub, createYoga } from "graphql-yoga";
 
 // Create a Neo4j driver instance to connect to Neo4j AuraDB
 const neo4jUri = process.env.NEXT_PUBLIC_NEO4J_URI || "";
@@ -18,7 +18,37 @@ const driver = neo4j.driver(
 const neoSchema = new Neo4jGraphQL({
   typeDefs,
   driver,
+  features: {
+    subscriptions: true,
+  },
 });
+
+// enum NotificationType {
+//   "LIKE",
+//   "COMMENT",
+//   "FOLLOW",
+//   "REPLY",
+// }
+
+// const pubSub = createPubSub<{
+//   newNotification: [
+//     payload: {
+//       id: string;
+//       type: NotificationType;
+//       message: string;
+//       createdAt: Date;
+//     }
+//   ];
+// }>();
+
+// const resolvers = {
+//   Subscription: {
+//     newNotification: {
+//       subscribe: () => null,
+//       resolve: (payload: any) => payload,
+//     },
+//   },
+// };
 
 // Building the Neo4j GraphQL schema is an async process
 const initServer = async () => {
@@ -30,4 +60,5 @@ const initServer = async () => {
 export default createYoga({
   schema: await initServer(),
   graphqlEndpoint: "/api/graphql",
+  // context: (req) => ({ req, pubSub }),
 });

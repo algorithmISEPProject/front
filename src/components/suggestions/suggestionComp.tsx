@@ -11,26 +11,14 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import Link from "next/link";
 import { defaultProfilPicture } from "@/utils/defaultImages";
 
-
-export interface SuggestionsProps {
-  _id: string;
-  userName: string;
-  userImage?: StaticImageData | undefined;
-  hobby: string;
-}
-
-export default function SuggestionComp({
-  userName,
-  hobby,
-  _id,
-}: SuggestionsProps) {
+export default function SuggestionComp(props: any) {
   const { user } = useAuth();
   const [followed, setFollowed] = useState(false);
 
   const FOLLOW = gql`
-    mutation follow($userToFollowId: ID! = ${_id}, $_userId: ID = ${JSON.stringify(
-    user._id
-  )}) {
+    mutation follow($userToFollowId: ID! = ${
+      props._id
+    }, $_userId: ID = ${JSON.stringify(user._id)}) {
       updateUsers(
         connect: { followers: { where: { node: { _id: $_userId } } } }
         where: { _id: $userToFollowId }
@@ -56,9 +44,10 @@ export default function SuggestionComp({
           className="rounded"
         />
         <div className="flex flex-col text-subTitle ">
-          <div className=" text-white">{userName}</div>
+          <div className=" text-white">{props.firstName}</div>
           <div className="flex flex-row gap-1">
-            Loves <span className="text-green-500">{hobby}</span>
+            Loves{" "}
+            <span className="text-green-500">{props.hobbies[0].name}</span>
             like you
           </div>
         </div>
@@ -68,7 +57,7 @@ export default function SuggestionComp({
           Follow
         </button>
         <Link
-          href={`/profile/${userName}`}
+          href={`/profile/${props.username}`}
           className="px-3 py-[4px] bg-btn-background border border-btn-outline text-subTitle hover:bg-btn-background-hover hover:text-white transition-all rounded-lg"
         >
           See

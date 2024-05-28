@@ -8,13 +8,7 @@ import likeIcon from "../../../assets/likeIcon.svg";
 import likeRedIcon from "../../../assets/likeRedIcon.svg";
 import { defaultProfilPicture } from "@/utils/defaultImages";
 
-export interface LikeProps {
-  username: string;
-  avatar?: any;
-  content: string;
-}
-
-export default function Like(props: LikeProps) {
+export default function Like(props: any) {
   return (
     <div>
       <div className="flex flex-col bg-componentBackground gap-5 p-5 rounded-xl border-1 border-componentOutline text-subTitle">

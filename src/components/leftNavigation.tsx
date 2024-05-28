@@ -78,7 +78,7 @@ function LeftNavigation() {
             groupIcon={userIcon}
             altIcon="userIcon"
             title="Profile"
-            pageName="profile"
+            pageName={`profile/${user?.username}`}
           />
           <NavLinkComp
             groupIcon={settingsIcon}

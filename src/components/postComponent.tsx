@@ -98,8 +98,6 @@ export default function PostComponent(props: any) {
     setActiveComment(!activeComment);
   };
 
-  console.log(props);
-
   if (props.posts?.length === 0) {
     return;
   } else {

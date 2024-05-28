@@ -32,6 +32,15 @@ function RightNavigation() {
           count
         }
       }
+      users {
+        recommendUserByHobby(userId: ${JSON.stringify(user._id)}) {
+          firstName
+          hobbies {
+            name
+          }
+          username
+        }
+      }
       groups(options: { limit: $limitGroups }) {
         groupImage
         description
@@ -55,21 +64,31 @@ function RightNavigation() {
   if (error) return <p>Error</p>;
   if (loading) return <p>Loading...</p>;
 
-  console.log(data);
-
   return (
     <div className="flex flex-col h-screen center-items p-5 gap-5">
       <div className="space-y-2">
         <div className="text-subtileText">Suggestions</div>
-        <Suggestions
-          _id="1"
-          userName="johndoe"
-          userImage={kingWhale}
-          hobby="Hiking"
-        />
-        <button className="p-2 border text-subtileText border-btn-outline w-full rounded-lg">
-          See More
-        </button>
+        {data.users[0]?.recommendUserByHobby
+          ?.slice(0, usersToShow)
+          .map((item: any) => (
+            <Suggestions {...item} />
+          ))}
+
+        {usersToShow == 3 ? (
+          <button
+            onClick={() => setUsersToShow(10)}
+            className="p-2 border text-subtileText border-btn-outline w-full rounded-lg"
+          >
+            See More
+          </button>
+        ) : (
+          <button
+            onClick={() => setUsersToShow(3)}
+            className="p-2 border text-subtileText border-btn-outline w-full rounded-lg"
+          >
+            See Less
+          </button>
+        )}
       </div>
       <div className="space-y-2">
         <div className="text-subtileText">Events for you</div>

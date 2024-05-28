@@ -1,20 +1,15 @@
 "use client";
 
-import React from "react";
-import Image from "next/image";
 import { useState } from "react";
 
-import userIcon from "@/assets/userIcon.svg";
-
+import ProfileLikes from "@/pages/profile/components/profileLikes";
 import ProfilePosts from "@/pages/profile/components/profilePosts";
 import ProfileReplies from "@/pages/profile/components/profileReplies";
-import ProfileLikes from "@/pages/profile/components/profileLikes";
-import ProfileEditModal from "@/pages/profile/components/profileEditModal";
-import ProfileInfoEditModal from "@/pages/profile/components/profileInfoEditModal";
 
+import { useAuth } from "@/context/AuthContext";
 import InformationsSection from "./components/informationsSection";
 import ProfilCardSection from "./components/profilCardSection";
-import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/router";
 
 export interface ProfileProps {
   onClick: void;
@@ -22,15 +17,17 @@ export interface ProfileProps {
 
 export default function ProfilePage() {
   const [activeProfileMenu, setActiveProfileMenu] = useState("Posts");
+  const router = useRouter();
+  const { username } = router.query;
 
   const { user } = useAuth();
 
   return (
     <div className="w-full flex justify-center pb-10">
       <div className="space-y-5 w-4/6">
-        <ProfilCardSection username={user.username} />
+        <ProfilCardSection username={username} />
 
-        <InformationsSection username={user.username} />
+        <InformationsSection username={username} />
 
         <div className="flex flex-col mt-8">
           <div className="flex text-subTitle space-x-4  ">
@@ -68,11 +65,11 @@ export default function ProfilePage() {
         </div>
 
         {activeProfileMenu == "Posts" ? (
-          <ProfilePosts username={user.username} />
+          <ProfilePosts username={username} />
         ) : activeProfileMenu == "Likes" ? (
-          <ProfileLikes username={user.username} />
+          <ProfileLikes username={username} />
         ) : (
-          <ProfileReplies username={user.username} />
+          <ProfileReplies username={username} />
         )}
       </div>
     </div>
