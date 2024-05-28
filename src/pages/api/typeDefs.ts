@@ -19,6 +19,9 @@ type User {
   friends: [User]
   posts: [Post!]! @relationship(type: "POSTED", direction: OUT)
   hobbies: [Hobby!]! @relationship(type: "HAS_HOBBY", direction: OUT)
+  projects: [Project!]! @relationship(type: "HAS_PROJECT", direction: OUT)
+  loves: [Love!]! @relationship(type: "LOVES", direction: OUT)
+  educations: [Education!]! @relationship(type: "HAS_STUDIED", direction: OUT)
   likes: [Post!]! @relationship(type: "LIKED", direction: OUT)
   events: [Event!]! @relationship(type: "ATTENDS", direction: OUT)
   groups: [Group!]! @relationship(type: "MEMBER_OF", direction: OUT)
@@ -87,6 +90,30 @@ type Hobby {
   id: Int!
   name: String!
   users: [User!]! @relationship(type: "HAS_HOBBY", direction: IN)
+}
+
+type Project {
+  id: ID! @id
+  name: String!
+  startDate: Date!
+  endDate: Date
+  job: String!
+  users: [User!]! @relationship(type: "HAS_PROJECT", direction: IN)
+}
+
+type Love {
+  id: ID! @id
+  name: String!
+  category: String!
+  iconUrl: String!
+  users: [User!]! @relationship(type: "LOVES", direction: IN)
+}
+
+type Education {
+  id: ID! @id
+  name: String!
+  level: String!
+  users: [User!]! @relationship(type: "HAS_STUDIED", direction: IN)
 }
 
 type Event {
@@ -160,4 +187,6 @@ extend type User {
 type Subscription {
   onAddedPost: Post
 }
+
+
   `;
