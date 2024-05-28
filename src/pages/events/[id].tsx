@@ -99,7 +99,8 @@ function EventPage(props: IEvent) {
               </Link>
             </div>
             <div className="flex w-full flex-col p-5 space-y-4 bg-componentBackground border border-componentOutline rounded-xl">
-              <img
+              <Image
+                alt="eventImage"
                 src={eventData.events[0].imageUrl || defaultEventsBanner}
                 className="h-36 bg-white rounded-lg object-cover"
               />

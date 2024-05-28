@@ -1,31 +1,29 @@
-import React, { useState } from "react";
 import Image from "next/image";
+import { useState } from "react";
 
-import settingsIconWhite from "@/assets/settingsWhiteGrayIcon.svg";
-import settingsIcon from "@/assets/settingsIcon.svg";
-import downArrow from "@/assets/downArrow.svg";
-import upWhiteArrow from "@/assets/upWhiteArrow.svg";
-import resetPasswordGray from "@/assets/resetPasswordGray.svg";
-import deactivateAccountIcon from "@/assets/deactivateAccountIcon.svg";
-import userIcon from "@/assets/userIcon.svg";
-import privacySafetyIcon from "@/assets/privacySafetyGray.svg";
-import notificationSettingsIcon from "@/assets/notificationSettingsIcon.svg";
 import accessibilityIcon from "@/assets/accessibility.svg";
-import ressourcesIcon from "@/assets/ressourcesIcon.svg";
+import deactivateAccountIcon from "@/assets/deactivateAccountIcon.svg";
+import downArrow from "@/assets/downArrow.svg";
 import helpCenterIcon from "@/assets/helpCenterIcon.svg";
+import notificationSettingsIcon from "@/assets/notificationSettingsIcon.svg";
+import privacySafetyIcon from "@/assets/privacySafetyGray.svg";
+import resetPasswordGray from "@/assets/resetPasswordGray.svg";
+import ressourcesIcon from "@/assets/ressourcesIcon.svg";
+import settingsIcon from "@/assets/settingsIcon.svg";
+import settingsIconWhite from "@/assets/settingsWhiteGrayIcon.svg";
+import upWhiteArrow from "@/assets/upWhiteArrow.svg";
+import userIcon from "@/assets/userIcon.svg";
 
-import NavLinkComp from "@/components/navLinkComp";
-import { cpSync } from "fs";
+import { useAuth } from "@/context/AuthContext";
 import AccountInformation from "@/pages/settings/components/accountSettings/accountInformation";
 import ChangePassword from "@/pages/settings/components/accountSettings/changePassword";
 import DeactivateAccount from "@/pages/settings/components/accountSettings/deactivateAccount";
-import PrivacyAndSafety from "@/pages/settings/components/privacyControl/privacyAndSafety";
-import NotificationsSettings from "@/pages/settings/components/privacyControl/notificationsSettings";
 import Accessibility from "@/pages/settings/components/privacyControl/accessibility";
 import AdditionalRessources from "@/pages/settings/components/privacyControl/additionalRessources";
 import HelpCenter from "@/pages/settings/components/privacyControl/helpCenter";
+import NotificationsSettings from "@/pages/settings/components/privacyControl/notificationsSettings";
+import PrivacyAndSafety from "@/pages/settings/components/privacyControl/privacyAndSafety";
 import { gql, useQuery } from "@apollo/client";
-import { useAuth } from "@/context/AuthContext";
 
 export default function SettingsModal() {
   const [accountSettingsActive, setAccountSettingsActive] = useState(true);
@@ -55,7 +53,9 @@ export default function SettingsModal() {
         return (
           <div>
             {data.users?.map((item: any) => (
-              <AccountInformation {...item} />
+              <div key={item.id}>
+                <AccountInformation {...item} />
+              </div>
             ))}
           </div>
         );

@@ -215,14 +215,14 @@ export default function ProfilCardSection(username: any) {
         {isUserMe ? "Your profile" : username.username + "'s profile"}
       </div>
       <div className="flex flex-col bg-componentBackground p-5 rounded-xl border border-componentOutline text-subTitle space-y-5">
-        <img
+        <Image
           alt="user banner"
           src={data.users[0]?.banner || defaultBannerPicture}
           className="w-full bg-btn-background h-36 rounded-md object-cover"
         />
         <div className="flex w-full justify-between">
           <div className="flex gap-3 items-center">
-            <img
+            <Image
               alt="userIcon"
               src={data.users[0]?.avatar || defaultProfilPicture}
               height={40}

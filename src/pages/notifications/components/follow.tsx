@@ -21,7 +21,7 @@ export default function Follow(props: FollowProps) {
       <div className="flex flex-col bg-componentBackground gap-5 p-5 rounded-xl border-1 border-componentOutline text-subTitle">
         <div className="flex items-center">
           <div className="flex space-x-3 items-center w-full">
-            <img
+            <Image
               alt="userIcon"
               src={props.avatar || defaultProfilPicture}
               height={32}

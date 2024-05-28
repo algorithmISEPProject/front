@@ -92,7 +92,8 @@ export default function GroupPage() {
           </div>
 
           <div className="flex w-full flex-col p-5 space-y-4 bg-componentBackground border border-componentOutline rounded-xl">
-            <img
+            <Image
+              alt="groupIcon"
               src={groupData.groups[0].imageUrl || defaultGroupsBanner}
               className="h-36 bg-white object-cover rounded-lg"
             />

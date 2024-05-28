@@ -71,7 +71,9 @@ function EventsPage(props: IEvent) {
             <div>Events</div>
             <div className="space-y-2">
               {data.events?.map((item: any) => (
-                <Event {...item} />
+                <div key={item.id}>
+                  <Event {...item} />
+                </div>
               ))}
             </div>
           </div>

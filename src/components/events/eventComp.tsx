@@ -76,7 +76,7 @@ export default function EventComp(props: EventsProps) {
   return (
     <div className="w-full min-w-96 flex bg-componentBackground rounded-md border border-componentOutline p-2 justify-center items-center">
       <div className="flex w-full items-center gap-3">
-        <img
+        <Image
           alt="event image"
           src={props.eventImage || defaultEventsPicture}
           height={64}

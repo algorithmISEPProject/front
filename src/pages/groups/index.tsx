@@ -82,7 +82,7 @@ function GroupsPage(props: Group) {
           <div className="space-y-2">
             <div>Your Groups</div>
             {data.groups.map((item: any) => (
-              <div>
+              <div key={item.key}>
                 <GroupBigComp {...item} />
               </div>
             ))}

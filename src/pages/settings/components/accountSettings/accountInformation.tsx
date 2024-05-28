@@ -33,7 +33,7 @@ export default function AccountInformation(props: User) {
       <div className="flex flex-col  space-y-4">
         <div className="flex items-center space-x-4">
           <div className="flex space-x-4 w-full bg-componentOutline rounded-xl p-1">
-            <img
+            <Image
               className="rounded-xl"
               alt="mockIcon"
               src={defaultProfilPicture}

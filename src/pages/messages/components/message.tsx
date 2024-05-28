@@ -1,4 +1,5 @@
 import { defaultProfilPicture } from "@/utils/defaultImages";
+import Image from "next/image";
 import { useState } from "react";
 
 export default function Message() {
@@ -12,7 +13,7 @@ export default function Message() {
     >
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <img
+          <Image
             src={defaultProfilPicture}
             alt="userIcon"
             height={40}

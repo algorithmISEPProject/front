@@ -64,7 +64,7 @@ export default function GroupBigComp(props: Group) {
 
   return (
     <div className="flex w-full flex-col p-5 space-y-4 bg-componentBackground border border-componentOutline rounded-xl">
-      <img
+      <Image
         alt="group banner"
         src={props.groupImage || defaultBannerPicture}
         className="h-36 bg-white rounded object-cover"

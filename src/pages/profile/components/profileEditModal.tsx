@@ -205,7 +205,7 @@ export default function ProfileEditModal({ onClose, props }: any) {
 
           <form className="space-y-4" onSubmit={handleSubmit}>
             <label className="flex items-center justify-center ">
-              <img
+              <Image
                 className="w-full hover:opacity-80 cursor-pointer transtion-all bg-btn-background h-32 rounded-md object-cover"
                 alt="modifyPicture"
                 src={bannerUrl || defaultBannerPicture}
@@ -221,7 +221,7 @@ export default function ProfileEditModal({ onClose, props }: any) {
 
             <div className="flex space-x-5 text-subTitle w-full justify-center items-center">
               <label className="h-32 min-w-32 overflow-hidden rounded-xl ">
-                <img
+                <Image
                   className="hover:opacity-80 h-32 w-32 cursor-pointer transtion-all object-cover"
                   alt="userIcon"
                   src={avatarUrl || defaultProfilPicture}

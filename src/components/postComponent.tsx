@@ -106,7 +106,7 @@ export default function PostComponent(props: any) {
         <div className="flex relative flex-col gap-5 bg-componentBackground p-5 rounded-lg border border-componentOutline text-subTitle">
           <div className="flex">
             <div className="flex space-x-3 items-center w-full">
-              <img
+              <Image
                 alt="userIcon"
                 src={props?.author?.avatar || defaultProfilPicture}
                 height={40}
@@ -153,7 +153,7 @@ export default function PostComponent(props: any) {
           <div className="text-white text-lg space-y-4">
             <div>{props.content}</div>
             {props.imageURL && (
-              <img
+              <Image
                 alt="postImage"
                 src={props.imageURL}
                 className="rounded-lg"

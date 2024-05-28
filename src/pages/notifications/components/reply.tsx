@@ -64,7 +64,7 @@ export default function Reply(props: any) {
       <div className="flex relative flex-col bg-componentBackground gap-5 p-5 rounded-xl border border-componentOutline text-subTitle">
         <div className="flex ">
           <div className="flex space-x-3 items-center w-full">
-            <img
+            <Image
               alt="userIcon"
               src={props.author?.avatar || defaultProfilPicture}
               height={40}
@@ -118,7 +118,11 @@ export default function Reply(props: any) {
         <div className=" text-white text-xl">
           <div>{props.content}</div>
           {props.imageURL && (
-            <img alt="postImage" src={props.imageURL} className="rounded-lg" />
+            <Image
+              alt="postImage"
+              src={props.imageURL}
+              className="rounded-lg"
+            />
           )}
         </div>
 

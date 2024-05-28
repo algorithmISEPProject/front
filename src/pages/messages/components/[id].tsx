@@ -2,12 +2,13 @@ import { defaultProfilPicture } from "@/utils/defaultImages";
 import ChatInput from "./chatInput";
 import MyMessage from "./myMessage";
 import OtherUserMessage from "./otherUserMessage";
+import Image from "next/image";
 
 export default function ChatPage() {
   return (
     <div className=" bg-componentBackground border border-componentOutline rounded-xl min-h-[700px] p-3 space-y-2 flex flex-col justify-between">
       <div className="w-full p-4 bg-componentOutline rounded-lg flex gap-4">
-        <img
+        <Image
           src={defaultProfilPicture}
           alt="userIcon"
           height={40}

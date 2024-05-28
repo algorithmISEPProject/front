@@ -8,6 +8,9 @@ const nextConfig = {
     };
     return config;
   },
+  images: {
+    domains: ["algo-project-isep.s3.eu-north-1.amazonaws.com"],
+  },
 };
 
 export default nextConfig;

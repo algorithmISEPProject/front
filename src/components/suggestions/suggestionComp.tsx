@@ -36,7 +36,7 @@ export default function SuggestionComp(props: any) {
   return (
     <div className="w-full flex min-w-96  bg-inputField-background rounded-md border border-componentOutline p-2 justify-center items-center">
       <div className="flex w-full items-center gap-3">
-        <img
+        <Image
           alt="userIcon"
           src={defaultProfilPicture}
           height={64}

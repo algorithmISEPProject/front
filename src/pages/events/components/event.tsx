@@ -52,8 +52,9 @@ export default function Event(props: IEvent) {
 `;
 
   const [joinEvent, { loading, error }] = useMutation(JOIN_EVENT);
-  if (error) return <p>Error</p>;
   const [leaveEvent] = useMutation(LEAVE_EVENT);
+
+  if (error) return <p>Error</p>;
 
   const onParticipateEventChange = () => {
     {
@@ -74,7 +75,8 @@ export default function Event(props: IEvent) {
 
   return (
     <div className="flex w-full flex-col space-y-4 p-5 bg-componentBackground border border-componentOutline rounded-xl">
-      <img
+      <Image
+        alt="eventIcon"
         src={props.eventImage || defaultEventsBanner}
         className="h-36 bg-white rounded object-cover"
       />

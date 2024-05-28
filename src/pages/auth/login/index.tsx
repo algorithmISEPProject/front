@@ -43,7 +43,7 @@ export default function Login() {
             <div className="text-center">
               <div className="text-white text-3xl">Welcome Back!</div>
               <div className="text-subTitle text-lg">
-                See what's new inside.
+                See what&apos;s new inside.
               </div>
             </div>
           </div>
@@ -77,7 +77,7 @@ export default function Login() {
           </form>
 
           <div className="flex flex-row space-x-2">
-            <div className="text-subTitle">Don't have an account?</div>
+            <div className="text-subTitle">Don&apos;t have an account?</div>
             <Link
               href="/auth/register"
               className="flex flex-row text-subtileText items-center"

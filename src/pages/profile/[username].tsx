@@ -47,7 +47,7 @@ export default function ProfilePage() {
         <div className="absolute text-center z-10">
           <h1 className="text-2xl">This account is private</h1>
           <p className="text-subTitle">
-            You can't see this profile because you are blocked
+            You can&apos;t see this profile because you are blocked
           </p>
         </div>
 

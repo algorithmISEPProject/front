@@ -50,7 +50,9 @@ export default function ProfileReplies(username: any) {
           </p>
         )}
         {data.comments.map((item: any) => (
-          <Reply {...item} />
+          <div key={item.id}>
+            <Reply {...item} />
+          </div>
         ))}
       </div>
     </div>

@@ -71,7 +71,9 @@ function RightNavigation() {
         {data.users[0]?.recommendUserByHobby
           ?.slice(0, usersToShow)
           .map((item: any) => (
-            <Suggestions {...item} />
+            <div key={item.id}>
+              <Suggestions {...item} />
+            </div>
           ))}
 
         {usersToShow == 3 ? (
@@ -93,7 +95,9 @@ function RightNavigation() {
       <div className="space-y-2">
         <div className="text-subtileText">Events for you</div>
         {data.events?.slice(0, eventsToShow).map((item: any) => (
-          <Events {...item} />
+          <div key={item.id}>
+            <Events {...item} />
+          </div>
         ))}
 
         {eventsToShow == 3 ? (
@@ -115,7 +119,9 @@ function RightNavigation() {
       <div className="space-y-2">
         <div className="text-subtileText">Groups for you</div>
         {data.groups?.slice(0, groupsToShow).map((item: any) => (
-          <GroupComponent {...item} />
+          <div key={item.id}>
+            <GroupComponent {...item} />
+          </div>
         ))}
 
         {groupsToShow == 3 ? (

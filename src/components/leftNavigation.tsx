@@ -104,7 +104,7 @@ function LeftNavigation() {
           >
             <div className="flex items-center gap-2">
               <div>
-                <img
+                <Image
                   alt="profile"
                   src={user?.avatar || defaultProfilPicture}
                   height={56}

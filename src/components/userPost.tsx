@@ -127,7 +127,7 @@ export default function UserPost() {
         <div className="text-subtileText">Post</div>
         <div className="flex flex-col bg-componentBackground p-[4px] pb-3 rounded-lg border border-componentOutline text-subTitle space-y-3">
           <form className="flex gap-2" onSubmit={handleSubmit}>
-            <img
+            <Image
               alt="userIcon"
               src={user.avatar || defaultProfilPicture}
               height={40}
@@ -157,7 +157,7 @@ export default function UserPost() {
           {fileUrl && file && (
             <div className="mt-4">
               {file.type.startsWith("image/") ? (
-                <img
+                <Image
                   src={fileUrl}
                   alt="Selected file"
                   className="w-full h-auto max-h-96 rounded-lg object-contain bg-btn-background"

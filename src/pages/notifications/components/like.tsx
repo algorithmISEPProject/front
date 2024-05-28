@@ -16,7 +16,7 @@ export default function Like(props: any) {
           <div className="flex flex-col space-y-4 w-full space-x-2">
             <div className="flex items-center">
               <div className="flex space-x-3 items-center w-full">
-                <img
+                <Image
                   alt="userIcon"
                   src={props.avatar || defaultProfilPicture}
                   height={32}
@@ -37,7 +37,7 @@ export default function Like(props: any) {
                 />
               </div>
             </div>
-            <div>Bonjour c'est moi</div>
+            <div>Bonjour c&apos;est moi</div>
           </div>
         </div>
       </div>
