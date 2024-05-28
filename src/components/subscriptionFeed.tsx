@@ -18,6 +18,12 @@ export default function SubscriptionFeed(userId: any) {
         firstName
         username
       }
+      likesAggregate {
+        count
+      }
+      commentsAggregate {
+        count
+      }
     }
   }
   `;

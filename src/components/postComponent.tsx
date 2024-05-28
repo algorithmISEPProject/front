@@ -179,7 +179,7 @@ export default function PostComponent(props: any) {
 
             <button className="flex items-center gap-2" onClick={onLikeChange}>
               <Image alt="likeIcon" src={likeIcon} width={20} height={20} />
-              <div>{props.likesAggregate?.count + countLike}</div>
+              <div>{props.likesAggregate.count + countLike || 0}</div>
             </button>
           </div>
         </div>
