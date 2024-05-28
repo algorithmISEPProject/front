@@ -94,12 +94,14 @@ function EventPage(props: IEvent) {
           <div className="space-y-4">
             <div>
               <Link className="flex space-x-3 items-center" href={"/events"}>
-                <Image alt="leftIcon" src={leftIcon} width={10} />
+                <Image width={10} height={10} alt="leftIcon" src={leftIcon} />
                 <div className="text-subTitle">Go back to events</div>
               </Link>
             </div>
             <div className="flex w-full flex-col p-5 space-y-4 bg-componentBackground border border-componentOutline rounded-xl">
               <Image
+                width={500}
+                height={200}
                 alt="eventImage"
                 src={eventData.events[0].imageUrl || defaultEventsBanner}
                 className="h-36 bg-white rounded-lg object-cover"

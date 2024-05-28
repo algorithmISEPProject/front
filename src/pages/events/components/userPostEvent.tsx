@@ -169,6 +169,8 @@ export default function UserPostEvent(props: UserPost) {
             <div className="mt-4">
               {file.type.startsWith("image/") ? (
                 <Image
+                  width={16}
+                  height={16}
                   src={fileUrl}
                   alt="Selected file"
                   className="w-full h-auto max-h-96 rounded-lg"

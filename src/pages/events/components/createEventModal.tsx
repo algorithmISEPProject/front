@@ -48,7 +48,13 @@ export default function CreateEventModal({ onClose }: any) {
           <div className="flex justify-between items-center">
             <h3 className="text-subTitle">Create a New Event</h3>
             <button onClick={onClose} type="button" className=" text-red-500 ">
-              <Image className="" alt="closeIcon" src={closeIcon} />
+              <Image
+                width={16}
+                height={16}
+                className=""
+                alt="closeIcon"
+                src={closeIcon}
+              />
             </button>
           </div>
 
@@ -67,7 +73,13 @@ export default function CreateEventModal({ onClose }: any) {
             }}
           >
             <button className="flex items-center justify-center w-full bg-btn-background h-32 rounded-md mt-4">
-              <Image className="" alt="modifyPicture" src={editProfileIcon} />
+              <Image
+                width={16}
+                height={16}
+                className=""
+                alt="modifyPicture"
+                src={editProfileIcon}
+              />
             </button>
 
             <div className="text-subTitle">Name</div>

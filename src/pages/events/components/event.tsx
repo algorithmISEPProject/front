@@ -76,9 +76,11 @@ export default function Event(props: IEvent) {
   return (
     <div className="flex w-full flex-col space-y-4 p-5 bg-componentBackground border border-componentOutline rounded-xl">
       <Image
+        width={500}
+        height={200}
         alt="eventIcon"
         src={props.eventImage || defaultEventsBanner}
-        className="h-36 bg-white rounded object-cover"
+        className="h-36 bg-white rounded-lg object-cover"
       />
       <div className="flex flex-col space-y-4">
         <div className="flex flex-col">

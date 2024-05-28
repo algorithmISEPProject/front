@@ -216,6 +216,8 @@ export default function ProfilCardSection(username: any) {
       </div>
       <div className="flex flex-col bg-componentBackground p-5 rounded-xl border border-componentOutline text-subTitle space-y-5">
         <Image
+          width={400}
+          height={200}
           alt="user banner"
           src={data.users[0]?.banner || defaultBannerPicture}
           className="w-full bg-btn-background h-36 rounded-md object-cover"
@@ -245,7 +247,12 @@ export default function ProfilCardSection(username: any) {
                 Edit Profile
               </p>
 
-              <Image alt="editProfileIcon" src={editProfileIcon} />
+              <Image
+                width={20}
+                height={20}
+                alt="editProfileIcon"
+                src={editProfileIcon}
+              />
             </button>
           ) : (
             <div className="relative">
@@ -253,7 +260,7 @@ export default function ProfilCardSection(username: any) {
                 onClick={() => setShowOptions(!showOptions)}
                 className="cursor-pointer p-3"
               >
-                <Image alt="moreIcon" src={moreIcon} />
+                <Image width={20} height={20} alt="moreIcon" src={moreIcon} />
               </div>
               {showOptions &&
                 (isBlocked ? (
@@ -299,11 +306,23 @@ export default function ProfilCardSection(username: any) {
         </div>
         <div className="flex w-3/4 space-x-8 mt-2">
           <div className="flex">
-            <Image className="mr-1" alt="commentIcon" src={permanentJobIcon} />
+            <Image
+              width={16}
+              height={16}
+              className="mr-1"
+              alt="commentIcon"
+              src={permanentJobIcon}
+            />
             <div>{data.users[0]?.job || "No job"}</div>
           </div>
           <div className="flex">
-            <Image className="mr-1" alt="likeIcon" src={locationIcon} />
+            <Image
+              width={16}
+              height={16}
+              className="mr-1"
+              alt="likeIcon"
+              src={locationIcon}
+            />
             <div>{data.users[0]?.location || "No location"}</div>
           </div>
         </div>

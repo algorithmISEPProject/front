@@ -199,13 +199,21 @@ export default function ProfileEditModal({ onClose, props }: any) {
           <div className="flex justify-between items-center">
             <h3 className="text-subTitle">Edit your profile</h3>
             <button onClick={onClose} type="button" className=" text-red-500 ">
-              <Image className="" alt="closeIcon" src={closeIcon} />
+              <Image
+                width={16}
+                height={16}
+                className=""
+                alt="closeIcon"
+                src={closeIcon}
+              />
             </button>
           </div>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
             <label className="flex items-center justify-center ">
               <Image
+                width={720}
+                height={300}
                 className="w-full hover:opacity-80 cursor-pointer transtion-all bg-btn-background h-32 rounded-md object-cover"
                 alt="modifyPicture"
                 src={bannerUrl || defaultBannerPicture}
@@ -222,6 +230,8 @@ export default function ProfileEditModal({ onClose, props }: any) {
             <div className="flex space-x-5 text-subTitle w-full justify-center items-center">
               <label className="h-32 min-w-32 overflow-hidden rounded-xl ">
                 <Image
+                  width={256}
+                  height={256}
                   className="hover:opacity-80 h-32 w-32 cursor-pointer transtion-all object-cover"
                   alt="userIcon"
                   src={avatarUrl || defaultProfilPicture}

@@ -86,13 +86,15 @@ export default function GroupPage() {
         <div className="space-y-4">
           <div>
             <Link className="flex space-x-4 items-center" href={"/groups"}>
-              <Image alt="leftIcon" src={leftIcon} />
+              <Image width={10} height={10} alt="leftIcon" src={leftIcon} />
               <div className="text-subTitle">Go back to groups</div>
             </Link>
           </div>
 
           <div className="flex w-full flex-col p-5 space-y-4 bg-componentBackground border border-componentOutline rounded-xl">
             <Image
+              width={500}
+              height={200}
               alt="groupIcon"
               src={groupData.groups[0].imageUrl || defaultGroupsBanner}
               className="h-36 bg-white object-cover rounded-lg"
