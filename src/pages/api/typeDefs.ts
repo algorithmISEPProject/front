@@ -193,10 +193,8 @@ extend type User {
    
 }
 
-
 type Subscription {
-  onAddedPost: Post
+  newNotification(userId: ID!): Notification!
 }
-
 
   `;

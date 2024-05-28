@@ -13,8 +13,7 @@ const inter = Montserrat({ subsets: ["latin"] });
 export default function Home() {
   const [activeProfileMenu, setActiveProfileMenu] = useState("For you");
   const { user } = useAuth();
-  const [hasNewPost, setHasNewPost] = useState(false);
-  const countPosts = 0;
+
   const [posts, setPosts] = useState([]);
 
   const GET_POSTS = gql`
@@ -39,30 +38,8 @@ export default function Home() {
     }
   `;
 
-  const POST_SUBSCRIPTION = gql`
-    subscription addedPost {
-      posts {
-        id
-
-        author {
-          avatar
-          _id
-        }
-      }
-    }
-  `;
-
   const { loading, error, data } = useQuery(GET_POSTS, {
     variables: { posts },
-  });
-
-  useSubscription(POST_SUBSCRIPTION, {
-    onSubscriptionData: ({ subscriptionData }) => {
-      const newPost = subscriptionData.data.posts[0];
-      if (newPost.author._id !== user._id) {
-        setHasNewPost(true);
-      }
-    },
   });
 
   if (error) return <p>Error</p>;
@@ -72,15 +49,7 @@ export default function Home() {
     <div className="flex flex-col items-center h-fit pb-10">
       <div className="w-4/6 space-y-3">
         <UserPost />
-        {hasNewPost && (
-          <div
-            className={`p-2 cursor-pointer text-center text-subTitle border hover:bg-componentBackground/50 transition-all border-componentBackground rounded-lg`}
-          >
-            <p className="text-subtileText">
-              Load <span className="text-subTitle">{countPosts}</span> new posts
-            </p>
-          </div>
-        )}
+
         <div className="flex flex-col mt-8">
           <div className="flex text-subTitle space-x-4  ">
             <button
