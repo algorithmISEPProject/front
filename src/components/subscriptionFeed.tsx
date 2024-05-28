@@ -50,7 +50,7 @@ export default function SubscriptionFeed(userId: any) {
   if (error) return <p>Error : {error.message}</p>;
   if (!data) return <p>No data found</p>;
 
-  useSubscription(POST_SUBSCRIPTION, {});
+  // useSubscription(POST_SUBSCRIPTION, {});
 
   return (
     <div className="space-y-3">

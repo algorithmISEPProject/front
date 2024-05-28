@@ -12,7 +12,10 @@ import {
   defaultProfilPicture,
 } from "@/utils/defaultImages";
 
+import moreIcon from "@/assets/moreIcon.svg";
+
 export default function ProfilCardSection(username: any) {
+  const [showOptions, setShowOptions] = useState(false);
   const [showProfileEdit, setShowProfileEdit] = useState(false);
   const { user } = useAuth();
   const isUserMe = user.username == username.username ? true : false;
@@ -55,6 +58,20 @@ export default function ProfilCardSection(username: any) {
     }
   `;
 
+  const CHECK_BLOCK = gql`
+    query checkBlock(
+      $username: String = ${JSON.stringify(user.username)},
+      $blockedUsername: String = ${JSON.stringify(username.username)}
+    ) {
+      users(where: { username: $username }) {
+        username
+        blockedUser(where: { username: $blockedUsername }) {
+          username
+        }
+      }
+    }
+  `;
+
   const FOLLOW = gql`
     mutation follow($userToFollowId: ID!, $_userId: ID = ${JSON.stringify(
       user._id
@@ -91,6 +108,36 @@ export default function ProfilCardSection(username: any) {
     }
   `;
 
+  const BLOCK_USER = gql`
+    mutation blockedUser($blockedUserId: ID!, $userId: ID = ${JSON.stringify(
+      user._id
+    )}) {
+      updateUsers(
+        connect: { blockedUser: { where: { node: { _id: $blockedUserId } } } }
+        where: { _id: $userId }
+      ) {
+        users {
+          firstName
+        }
+      }
+    }
+  `;
+
+  const UNBLOCK_USER = gql`
+    mutation unblockedUser($blockedUserId: ID!, $userId: ID = ${JSON.stringify(
+      user._id
+    )}) {
+      updateUsers(
+        disconnect: { blockedUser: { where: { node: { _id: $blockedUserId } } } }
+        where: { _id: $userId }
+      ) {
+        users {
+          firstName
+        }
+      }
+    }
+  `;
+
   //   const FOLLOW_SUBSCRIPTION = gql`
   //   subscription OnNewFollower($username: String = ${JSON.stringify(
   //     username.username
@@ -104,14 +151,19 @@ export default function ProfilCardSection(username: any) {
 
   const { loading, error, data } = useQuery(GET_USER_PROFILE_INFO);
   const { data: isFollowing } = useQuery(CHECK_FOLLOW);
+  const { data: dataBlocked } = useQuery(CHECK_BLOCK);
 
   const [follow] = useMutation(FOLLOW);
   const [unfollow] = useMutation(UNFOLLOW);
+  const [blockUser] = useMutation(BLOCK_USER);
+  const [unblockUser] = useMutation(UNBLOCK_USER);
 
   if (error) return <p>Error</p>;
   if (loading) return <p>Loading...</p>;
 
   const isFollowed = isFollowing?.users[0]?.followers.length > 0;
+
+  const isBlocked = dataBlocked?.users[0]?.blockedUser.length > 0;
 
   const handleOpenModal = () => {
     setShowProfileEdit(true);
@@ -136,6 +188,20 @@ export default function ProfilCardSection(username: any) {
         variables: { userToFollowId: data.users[0]._id },
       });
     }
+    window.location.reload();
+  };
+
+  const onBlockUser = () => {
+    blockUser({
+      variables: { blockedUserId: data.users[0]._id },
+    });
+    window.location.reload();
+  };
+
+  const onUnblockUser = () => {
+    unblockUser({
+      variables: { blockedUserId: data.users[0]._id },
+    });
     window.location.reload();
   };
 
@@ -170,7 +236,7 @@ export default function ProfilCardSection(username: any) {
               <div>@{data.users[0]?.username}</div>
             </div>
           </div>
-          {isUserMe && (
+          {isUserMe ? (
             <button
               className="flex items-center gap-2 py-2 px-3 h-fit group rounded-lg transition-all duration-200 hover:bg-btn-background"
               onClick={handleOpenModal}
@@ -181,6 +247,35 @@ export default function ProfilCardSection(username: any) {
 
               <Image alt="editProfileIcon" src={editProfileIcon} />
             </button>
+          ) : (
+            <div className="relative">
+              <div
+                onClick={() => setShowOptions(!showOptions)}
+                className="cursor-pointer p-3"
+              >
+                <Image alt="moreIcon" src={moreIcon} />
+              </div>
+              {showOptions &&
+                (isBlocked ? (
+                  <div className="absolute right-3 top-8 bg-componentBackground p-2 rounded-xl border border-componentOutline">
+                    <div
+                      onClick={onUnblockUser}
+                      className="text-error p-2 hover:bg-componentOutline min-w-20 rounded-lg cursor-pointer"
+                    >
+                      Unblock
+                    </div>
+                  </div>
+                ) : (
+                  <div className="absolute right-3 top-8 bg-componentBackground p-2 rounded-xl border border-componentOutline">
+                    <div
+                      onClick={onBlockUser}
+                      className="text-error p-2 hover:bg-componentOutline min-w-20 rounded-lg cursor-pointer"
+                    >
+                      Block
+                    </div>
+                  </div>
+                ))}
+            </div>
           )}
         </div>
         <div className="flex flex-col">
