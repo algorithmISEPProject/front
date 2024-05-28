@@ -1,4 +1,6 @@
 import PostComponent from "@/components/postComponent";
+import SubscriptionFeed from "@/components/subscriptionFeed";
+import SuggestedFeed from "@/components/suggestedFeed";
 import UserPost from "@/components/userPost";
 import { useAuth } from "@/context/AuthContext";
 import { gql, useQuery, useSubscription } from "@apollo/client";
@@ -67,7 +69,7 @@ export default function Home() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="flex flex-col h-screen items-center">
+    <div className="flex flex-col items-center h-fit pb-10">
       <div className="w-4/6 space-y-3">
         <UserPost />
         {hasNewPost && (
@@ -105,9 +107,11 @@ export default function Home() {
         </div>
 
         {/* TODO Post Recommendations & Subscribed */}
-        {data.posts.map((post: any) => (
-          <PostComponent {...post} />
-        ))}
+        {activeProfileMenu === "For you" ? (
+          <SuggestedFeed userId={user._id} />
+        ) : (
+          <SubscriptionFeed userId={user._id} />
+        )}
       </div>
     </div>
   );

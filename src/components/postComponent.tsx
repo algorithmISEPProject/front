@@ -98,73 +98,92 @@ export default function PostComponent(props: any) {
     setActiveComment(!activeComment);
   };
 
-  return (
-    <div className="">
-      <div className="flex relative flex-col gap-5 bg-componentBackground p-5 rounded-lg border border-componentOutline text-subTitle">
-        <div className="flex">
-          <div className="flex space-x-3 items-center w-full">
-            <img
-              alt="userIcon"
-              src={props?.author.avatar || defaultProfilPicture}
-              height={40}
-              width={40}
-              className="border border-btn-outline rounded w-10 h-10"
-            />
-            <Link
-              href={`/profile/${props.author.username}`}
-              className="flex gap-2"
-            >
-              <div className="text-white">{props.author.firstName}</div>
-              <div>@{props.author.username}</div>
-            </Link>
-            <div className="text-subtileText">-</div>
-            <div className="text-subtileText">
-              {formatRelativeTime(props.createdAt)}
-            </div>
-          </div>
-          {user.username === props.author.username && (
-            <div
-              onClick={() => setShowOptions(!showOptions)}
-              className="cursor-pointer"
-            >
-              <Image alt="moreIcon" src={moreIcon} />
-            </div>
-          )}
-          {showOptions && (
-            <div className="absolute right-5 top-10 bg-componentBackground p-2 rounded-xl border border-componentOutline">
-              <div className="text-subTitle p-2 hover:bg-componentOutline min-w-20 rounded-lg cursor-pointer">
-                Edit
-              </div>
+  console.log(props);
 
-              <div
-                onClick={onDeletePost}
-                className="text-error p-2 hover:bg-componentOutline min-w-20 rounded-lg cursor-pointer"
+  if (props.posts?.length === 0) {
+    return;
+  } else {
+    return (
+      <div className="">
+        <div className="flex relative flex-col gap-5 bg-componentBackground p-5 rounded-lg border border-componentOutline text-subTitle">
+          <div className="flex">
+            <div className="flex space-x-3 items-center w-full">
+              <img
+                alt="userIcon"
+                src={props?.author?.avatar || defaultProfilPicture}
+                height={40}
+                width={40}
+                className="border border-btn-outline rounded w-10 h-10"
+              />
+              <Link
+                href={`/profile/${props.author?.username}`}
+                className="flex gap-2"
               >
-                Delete
+                <div className="text-white">{props.author?.firstName}</div>
+                <div>@{props.author?.username}</div>
+              </Link>
+              <div className="text-subtileText">-</div>
+              <div className="text-subtileText">
+                {formatRelativeTime(props?.createdAt)}
               </div>
             </div>
-          )}
-        </div>
+            {user.username ===
+              (props.author?.username || props?.posts[0]?.author?.username) && (
+              <div
+                onClick={() => setShowOptions(!showOptions)}
+                className="cursor-pointer"
+              >
+                <Image alt="moreIcon" src={moreIcon} />
+              </div>
+            )}
+            {showOptions && (
+              <div className="absolute right-5 top-10 bg-componentBackground p-2 rounded-xl border border-componentOutline">
+                <div className="text-subTitle p-2 hover:bg-componentOutline min-w-20 rounded-lg cursor-pointer">
+                  Edit
+                </div>
 
-        <div className="text-white text-lg space-y-4">
-          <div>{props.content}</div>
-          {props.imageURL && (
-            <img alt="postImage" src={props.imageURL} className="rounded-lg" />
-          )}
-        </div>
+                <div
+                  onClick={onDeletePost}
+                  className="text-error p-2 hover:bg-componentOutline min-w-20 rounded-lg cursor-pointer"
+                >
+                  Delete
+                </div>
+              </div>
+            )}
+          </div>
 
-        <div className="flex gap-4">
-          <button className="flex items-center gap-2" onClick={onCommentChange}>
-            <Image alt="commentIcon" src={commentIcon} width={20} height={20} />
-            <div>{props.commentsAggregate.count}</div>
-          </button>
+          <div className="text-white text-lg space-y-4">
+            <div>{props.content}</div>
+            {props.imageURL && (
+              <img
+                alt="postImage"
+                src={props.imageURL}
+                className="rounded-lg"
+              />
+            )}
+          </div>
 
-          <button className="flex items-center gap-2" onClick={onLikeChange}>
-            <Image alt="likeIcon" src={likeIcon} width={20} height={20} />
-            <div>{props.likesAggregate.count + countLike}</div>
-          </button>
+          <div className="flex gap-4">
+            <button
+              className="flex items-center gap-2"
+              onClick={onCommentChange}
+            >
+              <Image
+                alt="commentIcon"
+                src={commentIcon}
+                width={20}
+                height={20}
+              />
+              <div>{props.commentsAggregate?.count}</div>
+            </button>
+
+            <button className="flex items-center gap-2" onClick={onLikeChange}>
+              <Image alt="likeIcon" src={likeIcon} width={20} height={20} />
+              <div>{props.likesAggregate?.count + countLike}</div>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
