@@ -1,6 +1,10 @@
 export function formatDate(dateString: string) {
   const date = new Date(dateString);
-  const options = { day: "numeric", month: "short", year: "numeric" };
+  const options: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  };
   const formattedDate = date.toLocaleDateString("en-GB", options);
 
   const day = date.getDate();
