@@ -7,20 +7,20 @@ import { gql, useSubscription } from "@apollo/client";
 function NotificationsPage() {
   const { user } = useAuth();
 
-  const NEW_NOTIFICATION = gql`
-  subscription OnNotificationAdded {
-    newNotification(userId: ID = ${JSON.stringify(user._id)} {
-      id
-      type
-      message
-      createdAt
-    }
-  }
-`;
+  //   const NEW_NOTIFICATION = gql`
+  //   subscription OnNotificationAdded {
+  //     newNotification(userId: ID = ${JSON.stringify(user._id)}) {
+  //       id
+  //       type
+  //       message
+  //       createdAt
+  //     }
+  //   }
+  // `;
 
-  const { data, loading } = useSubscription(NEW_NOTIFICATION);
+  // const { data, loading } = useSubscription(NEW_NOTIFICATION);
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <div className="w-full flex justify-center">
